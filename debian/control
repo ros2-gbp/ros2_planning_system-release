@@ -1,0 +1,12 @@
+Source: ros-eloquent-plansys2-problem-expert
+Section: misc
+Priority: optional
+Maintainer: Francisco Martin Rico <fmrico@gmail.com>
+Build-Depends: debhelper (>= 9.0.0), ros-eloquent-ament-cmake, ros-eloquent-ament-cmake-gtest, ros-eloquent-ament-index-cpp, ros-eloquent-ament-lint-auto, ros-eloquent-ament-lint-common, ros-eloquent-plansys2-domain-expert, ros-eloquent-plansys2-msgs, ros-eloquent-plansys2-pddl-parser, ros-eloquent-rclcpp, ros-eloquent-rclcpp-lifecycle, ros-eloquent-ros-workspace
+Homepage: 
+Standards-Version: 3.9.2
+
+Package: ros-eloquent-plansys2-problem-expert
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, ros-eloquent-ament-index-cpp, ros-eloquent-plansys2-domain-expert, ros-eloquent-plansys2-msgs, ros-eloquent-plansys2-pddl-parser, ros-eloquent-rclcpp, ros-eloquent-rclcpp-lifecycle, ros-eloquent-ros-workspace
+Description: This package contains the Problem Expert module for the ROS2 Planning System
