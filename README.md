@@ -1,32 +1,63 @@
-# Domain Expert
+![PlanSys2 Logo](/plansys2_docs/plansys2_logo.png)
 
-The Domain Expert module is responsible for maintaining the PDDL domain. 
+[![Build Status](https://travis-ci.com/IntelligentRoboticsLabs/ros2_planning_system.svg?branch=master)](https://travis-ci.com/IntelligentRoboticsLabs/ros2_planning_system)
 
-The main class is [`plansys2::DomainExpertNode`](include/include/plansys2_domain_expert/DomainExpertNode.hpp), which is instantiated from [`domain_expert_node.cpp`](src/domain_expert_node.cpp). `plansys2::DomainExpertNode` is a also `rclcpp_lifecycle::LifecycleNode`, but currently the functionality is in the active phase.
 
-The class responsible for maintaining this domain is [`plansys2::ProblemExpert`](include/include/plansys2_problem_expert/ProblemExpert.hpp), which is independent of ROS2.
+ROS2 Planning System (**plansys2** in short) is a project whose objective is to provide Robotics developers with a reliable, simple, and efficient PDDL-based planning system. It is implemented in ROS2, applying the latest concepts developed in this currently de-facto standard in Robotics.
 
-The Problem Expert is dynamic and volatile, accessing its functionality through ROS2 services. To facilitate the task of the application developer, an [`plansys2::ProblemExpertClient`](include/include/plansys2_problem_expert/ProblemExpertClient.hpp) class has been implemented that hides the complexity of handling ROS2 messages and services. Its API is similar to that of [`plansys2::ProblemExpert`](include/include/plansys2_problem_expert/ProblemExpert.hpp), since both have to implement the [`plansys2::ProblemExpertInterface`](include/include/plansys2_problem_expert/ProblemExpertInterface.hpp) interface.
+This project is the result of several years of experience in the development of robotic behaviors using [ROSPlan](https://github.com/KCL-Planning/ROSPlan). ROSPlan has greatly inspired this project. In addition to the migration to ROS2, we contribute to key aspects: ease of use, efficiency, and new tools, such as our terminal.
 
-The Problem Expert instantiates a [`plansys2::DomainExpertClient`](include/include/plansys2_domain_expert/DomainExpertClient.hpp), and every update query is verified against domain to check if it is valid.
+We hope that this software helps to include planning in more Robotics projects, offering simple and powerful software to generate intelligent behaviors for robots.
 
-Every update in the Problem, is notified publishing a `std_msgs::msg::Empty` in `/problem_expert/update_notify`. It helps other modules and applications to be aware of updates, being not necessary to do polling to check it.
+We want to invite you to contribute to this Open Source project !!
 
-## Services:
 
-- `/problem_expert/add_problem_goal` [[`plansys2_msgs::srv::AddProblemGoal`](../plansys2_msgs/srv/AddProblemGoal.srv)]
-- `/problem_expert/add_problem_instance` [[`plansys2_msgs::srv::AddProblemInstance`](../plansys2_msgs/srv/AddProblemInstance.srv)]
-- `/problem_expert/add_problem_predicate` [[`plansys2_msgs::srv::AddProblemPredicate`](../plansys2_msgs/srv/AddProblemPredicate.srv)]
-- `/problem_expert/get_problem_goal` [[`plansys2_msgs::srv::GetProblemGoal`](../plansys2_msgs/srv/GetProblemGoal.srv)]
-- `/problem_expert/get_problem_instance_details` [[`plansys2_msgs::srv::GetProblemInstanceDetails`](../plansys2_msgs/srv/GetProblemInstanceDetails.srv)]
-- `/problem_expert/get_problem_instances` [[`plansys2_msgs::srv::GetProblemInstances`](../plansys2_msgs/srv/GetProblemInstances.srv)]
-- `/problem_expert/get_problem_predicate_details` [[`plansys2_msgs::srv::GetProblemPredicateDetails`](../plansys2_msgs/srv/GetProblemPredicateDetails.srv)]
-- `/problem_expert/get_problem` [[`plansys2_msgs::srv::GetProblem`](../plansys2_msgs/srv/GetProblem.srv)]
-- `/problem_expert/remove_problem_goal` [[`plansys2_msgs::srv::RemoveProblemGoal`](../plansys2_msgs/srv/RemoveProblemGoal.srv)]
-- `/problem_expert/remove_problem_instance` [[`plansys2_msgs::srv::RemoveProblemInstance`](../plansys2_msgs/srv/RemoveProblemInstance.srv)]
-- `/problem_expert/remove_problem_predicate` [[`plansys2_msgs::srv::RemoveProblemPredicate](../plansys2_msgs/srv/RemoveProblemPredicate.srv)]
-- `/problem_expert/exist_problem_predicate` [[`plansys2_msgs::srv::ExistProblemPredicate`](../plansys2_msgs/srv/ExistProblemPredicate.srv)]
 
-## Published topics
+# Design
 
-- `/problem_expert/update_notify` [`std_msgs::msg::Empty`]
+![plansys2_overview](plansys2_docs/plansys2_arch.png)
+
+4 ROS2 nodes compose Plansys2:
+- **Domain Expert**: Contains the PDDL model information (types, predicates model, and actions). It is static and can be queried using services or a Domain Expert Client, that hides the ROS2 services complexity.
+- **Problem Expert**: Contains the current instances, predicates, and goals that compose the model. It is dynamic and volatile. It can be queried/modified using services or a Problem Expert Client, that hides the ROS2 services complexity. It uses a topic (`std_msgs::msg::Empty`) to notify when it changes. 
+- **Planner**: Generates plans (sequence of actions) using the information contained in the Domain and Problem Experts.
+- **Executor**: Takes a plan and executes it by calling (using actions) the ROS2 nodes that implement each action. It verifies that requirements are accomplished during execution.
+
+The **Terminal** is a plansys2 util for operating with the above components. 
+
+To make an application using plansys2, you must provide a PDDL model, the implementation of the actions in this model, and an application in charge of setting the starting instances and predicates. It can set goals and call to the executor to achieve these goals. Actions are easy to develop using the `ActionExecutorClient` class. 
+
+# Requirements and compilation
+
+This project was initially developed for ROS2 Eloquent. In addition to official packages, plansys2 requires popf, a PDDL plan solver, developed by Marc Hanheide, to which we have contributed to its migration to a ROS2 package.
+
+Before compiling, include popf in your workspace:
+
+```
+plansys2_ws/src$ sudo apt-get install flex bison coinor-*
+plansys2_ws/src$ git clone https://github.com/LCAS/popf.git
+```
+
+Note: The previous URL may change, since Marc has generously decided to transfer ownership of this project, with the aim of revitalizing its development by including it in plansys2
+
+Next, only compile:
+
+```
+plansys2_ws/src$ colcon build --symlink-install
+```
+
+# Example
+
+In this [example](plansys2_examples/patrol_navigation_example), the robot make plans to patrol some waypoints:
+
+[![Patrolling example](https://img.youtube.com/vi/fAEGySqefwo/0.jpg)](https://www.youtube.com/watch?v=fAEGySqefwo)
+
+# Further readings
+
+- PDDL basics [1](https://arxiv.org/pdf/1106.4561.pdf), [2](http://www.cs.toronto.edu/~sheila/2542/w09/A1/introtopddl2.pdf) and [3](http://www.cs.toronto.edu/~sheila/384/w11/Assignments/A3/veloso-PDDL_by_Example.pdf)
+- [Developers Guide](plansys2_docs/developer_guide.md)
+- [Tutorials](plansys2_docs/tutorials.md)
+- [FAQ](plansys2_docs/FAQ.md)
+
+<img src="/plansys2_docs/plansys2_logo_v2.png" alt="drawing" width="200" align="right"/>
+
