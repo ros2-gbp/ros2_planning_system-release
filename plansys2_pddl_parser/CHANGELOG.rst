@@ -2,6 +2,12 @@
 Changelog for package plansys2_pddl_parser
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+0.0.5 (2020-01-12)
+------------------
+* Avoid inserting duplicate types
+  Signed-off-by: Francisco Martin Rico <fmrico@gmail.com>
+* Contributors: Francisco Martin Rico
+
 0.0.4 (2020-01-09)
 ------------------
 
