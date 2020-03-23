@@ -1,3 +1,35 @@
+## ros2_planning_system (eloquent) - 0.0.6-1
+
+The packages in the `ros2_planning_system` repository were released into the `eloquent` distro by running `/usr/bin/bloom-release ros2_planning_system --rosdistro eloquent` on `Mon, 23 Mar 2020 17:13:59 -0000`
+
+These packages were released:
+- `plansys2_bringup`
+- `plansys2_domain_expert`
+- `plansys2_executor`
+- `plansys2_lifecycle_manager`
+- `plansys2_msgs`
+- `plansys2_pddl_parser`
+- `plansys2_planner`
+- `plansys2_problem_expert`
+- `plansys2_terminal`
+
+Version of package(s) in repository `ros2_planning_system`:
+
+- upstream repository: https://github.com/IntelligentRoboticsLabs/ros2_planning_system.git
+- release repository: https://github.com/IntelligentRoboticsLabs/ros2_planning_system-release.git
+- rosdistro version: `0.0.5-1`
+- old version: `0.0.5-1`
+- new version: `0.0.6-1`
+
+Versions of tools used:
+
+- bloom version: `0.9.3`
+- catkin_pkg version: `0.4.16`
+- rosdep version: `0.18.0`
+- rosdistro version: `0.8.0`
+- vcstools version: `0.1.42`
+
+
 ## ros2_planning_system (eloquent) - 0.0.5-1
 
 The packages in the `ros2_planning_system` repository were released into the `eloquent` distro by running `/usr/bin/bloom-release ros2_planning_system --rosdistro eloquent` on `Sun, 12 Jan 2020 12:53:12 -0000`
