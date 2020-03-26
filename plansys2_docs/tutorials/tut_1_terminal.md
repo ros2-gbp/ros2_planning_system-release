@@ -29,7 +29,6 @@ or, if you used a namespace
 ros2 run plansys2_terminal plansys2_terminal --ros-args -r __ns:=/my_namespace
 ```
 
-
 The plansys2 terminal lets us operate directly against the planning system. It is a useful tool, useful to monitorize and developing your application. Usually, many of the next operations should be done inside your nodes. Plansys2 terminal is functional, but there is still too much to improve.
 
 Inside the plansys2 terminal, you can check the domain:
