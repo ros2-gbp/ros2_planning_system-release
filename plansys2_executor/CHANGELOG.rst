@@ -2,6 +2,12 @@
 Changelog for package plansys2_executor
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+0.0.7 (2020-03-26)
+------------------
+* ActionExecutorClient is cascade_lifecycle
+  Signed-off-by: Francisco Martin Rico <fmrico@gmail.com>
+* Contributors: Francisco Martin Rico, Francisco Martín Rico
+
 0.0.6 (2020-03-23)
 ------------------
 * Run in separate namespaces. Monolothic node
