@@ -2,6 +2,12 @@
 Changelog for package plansys2_terminal
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+0.0.8 (2020-06-26)
+------------------
+* Boost:optional
+* Add BT support
+* Contributors: Francisco Martin Rico, Francisco Martín Rico
+
 0.0.7 (2020-03-26)
 ------------------
 * Fix warning in last cmake versions
