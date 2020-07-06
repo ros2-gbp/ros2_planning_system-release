@@ -2,6 +2,11 @@
 Changelog for package plansys2_planner
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+0.0.9 (2020-07-06)
+------------------
+* Fix Boost dependency
+* Contributors: Francisco Martin Rico
+
 0.0.8 (2020-06-26)
 ------------------
 * Boost:optional
