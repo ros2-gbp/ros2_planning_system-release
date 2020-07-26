@@ -1,0 +1,75 @@
+ros-eloquent-plansys2-pddl-parser (0.0.12-1bionic) bionic; urgency=high
+
+
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Sat, 25 Jul 2020 22:00:00 -0000
+
+ros-eloquent-plansys2-pddl-parser (0.0.11-1bionic) bionic; urgency=high
+
+
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Fri, 24 Jul 2020 22:00:00 -0000
+
+ros-eloquent-plansys2-pddl-parser (0.0.10-1bionic) bionic; urgency=high
+
+
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Sat, 18 Jul 2020 22:00:00 -0000
+
+ros-eloquent-plansys2-pddl-parser (0.0.9-1bionic) bionic; urgency=high
+
+
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Sun, 05 Jul 2020 22:00:00 -0000
+
+ros-eloquent-plansys2-pddl-parser (0.0.8-1bionic) bionic; urgency=high
+
+
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Thu, 25 Jun 2020 22:00:00 -0000
+
+ros-eloquent-plansys2-pddl-parser (0.0.7-1bionic) bionic; urgency=high
+
+  * Fix warning in last cmake versions
+    Signed-off-by: Francisco Martin Rico <mailto:fmrico@gmail.com>
+  * Contributors: Francisco Martin Rico
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Wed, 25 Mar 2020 23:00:00 -0000
+
+ros-eloquent-plansys2-pddl-parser (0.0.6-1bionic) bionic; urgency=high
+
+  * Avoid inserting duplicate types
+    Signed-off-by: Francisco Martin Rico <mailto:fmrico@gmail.com>
+  * Contributors: Francisco Martin Rico, Francisco Martín Rico
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Sun, 22 Mar 2020 23:00:00 -0000
+
+ros-eloquent-plansys2-pddl-parser (0.0.5-1bionic) bionic; urgency=high
+
+
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Sat, 11 Jan 2020 23:00:00 -0000
+
+ros-eloquent-plansys2-pddl-parser (0.0.4-1bionic) bionic; urgency=high
+
+
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Wed, 08 Jan 2020 23:00:00 -0000
+
+ros-eloquent-plansys2-pddl-parser (0.0.3-1bionic) bionic; urgency=high
+
+
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Wed, 08 Jan 2020 23:00:00 -0000
+
+ros-eloquent-plansys2-pddl-parser (0.0.2-1bionic) bionic; urgency=high
+
+  * Merge pull request #16 <https://github.com/IntelligentRoboticsLabs/ros2_planning_system/issues/16> from IntelligentRoboticsLabs/pddl_parser_rename
+    Rename pddl_parser
+  * Rename pddl_parser
+    Signed-off-by: Francisco Martin Rico <mailto:fmrico@gmail.com>
+  * Contributors: Francisco Martin Rico, Francisco Martín Rico
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Tue, 07 Jan 2020 23:00:00 -0000
+
+
