@@ -2,6 +2,9 @@
 Changelog for package plansys2_domain_expert
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+0.0.14 (2020-08-07)
+-------------------
+
 0.0.13 (2020-08-05)
 -------------------
 * Add Threads to cmake. RELEASE build type
