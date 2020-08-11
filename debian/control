@@ -1,0 +1,12 @@
+Source: ros-eloquent-plansys2-bringup
+Section: misc
+Priority: optional
+Maintainer: Francisco Martin Rico <fmrico@gmail.com>
+Build-Depends: debhelper (>= 9.0.0), libboost-program-options-dev, ros-eloquent-ament-cmake, ros-eloquent-ament-lint-auto, ros-eloquent-ament-lint-common, ros-eloquent-launch, ros-eloquent-launch-testing, ros-eloquent-plansys2-domain-expert, ros-eloquent-plansys2-executor, ros-eloquent-plansys2-lifecycle-manager, ros-eloquent-plansys2-planner, ros-eloquent-plansys2-problem-expert, ros-eloquent-rclcpp, ros-eloquent-ros-workspace
+Homepage: 
+Standards-Version: 3.9.2
+
+Package: ros-eloquent-plansys2-bringup
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, ros-eloquent-launch-ros, ros-eloquent-plansys2-domain-expert, ros-eloquent-plansys2-executor, ros-eloquent-plansys2-lifecycle-manager, ros-eloquent-plansys2-planner, ros-eloquent-plansys2-problem-expert, ros-eloquent-rclcpp, ros-eloquent-ros-workspace
+Description: Bringup scripts and configurations for the ROS2 Planning System
