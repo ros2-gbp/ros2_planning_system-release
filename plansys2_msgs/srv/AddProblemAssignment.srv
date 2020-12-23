@@ -1,6 +1,0 @@
-string assignment
-string[] arguments
-float64 value
----
-bool success
-string error_info
