@@ -2,44 +2,20 @@
 Changelog for package plansys2_domain_expert
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-0.0.17 (2020-08-11)
--------------------
-
-0.0.16 (2020-08-11)
--------------------
-* Merge pull request `#28 <https://github.com/IntelligentRoboticsLabs/ros2_planning_system/issues/28>`_ from mjcarroll/remove_boost_optional
-  [eloquent] Remove boost::optional
-* Remove boost::optional and fix build
-* Contributors: Francisco Martín Rico, Michael Carroll
-
-0.0.15 (2020-08-09)
--------------------
-* Remove BUILD_TYPE specification
-* Contributors: Francisco Martin Rico
-
-0.0.14 (2020-08-07)
--------------------
-
-0.0.13 (2020-08-05)
--------------------
-* Add Threads to cmake. RELEASE build type
-* Contributors: Francisco Martin Rico
-
-0.0.12 (2020-07-26)
--------------------
-
-0.0.11 (2020-07-25)
--------------------
-
-0.0.10 (2020-07-19)
--------------------
-
-0.0.9 (2020-07-06)
+1.0.2 (2020-12-23)
 ------------------
+* Plan solvers as plugins
+* Contributors: Fabrice Larribe, Francisco Martin Rico, Francisco Martín Rico, f269858
 
-0.0.8 (2020-06-26)
+1.0.0 (2020-07-19)
 ------------------
+* Foxy initial version
 * Boost:optional
+* Support for BT actions
+* Contributors: Francisco Martin Rico, Francisco Martín Rico
+
+0.0.8 (2020-07-18)
+------------------
 * Support for BT actions
 * Contributors: Francisco Martin Rico, Francisco Martín Rico
 

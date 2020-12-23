@@ -102,7 +102,8 @@ TEST(domain_types, predicate_tree_to_string)
   plansys2::PredicateTree tree;
   tree.root_ = pn_and;
 
-  ASSERT_EQ(tree.toString(), std::string("(and (robot_at r2d2 bedroom)(not ") +
+  ASSERT_EQ(
+    tree.toString(), std::string("(and (robot_at r2d2 bedroom)(not ") +
     std::string("(robot_at r2d2 kitchen))(or (person_at paco bedroom)(person_at paco kitchen)))"));
 }
 
@@ -121,6 +122,14 @@ TEST(domain_types, predicate_tree_from_string)
   tree2.fromString(expresion2);
 
   ASSERT_EQ(tree2.toString(), expresion2);
+}
+
+TEST(domain_types, split_expression)
+{
+  std::vector<std::string> expected {"a", "(b c)"};
+  std::vector<std::string> splitted = plansys2::Assignment::splitExpr("(a (b c))");
+
+  ASSERT_EQ(splitted, expected);
 }
 
 int main(int argc, char ** argv)

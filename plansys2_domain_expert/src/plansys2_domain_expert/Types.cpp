@@ -33,6 +33,20 @@ bool operator==(const Predicate & op1, const Predicate & op2)
   return op1.name == op2.name && op1.parameters == op2.parameters;
 }
 
+bool operator==(const Assignment & op1, const Assignment & op2)
+{
+  return op1.name == op2.name &&
+         op1.parameters == op2.parameters &&
+         op1.value == op2.value;
+}
+
+
+bool Assignment::hasSameNamesAndParameters(const Assignment & other)
+{
+  return this->name == other.name &&
+         this->parameters == other.parameters;
+}
+
 std::string getReducedString(const std::string & expr)
 {
   std::regex nts_chars("[\n\t]*", std::regex_constants::ECMAScript);
@@ -46,9 +60,9 @@ std::string getReducedString(const std::string & expr)
 
 NodeType getType(const std::string & expr)
 {
-  if (std::regex_search(expr, std::regex("\\(and"))) {return AND;}
-  if (std::regex_search(expr, std::regex("\\(or"))) {return OR;}
-  if (std::regex_search(expr, std::regex("\\(not"))) {return NOT;}
+  if (std::regex_search(expr, std::regex("\\(and[ ]*\\(", std::regex::ECMAScript))) {return AND;}
+  if (std::regex_search(expr, std::regex("\\(or[ ]*\\(", std::regex::ECMAScript))) {return OR;}
+  if (std::regex_search(expr, std::regex("\\(not[ ]*\\(", std::regex::ECMAScript))) {return NOT;}
 
   return PREDICATE;
 }
@@ -89,6 +103,59 @@ std::vector<std::string> getSubExpr(const std::string & expr)
   return ret;
 }
 
+std::vector<std::string> plansys2::Assignment::splitExpr(const std::string & input)
+{
+  std::vector<std::string> ret;
+  unsigned int it = 0;
+  unsigned int start = 0;
+  unsigned int balance = 0;
+  std::string expression = input;
+
+  while (expression.back() == ' ') {expression.pop_back();}
+  while (expression.front() == ' ') {expression.erase(0, 1);}
+
+  // Remove first ( and last ) if presents
+  if ((expression.front() == '(') && (expression.back() == ')')) {
+    expression.pop_back();
+    expression.erase(0, 1);
+  }
+  while ((it < expression.size()) && (balance >= 0)) {
+    switch (expression[it]) {
+      case ' ':
+        if (balance == 0) {
+          if (start != it) {
+            ret.push_back(expression.substr(start, it - start));
+          }
+          start = it + 1;
+        }
+        break;
+      case '(':
+        if ((balance == 0) && (start != it)) {
+          ret.push_back(expression.substr(start, it - start));
+          start = it;
+        }
+        balance++;
+        break;
+      case ')':
+        balance--;
+        if ((balance == 0) && (start != it)) {
+          ret.push_back(expression.substr(start, it - start + 1));
+          start = it + 1;
+        }
+        break;
+      default:
+        break;
+    }
+    it++;
+  }
+
+  while (expression[start] == ' ') {start++;}
+  if (start != it && (start != expression.size())) {
+    ret.push_back(expression.substr(start, it - start + 1));
+  }
+  return ret;
+}
+
 std::string getPredicateName(const std::string & expr)
 {
   std::string ret(expr);
@@ -115,8 +182,9 @@ std::vector<plansys2::Param> getPredicateParams(const std::string & expr)
     end = wstring.find(" ", start);
 
     plansys2::Param param;
-    param.name = wstring.substr(start,
-        (end == std::string::npos) ? std::string::npos : end - start);
+    param.name = wstring.substr(
+      start,
+      (end == std::string::npos) ? std::string::npos : end - start);
 
     ret.push_back(param);
 
@@ -178,9 +246,13 @@ std::shared_ptr<TreeNode> get_tree_node(const std::string & expr)
         return pred;
       }
 
+    // LCOV_EXCL_START
     default:
       std::cerr << "get_tree_node: Error parsing expresion [" << wexpr << "]" << std::endl;
+      // LCOV_EXCL_STOP
   }
+
+  return nullptr;
 }
 
 }  // namespace plansys2

@@ -41,14 +41,6 @@ ExecutorClient::executePlan()
 {
   using namespace std::placeholders;
 
-  feedback_.seq_action = 0;
-  feedback_.total_actions = 0;
-  feedback_.current_action = "";
-  feedback_.progress_current_action = 0.0f;
-
-  result_.success = false;
-  result_.error_info = "";
-
   finished_ = false;
 
   if (!this->execute_plan_client_ptr_) {
@@ -120,8 +112,8 @@ ExecutorClient::result_callback(const GoalHandleExecutePlan::WrappedResult & res
   if (result.result->success) {
     RCLCPP_INFO(node_->get_logger(), "Result received: Success");
   } else {
-    RCLCPP_INFO(node_->get_logger(), "Result received: Fail [%s]",
-      result.result->error_info.c_str());
+    RCLCPP_INFO(
+      node_->get_logger(), "Result received: Fail");
   }
 }
 

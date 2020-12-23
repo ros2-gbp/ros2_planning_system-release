@@ -2,6 +2,8 @@ project(plansys2_bringup)
 
 cmake_minimum_required(VERSION 3.5)
 
+find_package(Threads REQUIRED)
+
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(plansys2_domain_expert REQUIRED)
@@ -29,7 +31,7 @@ if(BUILD_TESTING)
   ament_lint_auto_find_test_dependencies()
 endif()
 
-install(DIRECTORY launch DESTINATION share/${PROJECT_NAME})
+install(DIRECTORY launch params DESTINATION share/${PROJECT_NAME})
 install(TARGETS
   plansys2_node
   ARCHIVE DESTINATION lib
