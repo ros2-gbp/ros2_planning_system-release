@@ -2,6 +2,11 @@
 Changelog for package plansys2_bt_actions
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+1.0.5 (2020-12-28)
+------------------
+* Migration to c++17
+* Contributors: Francisco Martín Rico
+
 1.0.4 (2020-12-24)
 ------------------
 
