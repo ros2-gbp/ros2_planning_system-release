@@ -18,26 +18,10 @@
 #include <memory>
 #include <vector>
 
+#include "plansys2_core/Utils.hpp"
+#include "plansys2_popf_plan_solver/popf_plan_solver.hpp"
+
 #include "lifecycle_msgs/msg/state.hpp"
-
-std::vector<std::string> tokenize(const std::string & string, const std::string & delim)
-{
-  std::string::size_type lastPos = 0, pos = string.find_first_of(delim, lastPos);
-  std::vector<std::string> tokens;
-
-  while (lastPos != std::string::npos) {
-    if (pos != lastPos) {
-      tokens.push_back(string.substr(lastPos, pos - lastPos));
-    }
-    lastPos = pos;
-    if (lastPos == std::string::npos || lastPos + 1 == string.length()) {
-      break;
-    }
-    pos = string.find_first_of(delim, ++lastPos);
-  }
-
-  return tokens;
-}
 
 namespace plansys2
 {
@@ -76,6 +60,17 @@ DomainExpertNode::DomainExpertNode()
       &DomainExpertNode::get_domain_predicate_details_service_callback,
       this, std::placeholders::_1, std::placeholders::_2,
       std::placeholders::_3));
+  get_domain_functions_service_ = create_service<plansys2_msgs::srv::GetDomainFunctions>(
+    "domain_expert/get_domain_functions", std::bind(
+      &DomainExpertNode::get_domain_functions_service_callback,
+      this, std::placeholders::_1, std::placeholders::_2,
+      std::placeholders::_3));
+  get_domain_function_details_service_ =
+    create_service<plansys2_msgs::srv::GetDomainFunctionDetails>(
+    "domain_expert/get_domain_function_details", std::bind(
+      &DomainExpertNode::get_domain_function_details_service_callback,
+      this, std::placeholders::_1, std::placeholders::_2,
+      std::placeholders::_3));
   get_domain_service_ = create_service<plansys2_msgs::srv::GetDomain>(
     "domain_expert/get_domain", std::bind(
       &DomainExpertNode::get_domain_service_callback,
@@ -100,7 +95,14 @@ DomainExpertNode::on_configure(const rclcpp_lifecycle::State & state)
       std::istreambuf_iterator<char>(domain_ifs)),
     std::istreambuf_iterator<char>());
 
+  auto planner = std::make_shared<plansys2::POPFPlanSolver>();
   domain_expert_ = std::make_shared<DomainExpert>(domain_str);
+
+  std::string check = planner->check_domain(domain_expert_->getDomain(), get_namespace());
+  if (!check.empty()) {
+    RCLCPP_ERROR_STREAM(get_logger(), "PDDL syntax error: \n" << check);
+    return CallbackReturnT::FAILURE;
+  }
 
   for (size_t i = 1; i < model_files.size(); i++) {
     std::ifstream domain_ifs(model_files[i]);
@@ -108,6 +110,13 @@ DomainExpertNode::on_configure(const rclcpp_lifecycle::State & state)
         std::istreambuf_iterator<char>(domain_ifs)),
       std::istreambuf_iterator<char>());
     domain_expert_->extendDomain(domain_str);
+
+    std::string check = planner->check_domain(domain_expert_->getDomain(), get_namespace());
+
+    if (!check.empty()) {
+      RCLCPP_ERROR_STREAM(get_logger(), "PDDL syntax error: \n" << check);
+      return CallbackReturnT::FAILURE;
+    }
   }
 
   RCLCPP_INFO(get_logger(), "[%s] Configured", get_name());
@@ -291,6 +300,53 @@ DomainExpertNode::get_domain_predicate_details_service_callback(
         request->predicate.c_str());
       response->success = false;
       response->error_info = "Predicate not found";
+    }
+  }
+}
+
+void
+DomainExpertNode::get_domain_functions_service_callback(
+  const std::shared_ptr<rmw_request_id_t> request_header,
+  const std::shared_ptr<plansys2_msgs::srv::GetDomainFunctions::Request> request,
+  const std::shared_ptr<plansys2_msgs::srv::GetDomainFunctions::Response> response)
+{
+  if (domain_expert_ == nullptr) {
+    response->success = false;
+    response->error_info = "Requesting service in non-active state";
+    RCLCPP_WARN(get_logger(), "Requesting service in non-active state");
+  } else {
+    response->success = true;
+    response->functions = domain_expert_->getFunctions();
+  }
+}
+
+void
+DomainExpertNode::get_domain_function_details_service_callback(
+  const std::shared_ptr<rmw_request_id_t> request_header,
+  const std::shared_ptr<plansys2_msgs::srv::GetDomainFunctionDetails::Request> request,
+  const std::shared_ptr<plansys2_msgs::srv::GetDomainFunctionDetails::Response> response)
+{
+  if (domain_expert_ == nullptr) {
+    response->success = false;
+    response->error_info = "Requesting service in non-active state";
+    RCLCPP_WARN(get_logger(), "Requesting service in non-active state");
+  } else {
+    auto params = domain_expert_->getFunction(request->function);
+    if (params) {
+      response->name = request->function;
+
+      for (const auto & param :  params.value().parameters) {
+        response->param_names.push_back(param.name);
+        response->param_types.push_back(param.type);
+      }
+
+      response->success = true;
+    } else {
+      RCLCPP_WARN(
+        get_logger(), "Requesting a non-existing function [%s]",
+        request->function.c_str());
+      response->success = false;
+      response->error_info = "Function not found";
     }
   }
 }
