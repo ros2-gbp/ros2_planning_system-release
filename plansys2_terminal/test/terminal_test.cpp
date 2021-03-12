@@ -29,12 +29,22 @@
 #include "plansys2_planner/PlannerClient.hpp"
 #include "plansys2_executor/ExecutorNode.hpp"
 #include "plansys2_executor/ExecutorClient.hpp"
+#include "plansys2_executor/ActionExecutorClient.hpp"
 
 #include "plansys2_terminal/Terminal.hpp"
 
 #include "gtest/gtest.h"
 
-TEST(terminal_test, token_utils)
+class TerminalTestCase : public ::testing::Test
+{
+protected:
+  static void SetUpTestCase()
+  {
+    rclcpp::init(0, nullptr);
+  }
+};
+
+TEST_F(TerminalTestCase, token_utils)
 {
   auto test1 = plansys2_terminal::tokenize("");
   ASSERT_EQ(test1.size(), 0u);
@@ -114,16 +124,16 @@ public:
     Terminal::process_set_instance(command, os);
   }
 
-  void process_set_assignment(std::vector<std::string> & command, std::ostringstream & os)
-  {
-    method_executed_["process_set_assignment"] = true;
-    Terminal::process_set_assignment(command, os);
-  }
-
   void process_set_predicate(std::vector<std::string> & command, std::ostringstream & os)
   {
     method_executed_["process_set_predicate"] = true;
     Terminal::process_set_predicate(command, os);
+  }
+
+  void process_set_function(std::vector<std::string> & command, std::ostringstream & os)
+  {
+    method_executed_["process_set_function"] = true;
+    Terminal::process_set_function(command, os);
   }
 
   void process_set_goal(std::vector<std::string> & command, std::ostringstream & os)
@@ -168,6 +178,18 @@ public:
     Terminal::process_run(command, os);
   }
 
+  void process_check(std::vector<std::string> & command, std::ostringstream & os)
+  {
+    method_executed_["process_check"] = true;
+    Terminal::process_check(command, os);
+  }
+
+  void process_check_actors(std::vector<std::string> & command, std::ostringstream & os)
+  {
+    method_executed_["process_check_actors"] = true;
+    Terminal::process_check_actors(command, os);
+  }
+
   void process_command(std::string & command, std::ostringstream & os)
   {
     method_executed_["process_command"] = true;
@@ -184,7 +206,7 @@ public:
   std::map<std::string, bool> method_executed_;
 };
 
-TEST(terminal_test, load_popf_plugin)
+TEST_F(TerminalTestCase, load_popf_plugin)
 {
   auto test_node = rclcpp::Node::make_shared("terminal_node_test");
 
@@ -200,16 +222,16 @@ TEST(terminal_test, load_popf_plugin)
   domain_node->set_parameter({"model_file", pkgpath + "/pddl/simple_example.pddl"});
   problem_node->set_parameter({"model_file", pkgpath + "/pddl/simple_example.pddl"});
 
-  rclcpp::executors::MultiThreadedExecutor exe(rclcpp::executor::ExecutorArgs(), 8);
+  rclcpp::executors::MultiThreadedExecutor exe(rclcpp::executor::ExecutorArgs(), 16, true);
+  ASSERT_GT(exe.get_number_of_threads(), 15u);
 
   exe.add_node(domain_node->get_node_base_interface());
   exe.add_node(problem_node->get_node_base_interface());
   exe.add_node(planner_node->get_node_base_interface());
   exe.add_node(executor_node->get_node_base_interface());
 
-  bool finish = false;
   std::thread t([&]() {
-      while (!finish) {exe.spin_some();}
+      exe.spin();
     });
 
   domain_node->trigger_transition(lifecycle_msgs::msg::Transition::TRANSITION_CONFIGURE);
@@ -226,7 +248,11 @@ TEST(terminal_test, load_popf_plugin)
   }
 
   domain_node->trigger_transition(lifecycle_msgs::msg::Transition::TRANSITION_ACTIVATE);
-  problem_node->trigger_transition(lifecycle_msgs::msg::Transition::TRANSITION_ACTIVATE);
+
+  rclcpp_lifecycle::State state = problem_node->trigger_transition(
+    lifecycle_msgs::msg::Transition::TRANSITION_ACTIVATE);
+  std::string stateLabel = state.label();
+
   planner_node->trigger_transition(lifecycle_msgs::msg::Transition::TRANSITION_ACTIVATE);
   executor_node->trigger_transition(lifecycle_msgs::msg::Transition::TRANSITION_ACTIVATE);
 
@@ -253,10 +279,10 @@ TEST(terminal_test, load_popf_plugin)
     ASSERT_TRUE(terminal_node->method_executed_["process_set_instance"]);
     ASSERT_TRUE(os.str().empty());
 
-    // auto ins_1 = problem_client->getInstance("leia");
-    // ASSERT_TRUE(ins_1.has_value());
-    // ASSERT_EQ(ins_1.value().name, "leia");
-    // ASSERT_EQ(ins_1.value().type, "robot");
+    auto ins_1 = problem_client->getInstance("leia");
+    ASSERT_TRUE(ins_1.has_value());
+    ASSERT_EQ(ins_1.value().name, "leia");
+    ASSERT_EQ(ins_1.value().type, "robot");
 
     terminal_node->reset_executions();
   }
@@ -269,10 +295,10 @@ TEST(terminal_test, load_popf_plugin)
     ASSERT_TRUE(terminal_node->method_executed_["process_set_instance"]);
     ASSERT_TRUE(os.str().empty());
 
-    // auto ins_1 = problem_client->getInstance("leia");
-    // ASSERT_TRUE(ins_1.has_value());
-    // ASSERT_EQ(ins_1.value().name, "leia");
-    // ASSERT_EQ(ins_1.value().type, "robot");
+    auto ins_1 = problem_client->getInstance("leia");
+    ASSERT_TRUE(ins_1.has_value());
+    ASSERT_EQ(ins_1.value().name, "leia");
+    ASSERT_EQ(ins_1.value().type, "robot");
 
     terminal_node->reset_executions();
   }
@@ -284,10 +310,10 @@ TEST(terminal_test, load_popf_plugin)
     ASSERT_TRUE(terminal_node->method_executed_["process_set_instance"]);
     ASSERT_TRUE(os.str().empty());
 
-    // auto ins_2 = problem_client->getInstance("r2d2");
-    // ASSERT_TRUE(ins_2.has_value());
-    // ASSERT_EQ(ins_2.value().name, "r2d2");
-    // ASSERT_EQ(ins_2.value().type, "robot");
+    auto ins_2 = problem_client->getInstance("r2d2");
+    ASSERT_TRUE(ins_2.has_value());
+    ASSERT_EQ(ins_2.value().name, "r2d2");
+    ASSERT_EQ(ins_2.value().type, "robot");
 
     terminal_node->reset_executions();
   }
@@ -300,10 +326,10 @@ TEST(terminal_test, load_popf_plugin)
     ASSERT_TRUE(terminal_node->method_executed_["process_set_predicate"]);
     ASSERT_TRUE(os.str().empty());
 
-    // auto ins_1 = problem_client->getInstance("leia");
-    // ASSERT_TRUE(ins_1.has_value());
-    // ASSERT_EQ(ins_1.value().name, "leia");
-    // ASSERT_EQ(ins_1.value().type, "robot");
+    auto ins_1 = problem_client->getInstance("leia");
+    ASSERT_TRUE(ins_1.has_value());
+    ASSERT_EQ(ins_1.value().name, "leia");
+    ASSERT_EQ(ins_1.value().type, "robot");
 
     terminal_node->reset_executions();
   }
@@ -316,10 +342,10 @@ TEST(terminal_test, load_popf_plugin)
     ASSERT_TRUE(terminal_node->method_executed_["process_set_predicate"]);
     ASSERT_FALSE(os.str().empty());
 
-    // auto ins_1 = problem_client->getInstance("leia");
-    // ASSERT_TRUE(ins_1.has_value());
-    // ASSERT_EQ(ins_1.value().name, "leia");
-    // ASSERT_EQ(ins_1.value().type, "robot");
+    auto ins_1 = problem_client->getInstance("leia");
+    ASSERT_TRUE(ins_1.has_value());
+    ASSERT_EQ(ins_1.value().name, "leia");
+    ASSERT_EQ(ins_1.value().type, "robot");
 
     terminal_node->reset_executions();
   }
@@ -331,42 +357,42 @@ TEST(terminal_test, load_popf_plugin)
     ASSERT_TRUE(terminal_node->method_executed_["process_set_predicate"]);
     ASSERT_TRUE(os.str().empty());
 
-    // auto ins_1 = problem_client->getInstance("leia");
-    // ASSERT_TRUE(ins_1.has_value());
-    // ASSERT_EQ(ins_1.value().name, "leia");
-    // ASSERT_EQ(ins_1.value().type, "robot");
+    auto ins_1 = problem_client->getInstance("leia");
+    ASSERT_TRUE(ins_1.has_value());
+    ASSERT_EQ(ins_1.value().name, "leia");
+    ASSERT_EQ(ins_1.value().type, "robot");
 
     terminal_node->reset_executions();
   }
 
   {
     std::ostringstream os;
-    std::string command("set goal (and(robot_at leia bathroom))");
+    std::string command("set goal (and (robot_at leia bathroom))");
     terminal_node->process_command(command, os);
     ASSERT_TRUE(terminal_node->method_executed_["process_command"]);
     ASSERT_TRUE(terminal_node->method_executed_["process_set_goal"]);
     ASSERT_FALSE(os.str().empty());
 
-    // auto ins_1 = problem_client->getInstance("leia");
-    // ASSERT_TRUE(ins_1.has_value());
-    // ASSERT_EQ(ins_1.value().name, "leia");
-    // ASSERT_EQ(ins_1.value().type, "robot");
+    auto ins_1 = problem_client->getInstance("leia");
+    ASSERT_TRUE(ins_1.has_value());
+    ASSERT_EQ(ins_1.value().name, "leia");
+    ASSERT_EQ(ins_1.value().type, "robot");
 
     terminal_node->reset_executions();
   }
 
   {
     std::ostringstream os;
-    std::string command("set goal (and(robot_at leia entrance))");
+    std::string command("set goal (and (robot_at leia entrance))");
     terminal_node->process_command(command, os);
     ASSERT_TRUE(terminal_node->method_executed_["process_command"]);
     ASSERT_TRUE(terminal_node->method_executed_["process_set_goal"]);
     ASSERT_TRUE(os.str().empty());
 
-    // auto ins_1 = problem_client->getInstance("leia");
-    // ASSERT_TRUE(ins_1.has_value());
-    // ASSERT_EQ(ins_1.value().name, "leia");
-    // ASSERT_EQ(ins_1.value().type, "robot");
+    auto ins_1 = problem_client->getInstance("leia");
+    ASSERT_TRUE(ins_1.has_value());
+    ASSERT_EQ(ins_1.value().name, "leia");
+    ASSERT_EQ(ins_1.value().type, "robot");
 
     terminal_node->reset_executions();
   }
@@ -374,7 +400,7 @@ TEST(terminal_test, load_popf_plugin)
   {
     std::ostringstream os;
     std::vector<std::string> command = {"(=(robot_at", "r2d2", "entrance)", "0)"};
-    terminal_node->process_set_assignment(command, os);
+    terminal_node->process_set_function(command, os);
     // ASSERT_TRUE(terminal_node->method_executed_["process_command"]);
     // ASSERT_TRUE(terminal_node->method_executed_["process_set_goal"]);
     // ASSERT_TRUE(os.str().empty());
@@ -425,6 +451,14 @@ TEST(terminal_test, load_popf_plugin)
 
   {
     std::ostringstream os;
+    std::string command("check actors");
+    terminal_node->process_command(command, os);
+    ASSERT_TRUE(terminal_node->method_executed_["process_check"]);
+    ASSERT_TRUE(terminal_node->method_executed_["process_check_actors"]);
+  }
+
+  {
+    std::ostringstream os;
     std::vector<std::string> command = {"r2d2"};
     terminal_node->process_remove_instance(command, os);
     ASSERT_TRUE(terminal_node->method_executed_["process_remove_instance"]);
@@ -454,7 +488,7 @@ TEST(terminal_test, load_popf_plugin)
     }
     {
       std::ostringstream os;
-      std::string command = "set goal (and(robot_at leia kitchen))";
+      std::string command = "set goal (and (robot_at leia kitchen))";
       terminal_node->process_command(command, os);
     }
 
@@ -471,14 +505,129 @@ TEST(terminal_test, load_popf_plugin)
     ASSERT_TRUE(terminal_node->method_executed_["process_run"]);
   }
 
-  finish = true;
+  domain_node->trigger_transition(lifecycle_msgs::msg::Transition::TRANSITION_DEACTIVATE);
+  problem_node->trigger_transition(lifecycle_msgs::msg::Transition::TRANSITION_DEACTIVATE);
+  planner_node->trigger_transition(lifecycle_msgs::msg::Transition::TRANSITION_DEACTIVATE);
+  executor_node->trigger_transition(lifecycle_msgs::msg::Transition::TRANSITION_DEACTIVATE);
+
+  {
+    rclcpp::Rate rate(10);
+    auto start = test_node->now();
+    while ((test_node->now() - start).seconds() < 0.5) {
+      rate.sleep();
+    }
+  }
+
+  domain_node->trigger_transition(lifecycle_msgs::msg::Transition::TRANSITION_INACTIVE_SHUTDOWN);
+  problem_node->trigger_transition(lifecycle_msgs::msg::Transition::TRANSITION_INACTIVE_SHUTDOWN);
+  planner_node->trigger_transition(lifecycle_msgs::msg::Transition::TRANSITION_INACTIVE_SHUTDOWN);
+  executor_node->trigger_transition(lifecycle_msgs::msg::Transition::TRANSITION_INACTIVE_SHUTDOWN);
+
+  {
+    rclcpp::Rate rate(10);
+    auto start = test_node->now();
+    while ((test_node->now() - start).seconds() < 0.5) {
+      rate.sleep();
+    }
+  }
+
+  exe.cancel();
   t.join();
 }
 
-
-int main(int argc, char ** argv)
+TEST_F(TerminalTestCase, check_actors)
 {
-  testing::InitGoogleTest(&argc, argv);
-  rclcpp::init(argc, argv);
-  return RUN_ALL_TESTS();
+  auto test_node = rclcpp::Node::make_shared("terminal_node_test");
+
+  auto domain_node = std::make_shared<plansys2::DomainExpertNode>();
+  auto problem_node = std::make_shared<plansys2::ProblemExpertNode>();
+  auto planner_node = std::make_shared<plansys2::PlannerNode>();
+  auto executor_node = std::make_shared<plansys2::ExecutorNode>();
+
+  auto problem_client = std::make_shared<plansys2::ProblemExpertClient>(test_node);
+
+  using namespace std::chrono_literals;
+
+  auto move_actor_1_node = plansys2::ActionExecutorClient::make_shared("move_1", 100ms);
+  auto move_actor_2_node = plansys2::ActionExecutorClient::make_shared("move_2", 100ms);
+  auto ask_charge_actor_1_node = plansys2::ActionExecutorClient::make_shared("askcharge", 100ms);
+  auto charge_actor_1_node = plansys2::ActionExecutorClient::make_shared("charge", 100ms);
+
+  move_actor_1_node->set_parameter({"action_name", "move"});
+  move_actor_2_node->set_parameter({"action_name", "move"});
+  ask_charge_actor_1_node->set_parameter({"action_name", "askcharge"});
+  charge_actor_1_node->set_parameter({"action_name", "charge"});
+
+  std::string pkgpath = ament_index_cpp::get_package_share_directory("plansys2_terminal");
+
+  domain_node->set_parameter({"model_file", pkgpath + "/pddl/simple_example.pddl"});
+  problem_node->set_parameter({"model_file", pkgpath + "/pddl/simple_example.pddl"});
+
+  rclcpp::executors::MultiThreadedExecutor exe(rclcpp::executor::ExecutorArgs(), 16, true);
+  ASSERT_GT(exe.get_number_of_threads(), 15u);
+
+  exe.add_node(domain_node->get_node_base_interface());
+  exe.add_node(problem_node->get_node_base_interface());
+  exe.add_node(planner_node->get_node_base_interface());
+  exe.add_node(executor_node->get_node_base_interface());
+  exe.add_node(move_actor_1_node->get_node_base_interface());
+  exe.add_node(move_actor_2_node->get_node_base_interface());
+  exe.add_node(ask_charge_actor_1_node->get_node_base_interface());
+  exe.add_node(charge_actor_1_node->get_node_base_interface());
+
+  std::thread t([&]() {
+      exe.spin();
+    });
+
+  domain_node->trigger_transition(lifecycle_msgs::msg::Transition::TRANSITION_CONFIGURE);
+  problem_node->trigger_transition(lifecycle_msgs::msg::Transition::TRANSITION_CONFIGURE);
+  planner_node->trigger_transition(lifecycle_msgs::msg::Transition::TRANSITION_CONFIGURE);
+  executor_node->trigger_transition(lifecycle_msgs::msg::Transition::TRANSITION_CONFIGURE);
+  move_actor_1_node->trigger_transition(lifecycle_msgs::msg::Transition::TRANSITION_CONFIGURE);
+  move_actor_2_node->trigger_transition(lifecycle_msgs::msg::Transition::TRANSITION_CONFIGURE);
+  ask_charge_actor_1_node->trigger_transition(
+    lifecycle_msgs::msg::Transition::TRANSITION_CONFIGURE);
+  charge_actor_1_node->trigger_transition(lifecycle_msgs::msg::Transition::TRANSITION_CONFIGURE);
+
+  {
+    rclcpp::Rate rate(10);
+    auto start = test_node->now();
+    while ((test_node->now() - start).seconds() < 0.5) {
+      rate.sleep();
+    }
+  }
+
+  domain_node->trigger_transition(lifecycle_msgs::msg::Transition::TRANSITION_ACTIVATE);
+
+  rclcpp_lifecycle::State state = problem_node->trigger_transition(
+    lifecycle_msgs::msg::Transition::TRANSITION_ACTIVATE);
+  std::string stateLabel = state.label();
+
+  planner_node->trigger_transition(lifecycle_msgs::msg::Transition::TRANSITION_ACTIVATE);
+  executor_node->trigger_transition(lifecycle_msgs::msg::Transition::TRANSITION_ACTIVATE);
+
+  {
+    rclcpp::Rate rate(10);
+    auto start = test_node->now();
+    while ((test_node->now() - start).seconds() < 0.5) {
+      rate.sleep();
+    }
+  }
+
+  auto terminal_node = std::make_shared<TerminalTest>();
+  terminal_node->init();
+
+  std::ostringstream os;
+  std::string command("check actors");
+  terminal_node->process_command(command, os);
+
+  ASSERT_EQ(
+    os.str(),
+    "\t[askcharge] askcharge\tREADY\n"
+    "\t[charge] charge\tREADY\n"
+    "\t[move_1] move\tREADY\n"
+    "\t[move_2] move\tREADY\n");
+
+  exe.cancel();
+  t.join();
 }
