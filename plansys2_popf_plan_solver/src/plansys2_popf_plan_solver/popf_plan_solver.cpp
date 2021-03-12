@@ -15,6 +15,7 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 
+#include <filesystem>
 #include <string>
 #include <iostream>
 #include <cstdio>
@@ -36,10 +37,13 @@ POPFPlanSolver::getPlan(
   const std::string & node_namespace)
 {
   if (node_namespace != "") {
-    //  This doesn't work as cxx flags must apper at end of link options, and I didn't
-    //  find a way
-    // std::experimental::filesystem::create_directories("/tmp/" + node_namespace);
-    mkdir(("/tmp/" + node_namespace).c_str(), ACCESSPERMS);
+    std::filesystem::path tp = std::filesystem::temp_directory_path();
+    for (auto p : std::filesystem::path(node_namespace) ) {
+      if (p != std::filesystem::current_path().root_directory()) {
+        tp /= p;
+      }
+    }
+    std::filesystem::create_directories(tp);
   }
 
   Plan ret;
@@ -91,6 +95,35 @@ POPFPlanSolver::getPlan(
   } else {
     return ret;
   }
+}
+
+std::string
+POPFPlanSolver::check_domain(
+  const std::string & domain,
+  const std::string & node_namespace)
+{
+  if (node_namespace != "") {
+    mkdir(("/tmp/" + node_namespace).c_str(), ACCESSPERMS);
+  }
+
+  std::ofstream domain_out("/tmp/" + node_namespace + "/check_domain.pddl");
+  domain_out << domain;
+  domain_out.close();
+
+  std::ofstream problem_out("/tmp/" + node_namespace + "/check_problem.pddl");
+  problem_out << "(define (problem void) (:domain plansys2))";
+  problem_out.close();
+
+  system(
+    ("ros2 run popf popf /tmp/" + node_namespace + "/check_domain.pddl /tmp/" +
+    node_namespace + "/check_problem.pddl > /tmp/" + node_namespace + "/check.out").c_str());
+
+  std::ifstream plan_file("/tmp/" + node_namespace + "/check.out");
+
+  std::string result((std::istreambuf_iterator<char>(plan_file)),
+    std::istreambuf_iterator<char>());
+
+  return result;
 }
 
 }  // namespace plansys2

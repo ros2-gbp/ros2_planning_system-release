@@ -2,7 +2,7 @@
 <?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
   <name>plansys2_domain_expert</name>
-  <version>1.0.7</version>
+  <version>1.0.8</version>
   
   <description>This package contains the Domain Expert module for the ROS2 Planning System</description>
 
@@ -18,6 +18,8 @@
   <depend>ament_index_cpp</depend>
   <depend>plansys2_pddl_parser</depend>
   <depend>plansys2_msgs</depend>
+  <depend>plansys2_core</depend>
+  <depend>plansys2_popf_plan_solver</depend>
   <depend>std_msgs</depend>
   <depend>lifecycle_msgs</depend>
  
