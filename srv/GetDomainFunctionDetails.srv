@@ -1,4 +1,4 @@
-string predicate
+string function
 ---
 string name
 string[] param_names
