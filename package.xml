@@ -2,7 +2,7 @@
 <?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
   <name>plansys2_executor</name>
-  <version>1.0.7</version>
+  <version>1.0.8</version>
   
   <description>This package contains the Executor module for the ROS2 Planning System</description>
 
@@ -25,6 +25,7 @@
   <depend>plansys2_planner</depend>
   <depend>behaviortree_cpp_v3</depend>
   <depend>std_msgs</depend>
+  <depend>libzmq3-dev</depend>
 
   <exec_depend>popf</exec_depend>
 

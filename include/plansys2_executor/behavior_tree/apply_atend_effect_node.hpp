@@ -23,7 +23,7 @@
 
 #include "plansys2_problem_expert/ProblemExpertClient.hpp"
 #include "plansys2_executor/ActionExecutor.hpp"
-#include "plansys2_executor/Utils.hpp"
+#include "plansys2_problem_expert/Utils.hpp"
 
 #include "plansys2_executor/behavior_tree/execute_action_node.hpp"
 
@@ -44,7 +44,7 @@ public:
   {
     return BT::PortsList(
       {
-        BT::InputPort<std::string>("action", "Action whose at end reqs maust stop"),
+        BT::InputPort<std::string>("action", "Action whose at end reqs must stop"),
       });
   }
 
