@@ -18,8 +18,6 @@
 
 #include "plansys2_executor/ActionExecutor.hpp"
 
-#include "plansys2_domain_expert/Types.hpp"
-
 namespace plansys2
 {
 
@@ -29,7 +27,7 @@ using namespace std::chrono_literals;
 ActionExecutor::ActionExecutor(
   const std::string & action,
   rclcpp_lifecycle::LifecycleNode::SharedPtr node)
-: state_(IDLE), node_(node)
+: node_(node), state_(IDLE)
 {
   action_hub_pub_ = node_->create_publisher<plansys2_msgs::msg::ActionExecution>(
     "/actions_hub", rclcpp::QoS(100).reliable());
@@ -42,6 +40,9 @@ ActionExecutor::ActionExecutor(
   action_ = action;
   action_name_ = get_name(action);
   action_params_ = get_params(action);
+  completion_ = 0.0;
+  start_execution_ = node_->now();
+  state_time_ = start_execution_;
 }
 
 void
@@ -53,12 +54,14 @@ ActionExecutor::action_hub_callback(const plansys2_msgs::msg::ActionExecution::S
     case plansys2_msgs::msg::ActionExecution::REQUEST:
     case plansys2_msgs::msg::ActionExecution::CONFIRM:
     case plansys2_msgs::msg::ActionExecution::REJECT:
+    case plansys2_msgs::msg::ActionExecution::CANCEL:
       // These cases have no meaning requester
       break;
     case plansys2_msgs::msg::ActionExecution::RESPONSE:
       if (msg->arguments == action_params_ && msg->action == action_name_) {
         if (state_ == DEALING) {
           confirm_performer(msg->node_id);
+          current_performer_id_ = msg->node_id;
           state_ = RUNNING;
           waiting_timer_ = nullptr;
           start_execution_ = node_->now();
@@ -69,19 +72,20 @@ ActionExecutor::action_hub_callback(const plansys2_msgs::msg::ActionExecution::S
       }
       break;
     case plansys2_msgs::msg::ActionExecution::FEEDBACK:
-      if (state_ != RUNNING && msg->arguments == action_params_ && msg->action == action_name_) {
-        RCLCPP_WARN(
-          node_->get_logger(), "Feedback received in not running %s executor requester",
-          action_);
+      if (state_ != RUNNING || msg->arguments != action_params_ || msg->action != action_name_ ||
+        msg->node_id != current_performer_id_)
+      {
         return;
       }
-
       feedback_ = msg->status;
       completion_ = msg->completion;
+      state_time_ = node_->now();
 
       break;
     case plansys2_msgs::msg::ActionExecution::FINISH:
-      if (msg->arguments == action_params_ && msg->action == action_name_) {
+      if (msg->arguments == action_params_ &&
+        msg->action == action_name_ && msg->node_id == current_performer_id_)
+      {
         if (msg->success) {
           state_ = SUCCESS;
         } else {
@@ -89,7 +93,7 @@ ActionExecutor::action_hub_callback(const plansys2_msgs::msg::ActionExecution::S
         }
 
         feedback_ = msg->status;
-        completion_ = 1.0;
+        completion_ = msg->completion;
 
         state_time_ = node_->now();
 
@@ -204,6 +208,7 @@ ActionExecutor::tick(const rclcpp::Time & now)
       break;
     case SUCCESS:
     case FAILURE:
+    case CANCELLED:
       break;
     default:
       break;
@@ -212,10 +217,23 @@ ActionExecutor::tick(const rclcpp::Time & now)
   return get_status();
 }
 
+void
+ActionExecutor::cancel()
+{
+  state_ = CANCELLED;
+  plansys2_msgs::msg::ActionExecution msg;
+  msg.type = plansys2_msgs::msg::ActionExecution::CANCEL;
+  msg.node_id = current_performer_id_;
+  msg.action = action_name_;
+  msg.arguments = action_params_;
+
+  action_hub_pub_->publish(msg);
+}
+
 std::string
 ActionExecutor::get_name(const std::string & action_expr)
 {
-  std::string working_action_expr = getReducedString(action_expr);
+  std::string working_action_expr = parser::pddl::tree::getReducedString(action_expr);
   working_action_expr.erase(0, 1);  // remove initial (
   working_action_expr.pop_back();  // remove last )
 
@@ -229,7 +247,7 @@ ActionExecutor::get_params(const std::string & action_expr)
 {
   std::vector<std::string> ret;
 
-  std::string working_action_expr = getReducedString(action_expr);
+  std::string working_action_expr = parser::pddl::tree::getReducedString(action_expr);
   working_action_expr.erase(0, 1);  // remove initial (
   working_action_expr.pop_back();  // remove last )
 
