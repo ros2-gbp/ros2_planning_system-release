@@ -15,12 +15,17 @@
 #ifndef PLANSYS2_BT_ACTIONS__BTACTION_HPP_
 #define PLANSYS2_BT_ACTIONS__BTACTION_HPP_
 
+#include <memory>
 #include <string>
 #include <vector>
 
 #include "behaviortree_cpp_v3/behavior_tree.h"
 #include "behaviortree_cpp_v3/bt_factory.h"
 #include "behaviortree_cpp_v3/xml_parsing.h"
+
+#ifdef ZMQ_FOUND
+#include <behaviortree_cpp_v3/loggers/bt_zmq_publisher.h>
+#endif
 
 #include "plansys2_executor/ActionExecutorClient.hpp"
 #include "rclcpp/rclcpp.hpp"
@@ -33,8 +38,6 @@ class BTAction : public plansys2::ActionExecutorClient
 public:
   explicit BTAction(
     const std::string & action,
-    const std::string & bt_xml_file,
-    const std::vector<std::string> & plugin_list,
     const std::chrono::nanoseconds & rate);
 
   const std::string & getActionName() const {return action_;}
@@ -42,7 +45,16 @@ public:
 
 protected:
   rclcpp_lifecycle::node_interfaces::LifecycleNodeInterface::CallbackReturn
+  on_configure(const rclcpp_lifecycle::State & previous_state);
+
+  rclcpp_lifecycle::node_interfaces::LifecycleNodeInterface::CallbackReturn
+  on_cleanup(const rclcpp_lifecycle::State & previous_state);
+
+  rclcpp_lifecycle::node_interfaces::LifecycleNodeInterface::CallbackReturn
   on_activate(const rclcpp_lifecycle::State & previous_state);
+
+  rclcpp_lifecycle::node_interfaces::LifecycleNodeInterface::CallbackReturn
+  on_deactivate(const rclcpp_lifecycle::State & previous_state);
 
   void do_work();
 
@@ -54,6 +66,8 @@ private:
   std::string action_;
   std::string bt_xml_file_;
   std::vector<std::string> plugin_list_;
+  bool finished_;
+  std::unique_ptr<BT::PublisherZMQ> publisher_zmq_;
 };
 
 }  // namespace plansys2
