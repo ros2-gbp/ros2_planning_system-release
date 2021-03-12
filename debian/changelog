@@ -1,0 +1,90 @@
+ros-foxy-plansys2-popf-plan-solver (1.0.8-1focal) focal; urgency=high
+
+  * Create tmp directories
+  * Add more verbose output to pddl errors
+  * Contributors: Fabrice Larribe, Francisco Martin Rico
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Thu, 11 Mar 2021 23:00:00 -0000
+
+ros-foxy-plansys2-popf-plan-solver (1.0.7-1focal) focal; urgency=high
+
+
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Sun, 03 Jan 2021 23:00:00 -0000
+
+ros-foxy-plansys2-popf-plan-solver (1.0.6-1focal) focal; urgency=high
+
+  * Disable boost functions
+  * Contributors: Francisco Martin Rico
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Mon, 28 Dec 2020 23:00:00 -0000
+
+ros-foxy-plansys2-popf-plan-solver (1.0.5-1focal) focal; urgency=high
+
+  * Migration to c++17
+  * Contributors: Francisco Martín Rico
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Sun, 27 Dec 2020 23:00:00 -0000
+
+ros-foxy-plansys2-popf-plan-solver (1.0.4-1focal) focal; urgency=high
+
+
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Wed, 23 Dec 2020 23:00:00 -0000
+
+ros-foxy-plansys2-popf-plan-solver (1.0.3-1focal) focal; urgency=high
+
+
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Tue, 22 Dec 2020 23:00:00 -0000
+
+ros-foxy-plansys2-popf-plan-solver (1.0.2-1focal) focal; urgency=high
+
+  * Plan solvers as plugins
+  * Contributors: Fabrice Larribe, Francisco Martin Rico, Francisco Martín Rico, f269858
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Tue, 22 Dec 2020 23:00:00 -0000
+
+ros-foxy-plansys2-popf-plan-solver (1.0.1-1focal) focal; urgency=high
+
+
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Sat, 18 Jul 2020 22:00:00 -0000
+
+ros-foxy-plansys2-popf-plan-solver (0.0.7-1focal) focal; urgency=high
+
+
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Wed, 25 Mar 2020 23:00:00 -0000
+
+ros-foxy-plansys2-popf-plan-solver (0.0.6-1focal) focal; urgency=high
+
+
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Sun, 22 Mar 2020 23:00:00 -0000
+
+ros-foxy-plansys2-popf-plan-solver (0.0.5-1focal) focal; urgency=high
+
+
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Sat, 11 Jan 2020 23:00:00 -0000
+
+ros-foxy-plansys2-popf-plan-solver (0.0.4-1focal) focal; urgency=high
+
+
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Thu, 09 Jan 2020 06:55:00 -0000
+
+ros-foxy-plansys2-popf-plan-solver (0.0.3-1focal) focal; urgency=high
+
+
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Thu, 09 Jan 2020 06:11:00 -0000
+
+ros-foxy-plansys2-popf-plan-solver (0.0.2-1focal) focal; urgency=high
+
+
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Tue, 07 Jan 2020 23:00:00 -0000
+
+
