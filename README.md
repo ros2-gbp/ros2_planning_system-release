@@ -1,3 +1,38 @@
+## ros2_planning_system (foxy) - 1.0.8-2
+
+The packages in the `ros2_planning_system` repository were released into the `foxy` distro by running `/usr/bin/bloom-release ros2_planning_system --rosdistro foxy` on `Sat, 13 Mar 2021 06:45:25 -0000`
+
+These packages were released:
+- `plansys2_bringup`
+- `plansys2_bt_actions`
+- `plansys2_core`
+- `plansys2_domain_expert`
+- `plansys2_executor`
+- `plansys2_lifecycle_manager`
+- `plansys2_msgs`
+- `plansys2_pddl_parser`
+- `plansys2_planner`
+- `plansys2_popf_plan_solver`
+- `plansys2_problem_expert`
+- `plansys2_terminal`
+
+Version of package(s) in repository `ros2_planning_system`:
+
+- upstream repository: https://github.com/IntelligentRoboticsLabs/ros2_planning_system.git
+- release repository: https://github.com/IntelligentRoboticsLabs/ros2_planning_system-release.git
+- rosdistro version: `1.0.8-1`
+- old version: `1.0.8-1`
+- new version: `1.0.8-2`
+
+Versions of tools used:
+
+- bloom version: `0.10.2`
+- catkin_pkg version: `0.4.23`
+- rosdep version: `0.20.0`
+- rosdistro version: `0.8.3`
+- vcstools version: `0.1.42`
+
+
 ## ros2_planning_system (foxy) - 1.0.8-1
 
 The packages in the `ros2_planning_system` repository were released into the `foxy` distro by running `/usr/bin/bloom-release ros2_planning_system --rosdistro foxy` on `Fri, 12 Mar 2021 07:16:23 -0000`
