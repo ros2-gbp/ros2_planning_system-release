@@ -1,0 +1,173 @@
+ros-foxy-plansys2-executor (1.0.8-2focal) focal; urgency=high
+
+  * Change default ZMQ ports
+  * Removing whitespace.
+  * Simplified logic.
+  * Update API for FutureReturnCode
+  * Handling edge cases of action failure and preventing overriding completion percentage on action completion.
+  * Publishing generated plan as a dotgraph on a string topic.
+  * Fix BT creation; parallel deps actions
+  * Fixing feedback control
+  * Action execution refactoring
+  * Moving Utils file to plansys2_problem_expert since all the functions are checking information in the problem or modifying the problem.
+  * utils-bug: Fixing bug in OR case of evaluate function in plansys2_executor/Utils.cpp.
+  * Making zmq error message more generic to reflect that there are multiple possible reasons for a BT::LogicError to be thrown.
+  * Add support to plansys2_executor/ExecutorNode for visualizing the behavior trees in Groot.
+  * Moving publisher on_activate call to the ExecutorNode::on_activate callback.
+  * Add support for numeric conditions and effects.
+  * Monitorization info
+  * Remove an unreshable return
+  * Adding actor checker in terminal
+  * Improving BTActions
+  * Fix repeated nodes
+  * New Graph creation Algorithm
+  * Debugging
+  * Added negative predicates support
+  * Namespaced action_hub
+  * Contributors: Alexander Xydes, Fabrice Larribe, Francisco Martin Rico, Greg Kogut, Josh Zapf
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Thu, 11 Mar 2021 23:00:00 -0000
+
+ros-foxy-plansys2-executor (1.0.7-2focal) focal; urgency=high
+
+  * Making explicit dependencies
+  * Contributors: Francisco Martin Rico
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Sun, 03 Jan 2021 23:00:00 -0000
+
+ros-foxy-plansys2-executor (1.0.6-2focal) focal; urgency=high
+
+  * Disable boost functions
+  * Contributors: Francisco Martin Rico
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Mon, 28 Dec 2020 23:00:00 -0000
+
+ros-foxy-plansys2-executor (1.0.5-2focal) focal; urgency=high
+
+  * Migration to c++17
+  * Contributors: Francisco Martín Rico
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Sun, 27 Dec 2020 23:00:00 -0000
+
+ros-foxy-plansys2-executor (1.0.4-2focal) focal; urgency=high
+
+
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Wed, 23 Dec 2020 23:00:00 -0000
+
+ros-foxy-plansys2-executor (1.0.3-2focal) focal; urgency=high
+
+
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Tue, 22 Dec 2020 23:00:00 -0000
+
+ros-foxy-plansys2-executor (1.0.2-2focal) focal; urgency=high
+
+  * Plan solvers as plugins
+  * Contributors: Fabrice Larribe, Francisco Martin Rico, Francisco Martín Rico, f269858
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Tue, 22 Dec 2020 23:00:00 -0000
+
+ros-foxy-plansys2-executor (1.0.1-2focal) focal; urgency=high
+
+
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Sat, 18 Jul 2020 22:00:00 -0000
+
+ros-foxy-plansys2-executor (1.0.0-2focal) focal; urgency=high
+
+  * Foxy initial version
+  * Boost:optional
+  * Support for BT actions
+  * Contributors: Francisco Martin Rico, Francisco Martín Rico
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Sat, 18 Jul 2020 22:00:00 -0000
+
+ros-foxy-plansys2-executor (0.0.8-2focal) focal; urgency=high
+
+  * Add BT support
+  * Contributors: Francisco Martin Rico, Francisco Martín Rico
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Fri, 17 Jul 2020 22:00:00 -0000
+
+ros-foxy-plansys2-executor (0.0.7-2focal) focal; urgency=high
+
+  * ActionExecutorClient is cascade_lifecycle
+    Signed-off-by: Francisco Martin Rico <mailto:fmrico@gmail.com>
+  * Contributors: Francisco Martin Rico, Francisco Martín Rico
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Wed, 25 Mar 2020 23:00:00 -0000
+
+ros-foxy-plansys2-executor (0.0.6-2focal) focal; urgency=high
+
+  * Run in separate namespaces. Monolothic node
+    Signed-off-by: Francisco Martin Rico <mailto:fmrico@gmail.com>
+  * Contributors: Francisco Martin Rico, Francisco Martín Rico
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Sun, 22 Mar 2020 23:00:00 -0000
+
+ros-foxy-plansys2-executor (0.0.5-2focal) focal; urgency=high
+
+
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Sat, 11 Jan 2020 23:00:00 -0000
+
+ros-foxy-plansys2-executor (0.0.4-2focal) focal; urgency=high
+
+  * Adding missing action dependencies
+    Signed-off-by: Francisco Martin Rico <mailto:fmrico@gmail.com>
+  * Contributors: Francisco Martin Rico
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Wed, 08 Jan 2020 23:00:00 -0000
+
+ros-foxy-plansys2-executor (0.0.3-2focal) focal; urgency=high
+
+  * Add popf dependency
+    Signed-off-by: Francisco Martin Rico <mailto:fmrico@gmail.com>
+  * Contributors: Francisco Martin Rico
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Wed, 08 Jan 2020 23:00:00 -0000
+
+ros-foxy-plansys2-executor (0.0.2-2focal) focal; urgency=high
+
+  * Merge pull request #16 <https://github.com/IntelligentRoboticsLabs/ros2_planning_system/issues/16> from IntelligentRoboticsLabs/pddl_parser_rename
+    Rename pddl_parser
+  * Rename pddl_parser
+    Signed-off-by: Francisco Martin Rico <mailto:fmrico@gmail.com>
+  * Merge pull request #15 <https://github.com/IntelligentRoboticsLabs/ros2_planning_system/issues/15> from IntelligentRoboticsLabs/example_rename
+    Rename example. Small bug in timeouts
+  * Linting
+    Signed-off-by: Francisco Martin Rico <mailto:fmrico@gmail.com>
+  * Rename example. Small bug in timeouts
+    Signed-off-by: Francisco Martin Rico <mailto:fmrico@gmail.com>
+  * Merge pull request #12 <https://github.com/IntelligentRoboticsLabs/ros2_planning_system/issues/12> from IntelligentRoboticsLabs/actions_composition
+    Define rate dynamically
+  * Define rate dynamically
+    Signed-off-by: Francisco Martin Rico <mailto:fmrico@gmail.com>
+  * Packages.xml description
+    Signed-off-by: Francisco Martin Rico <mailto:fmrico@gmail.com>
+  * Adding documentation
+    Signed-off-by: Francisco Martin Rico <mailto:fmartin@gsyc.urjc.es>
+  * Setting CI
+    Signed-off-by: Francisco Martin Rico <mailto:fmrico@gmail.com>
+  * Setting CI
+    Signed-off-by: Francisco Martin Rico <mailto:fmrico@gmail.com>
+  * Setting CI
+    Signed-off-by: Francisco Martin Rico <mailto:fmrico@gmail.com>
+  * Setting CI
+    Signed-off-by: Francisco Martin Rico <mailto:fmrico@gmail.com>
+  * onActivate and onFinished methods for Action Clients
+    Signed-off-by: Francisco Martin Rico <mailto:fmrico@gmail.com>
+  * First functional version complete
+    Signed-off-by: Francisco Martin Rico <mailto:fmrico@gmail.com>
+  * Execute actions independiently. Example
+    Signed-off-by: Francisco Martin Rico <mailto:fmrico@gmail.com>
+  * Change to lowercasegit
+    Signed-off-by: Francisco Martin Rico <mailto:fmrico@gmail.com>
+  * Executor initial version
+    Signed-off-by: Francisco Martin Rico <mailto:fmrico@gmail.com>
+  * Contributors: Francisco Martin Rico, Francisco Martín Rico
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Tue, 07 Jan 2020 23:00:00 -0000
+
+
