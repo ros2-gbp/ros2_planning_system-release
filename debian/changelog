@@ -1,0 +1,131 @@
+ros-foxy-plansys2-bringup (1.0.9-1focal) focal; urgency=high
+
+
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Sun, 14 Mar 2021 23:00:00 -0000
+
+ros-foxy-plansys2-bringup (1.0.8-1focal) focal; urgency=high
+
+  * Update API for FutureReturnCode
+  * Add support for numeric conditions and effects.
+  * Contributors: Fabrice Larribe, Francisco Martin Rico, Josh Zapf
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Thu, 11 Mar 2021 23:00:00 -0000
+
+ros-foxy-plansys2-bringup (1.0.7-1focal) focal; urgency=high
+
+
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Sun, 03 Jan 2021 23:00:00 -0000
+
+ros-foxy-plansys2-bringup (1.0.6-1focal) focal; urgency=high
+
+  * Disable boost functions
+  * Contributors: Francisco Martin Rico
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Mon, 28 Dec 2020 23:00:00 -0000
+
+ros-foxy-plansys2-bringup (1.0.5-1focal) focal; urgency=high
+
+  * Migration to c++17
+  * Contributors: Francisco Martín Rico
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Sun, 27 Dec 2020 23:00:00 -0000
+
+ros-foxy-plansys2-bringup (1.0.4-1focal) focal; urgency=high
+
+
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Wed, 23 Dec 2020 23:00:00 -0000
+
+ros-foxy-plansys2-bringup (1.0.3-1focal) focal; urgency=high
+
+
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Tue, 22 Dec 2020 23:00:00 -0000
+
+ros-foxy-plansys2-bringup (1.0.2-1focal) focal; urgency=high
+
+  * Plan solvers as plugins
+  * Contributors: Fabrice Larribe, Francisco Martin Rico, Stephen Balakirsky
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Tue, 22 Dec 2020 23:00:00 -0000
+
+ros-foxy-plansys2-bringup (1.0.1-1focal) focal; urgency=high
+
+
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Sat, 18 Jul 2020 22:00:00 -0000
+
+ros-foxy-plansys2-bringup (1.0.0-1focal) focal; urgency=high
+
+  * Foxy initial version
+  * Boost:optional
+  * Contributors: Francisco Martin Rico, Francisco Martín Rico
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Sat, 18 Jul 2020 22:00:00 -0000
+
+ros-foxy-plansys2-bringup (0.0.8-1focal) focal; urgency=high
+
+  * Foxy initial version
+  * Contributors: Francisco Martin Rico, Francisco Martín Rico
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Fri, 17 Jul 2020 22:00:00 -0000
+
+ros-foxy-plansys2-bringup (0.0.7-1focal) focal; urgency=high
+
+  * Fix warning in last cmake versions
+    Signed-off-by: Francisco Martin Rico <mailto:fmrico@gmail.com>
+  * Contributors: Francisco Martin Rico
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Wed, 25 Mar 2020 23:00:00 -0000
+
+ros-foxy-plansys2-bringup (0.0.6-1focal) focal; urgency=high
+
+  * Make mandatory to specify model
+    Signed-off-by: Francisco Martin Rico <mailto:fmrico@gmail.com>
+  * Run in separate namespaces. Monolothic node
+    Signed-off-by: Francisco Martin Rico <mailto:fmrico@gmail.com>
+  * Contributors: Francisco Martin Rico, Francisco Martín Rico
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Sun, 22 Mar 2020 23:00:00 -0000
+
+ros-foxy-plansys2-bringup (0.0.5-1focal) focal; urgency=high
+
+
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Sat, 11 Jan 2020 23:00:00 -0000
+
+ros-foxy-plansys2-bringup (0.0.4-1focal) focal; urgency=high
+
+
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Wed, 08 Jan 2020 23:00:00 -0000
+
+ros-foxy-plansys2-bringup (0.0.3-1focal) focal; urgency=high
+
+
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Wed, 08 Jan 2020 23:00:00 -0000
+
+ros-foxy-plansys2-bringup (0.0.2-1focal) focal; urgency=high
+
+  * Merge pull request #8 <https://github.com/IntelligentRoboticsLabs/ros2_planning_system/issues/8> from IntelligentRoboticsLabs/patrol_example
+    Patrol example
+  * Patrol example
+    Signed-off-by: Francisco Martin Rico <mailto:fmrico@gmail.com>
+  * Packages.xml description
+    Signed-off-by: Francisco Martin Rico <mailto:fmrico@gmail.com>
+  * Execute actions independiently. Example
+    Signed-off-by: Francisco Martin Rico <mailto:fmrico@gmail.com>
+  * Executor initial version
+    Signed-off-by: Francisco Martin Rico <mailto:fmrico@gmail.com>
+  * First version of planner complete
+    Signed-off-by: Francisco Martin Rico <mailto:fmrico@gmail.com>
+  * Bringup and lifecycle manager
+    Signed-off-by: Francisco Martin Rico <mailto:fmrico@gmail.com>
+  * Contributors: Francisco Martin Rico, Francisco Martín Rico
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Tue, 07 Jan 2020 23:00:00 -0000
+
+
