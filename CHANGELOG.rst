@@ -2,6 +2,11 @@
 Changelog for package plansys2_executor
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+1.0.9 (2021-03-15)
+------------------
+* Disable boost in tests
+* Contributors: Francisco Martin Rico
+
 1.0.8 (2021-03-12)
 ------------------
 * Change default ZMQ ports
