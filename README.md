@@ -1,30 +1,21 @@
-# Executor
+# ROS2 Planning System
 
-The Executor module is responsible for requesting a plan to the Planner, and carry it out, calling to the nodes in the client application that implements the actions. While executing each action, it checks the requisites (*At Start, At End and Over all*, in case of durative Actions). If the requirements are not meet, it cancels the plan execution. It also is responsible for applying the effects of the actions, requesting updates to the Problem Expert.
+![PlanSys2 Logo](/plansys2_docs/plansys2_logo.png)
 
-The main class of Executor is [`plansys2::ExecutorNode`](include/include/plansys2_executor/ExcutorNode.hpp), which is instantiated from [`executor_node.cpp`](src/executor_node.cpp). 
+[![GitHub Action
+Status](https://github.com/IntelligentRoboticsLabs/ros2_planning_system/workflows/foxy-devel/badge.svg)](https://github.com/IntelligentRoboticsLabs/ros2_planning_system)
+[![codecov](https://codecov.io/gh/IntelligentRoboticsLabs/ros2_planning_system/foxy-devel/graph/badge.svg)](https://codecov.io/gh/IntelligentRoboticsLabs/ros2_planning_system)
 
-The executions of plans are carried out using ROS2 actions, in particular, [`plansys2_msgs::action::ExecutePlan`](../plansys2_msgs/action/ExecutePlan.action). Take note that the goal must be already in the Domain Expert. 
+ROS2 Planning System (**plansys2** in short) is a project whose objective is to provide Robotics developers with a reliable, simple, and efficient PDDL-based planning system. It is implemented in ROS2, applying the latest concepts developed in this currently de-facto standard in Robotics.
 
-ExecutorNode ask for the domain and problem, and ask for a plan to the Planner. For each action in the plan, ExecuterNode creates a [`plansys2::ActionExecutor`](include/include/plansys2_executor/ActionExecutor.hpp). The lifetime of this object is only one action. This object calls the actions implemented in the client appliciation using the ROS2 actions [`plansys2_msgs::action::ExecuteAction`](../plansys2_msgs/action/ExecuteAction.action). Each client action implementation can use the class [`plansys2::ActionExecutorClient`](include/include/plansys2_executor/ActionExecutorClient.hpp) to avoid the complexity of managing ROS2 actions.
+This project is the result of several years of experience in the development of robotic behaviors using [ROSPlan](https://github.com/KCL-Planning/ROSPlan). ROSPlan has greatly inspired this project. In addition to the migration to ROS2, we contribute to key aspects: ease of use, efficiency, and new tools, such as our terminal.
 
-Using the feedback information from `plansys2_msgs::action::ExecuteAction`, feedback for `plansys2::ExecutorNode` is composed and returned to `plansys2::ExecutorClient`. It contains the current action in the plan and the progress in the currently executing action.
+We hope that this software helps to include planning in more Robotics projects, offering simple and powerful software to generate intelligent behaviors for robots.
 
-Next graph shows an example of the execution flow:
-
-![Executor Flow](../plansys2_docs/Executor_graph.png)
+We want to invite you to contribute to this Open Source project !!
 
 
-## Actions:
+**Visit the [Web Page](http://intelligentroboticslab.gsyc.urjc.es/ros2_planning_system.github.io/) for tutorials, videos and more!!**
 
-- `/execute_plan` [[`plansys2_msgs::action::ExecutePlan`](../plansys2_msgs/action/ExecutePlan.action)]
 
-(in ActionExecutorClient)
-
-- `/${ACTION_NAME`}[[`plansys2_msgs::action::ExecuteAction`](../plansys2_msgs/action/ExecuteAction.action)]
-
-## Subscribed topics:
-
-(in ActionExecutor)
-
-- `/problem_expert/update_notify` [`std_msgs::msg::Empty`]
+<img src="plansys2_docs/plansys2_logo.png" alt="drawing" width="200"/>
