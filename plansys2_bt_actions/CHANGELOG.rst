@@ -2,6 +2,9 @@
 Changelog for package plansys2_bt_actions
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+1.0.9 (2021-03-15)
+------------------
+
 1.0.8 (2021-03-12)
 ------------------
 * Moving zmq publisher creation to on_activate in BTAction, resetting the publisher in on_deactivate.
