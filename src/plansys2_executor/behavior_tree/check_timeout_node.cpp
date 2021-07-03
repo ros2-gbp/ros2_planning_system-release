@@ -12,16 +12,19 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#include <iostream>
+#include <iomanip>
 #include <string>
 #include <map>
 #include <memory>
+#include <tuple>
 
-#include "plansys2_executor/behavior_tree/apply_atend_effect_node.hpp"
+#include "plansys2_executor/behavior_tree/check_timeout_node.hpp"
 
 namespace plansys2
 {
 
-ApplyAtEndEffect::ApplyAtEndEffect(
+CheckTimeout::CheckTimeout(
   const std::string & xml_tag_name,
   const BT::NodeConfiguration & conf)
 : ActionNodeBase(xml_tag_name, conf)
@@ -36,16 +39,30 @@ ApplyAtEndEffect::ApplyAtEndEffect(
 }
 
 BT::NodeStatus
-ApplyAtEndEffect::tick()
+CheckTimeout::tick()
 {
   std::string action;
   getInput("action", action);
 
-  auto effect = (*action_map_)[action].durative_action_info->at_end_effects;
+  if (status() == BT::NodeStatus::IDLE) {
+    start_ = std::chrono::high_resolution_clock::now();
+  }
+  setStatus(BT::NodeStatus::RUNNING);
 
-  if (!(*action_map_)[action].at_end_effects_applied) {
-    (*action_map_)[action].at_end_effects_applied = true;
-    apply(effect, problem_client_, 0);
+  if ((*action_map_)[action].action_executor != nullptr) {
+    double duration = (*action_map_)[action].duration;
+    double duration_overrun_percentage = (*action_map_)[action].duration_overrun_percentage;
+    if (duration_overrun_percentage >= 0) {
+      double max_duration = (1.0 + duration_overrun_percentage / 100.0) * duration;
+      auto current_time = std::chrono::high_resolution_clock::now();
+      auto elapsed_time = std::chrono::duration_cast<std::chrono::milliseconds>(
+        current_time - start_);
+      if (elapsed_time > std::chrono::duration<double>(max_duration)) {
+        std::cerr << "Actual duration of " << action << " exceeds max duration (" << std::fixed <<
+          std::setprecision(2) << max_duration << " secs)." << std::endl;
+        return BT::NodeStatus::FAILURE;
+      }
+    }
   }
 
   return BT::NodeStatus::SUCCESS;
