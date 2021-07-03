@@ -1,4 +1,4 @@
-plansys2_msgs/Tree tree
+plansys2_msgs/Param param
 ---
 bool success
 string error_info
