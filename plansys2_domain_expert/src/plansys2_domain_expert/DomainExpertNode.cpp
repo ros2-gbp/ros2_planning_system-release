@@ -31,6 +31,12 @@ DomainExpertNode::DomainExpertNode()
 {
   declare_parameter("model_file", "");
 
+  get_name_service_ = create_service<plansys2_msgs::srv::GetDomainName>(
+    "domain_expert/get_domain_name",
+    std::bind(
+      &DomainExpertNode::get_domain_name_service_callback,
+      this, std::placeholders::_1, std::placeholders::_2,
+      std::placeholders::_3));
   get_types_service_ = create_service<plansys2_msgs::srv::GetDomainTypes>(
     "domain_expert/get_domain_types",
     std::bind(
@@ -180,6 +186,22 @@ DomainExpertNode::on_error(const rclcpp_lifecycle::State & state)
 }
 
 void
+DomainExpertNode::get_domain_name_service_callback(
+  const std::shared_ptr<rmw_request_id_t> request_header,
+  const std::shared_ptr<plansys2_msgs::srv::GetDomainName::Request> request,
+  const std::shared_ptr<plansys2_msgs::srv::GetDomainName::Response> response)
+{
+  if (domain_expert_ == nullptr) {
+    response->success = false;
+    response->error_info = "Requesting service in non-active state";
+    RCLCPP_WARN(get_logger(), "Requesting service in non-active state");
+  } else {
+    response->success = true;
+    response->name = domain_expert_->getName();
+  }
+}
+
+void
 DomainExpertNode::get_domain_types_service_callback(
   const std::shared_ptr<rmw_request_id_t> request_header,
   const std::shared_ptr<plansys2_msgs::srv::GetDomainTypes::Request> request,
@@ -318,7 +340,7 @@ DomainExpertNode::get_domain_predicate_details_service_callback(
     } else {
       RCLCPP_WARN(
         get_logger(), "Requesting a non-existing predicate [%s]",
-        request->expression);
+        request->expression.c_str());
       response->success = false;
       response->error_info = "Predicate not found";
     }
@@ -360,7 +382,7 @@ DomainExpertNode::get_domain_function_details_service_callback(
     } else {
       RCLCPP_WARN(
         get_logger(), "Requesting a non-existing function [%s]",
-        request->expression);
+        request->expression.c_str());
       response->success = false;
       response->error_info = "Function not found";
     }
