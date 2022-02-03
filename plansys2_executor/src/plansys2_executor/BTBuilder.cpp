@@ -46,7 +46,7 @@ BTBuilder::BTBuilder(
   } else {
     bt_action_ =
       R""""(<Sequence name="ACTION_ID">
-WAIT_AT_START_ACTIONS
+WAIT_PREV_ACTIONS
   <ApplyAtStartEffect action="ACTION_ID"/>
   <ReactiveSequence name="ACTION_ID">
     <CheckOverAllReq action="ACTION_ID"/>
@@ -136,16 +136,16 @@ BTBuilder::get_node_satisfy(
 
   GraphNode::Ptr ret = nullptr;
   std::vector<uint32_t> at_start_effects =
-    parser::pddl::getSubtrees(node->action.action->at_start_effects);
+    parser::pddl::getSubtreeIds(node->action.action->at_start_effects);
   std::vector<uint32_t> at_end_effects =
-    parser::pddl::getSubtrees(node->action.action->at_end_effects);
+    parser::pddl::getSubtreeIds(node->action.action->at_end_effects);
 
   std::vector<uint32_t> at_start_requirements =
-    parser::pddl::getSubtrees(node->action.action->at_start_requirements);
+    parser::pddl::getSubtreeIds(node->action.action->at_start_requirements);
   std::vector<uint32_t> over_all_requirements =
-    parser::pddl::getSubtrees(node->action.action->over_all_requirements);
+    parser::pddl::getSubtreeIds(node->action.action->over_all_requirements);
   std::vector<uint32_t> at_end_requirements =
-    parser::pddl::getSubtrees(node->action.action->at_end_requirements);
+    parser::pddl::getSubtreeIds(node->action.action->at_end_requirements);
 
   for (const auto & effect : at_end_effects) {
     std::pair<std::string, uint8_t> base = get_base(node->action.action->at_end_effects, effect);
@@ -398,11 +398,11 @@ BTBuilder::get_graph(const plansys2_msgs::msg::Plan & current_plan)
     new_node->level_num = level_counter;
 
     std::vector<uint32_t> at_start_requirements =
-      parser::pddl::getSubtrees(action_sequence.begin()->action->at_start_requirements);
+      parser::pddl::getSubtreeIds(action_sequence.begin()->action->at_start_requirements);
     std::vector<uint32_t> over_all_requirements =
-      parser::pddl::getSubtrees(action_sequence.begin()->action->over_all_requirements);
+      parser::pddl::getSubtreeIds(action_sequence.begin()->action->over_all_requirements);
     std::vector<uint32_t> at_end_requirements =
-      parser::pddl::getSubtrees(action_sequence.begin()->action->at_end_requirements);
+      parser::pddl::getSubtreeIds(action_sequence.begin()->action->at_end_requirements);
 
     auto it_at_start = at_start_requirements.begin();
     while (it_at_start != at_start_requirements.end()) {
@@ -861,7 +861,7 @@ BTBuilder::execution_block(const GraphNode::Ptr & node, int l)
     const std::string parent_action_id = "(" +
       parser::pddl::nameActionsToString(previous_node->action.action) + "):" +
       std::to_string(static_cast<int>( previous_node->action.time * 1000));
-    wait_actions = wait_actions + t(1) + "<WaitAtStartReq action=\"" + parent_action_id + "\"/>";
+    wait_actions = wait_actions + t(1) + "<WaitAction action=\"" + parent_action_id + "\"/>";
 
     if (previous_node != *node->in_arcs.rbegin()) {
       wait_actions = wait_actions + "\n";
@@ -869,7 +869,7 @@ BTBuilder::execution_block(const GraphNode::Ptr & node, int l)
   }
 
   replace(ret_aux, "ACTION_ID", action_id);
-  replace(ret_aux, "WAIT_AT_START_ACTIONS", wait_actions);
+  replace(ret_aux, "WAIT_PREV_ACTIONS", wait_actions);
 
   std::istringstream f(ret_aux);
   std::string line;
