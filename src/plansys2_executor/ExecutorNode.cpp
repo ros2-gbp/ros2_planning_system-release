@@ -70,7 +70,9 @@ ExecutorNode::ExecutorNode()
   // Declaring individual action parameters so they can be queried on the command line
   auto action_timeouts_actions = this->get_parameter("action_timeouts.actions").as_string_array();
   for (auto action : action_timeouts_actions) {
-    this->declare_parameter("action_timeouts." + action + ".duration_overrun_percentage");
+    this->declare_parameter<double>(
+      "action_timeouts." + action + ".duration_overrun_percentage",
+      0.0);
   }
 
 #ifdef ZMQ_FOUND
@@ -221,7 +223,7 @@ ExecutorNode::getOrderedSubGoals()
   auto local_functions = problem_client_->getFunctions();
 
   std::vector<plansys2_msgs::msg::Tree> ordered_goals;
-  std::vector<uint32_t> unordered_subgoals = parser::pddl::getSubtrees(goal);
+  std::vector<uint32_t> unordered_subgoals = parser::pddl::getSubtreeIds(goal);
 
   // just in case some goals are already satisfied
   for (auto it = unordered_subgoals.begin(); it != unordered_subgoals.end(); ) {
