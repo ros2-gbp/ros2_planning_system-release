@@ -2,6 +2,12 @@
 Changelog for package plansys2_terminal
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+2.0.1 (2022-02-03)
+------------------
+* Translate error message to English
+* Merge galactic-devel
+* Contributors: Francisco Martín Rico, Ricardo Marques
+
 2.0.0 (2021-07-04)
 ------------------
 * Fix compile issues for galactic
