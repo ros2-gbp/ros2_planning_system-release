@@ -2,6 +2,12 @@
 Changelog for package plansys2_msgs
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+2.0.1 (2022-02-03)
+------------------
+* get-domain-name: Added service for retrieving domain name. Concatenating domain names when using multiple domains.
+* Merge galactic-devel
+* Contributors: Francisco Martín Rico, Josh Zapf
+
 2.0.0 (2021-07-04)
 ------------------
 
