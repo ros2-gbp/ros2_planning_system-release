@@ -2,6 +2,9 @@
 Changelog for package plansys2_lifecycle_manager
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+2.0.2 (2022-04-03)
+------------------
+
 2.0.1 (2022-02-03)
 ------------------
 * Merge galactic-devel

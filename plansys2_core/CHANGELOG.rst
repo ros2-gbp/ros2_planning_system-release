@@ -2,6 +2,11 @@
 Changelog for package plansys2_core
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+2.0.2 (2022-04-03)
+------------------
+* Add Thread dependency
+* Contributors: Francisco Martín Rico
+
 2.0.1 (2022-02-03)
 ------------------
 * Remove pthread dependency
