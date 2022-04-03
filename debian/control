@@ -1,0 +1,12 @@
+Source: ros-galactic-plansys2-executor
+Section: misc
+Priority: optional
+Maintainer: Francisco Martin Rico <fmrico@gmail.com>
+Build-Depends: debhelper (>= 9.0.0), libzmq3-dev, ros-galactic-ament-cmake, ros-galactic-ament-cmake-gtest, ros-galactic-ament-index-cpp, ros-galactic-ament-lint-auto, ros-galactic-ament-lint-common, ros-galactic-behaviortree-cpp-v3, ros-galactic-lifecycle-msgs, ros-galactic-plansys2-core, ros-galactic-plansys2-domain-expert, ros-galactic-plansys2-msgs, ros-galactic-plansys2-pddl-parser, ros-galactic-plansys2-planner, ros-galactic-plansys2-problem-expert, ros-galactic-rclcpp, ros-galactic-rclcpp-action, ros-galactic-rclcpp-cascade-lifecycle, ros-galactic-rclcpp-lifecycle, ros-galactic-std-msgs, ros-galactic-ros-workspace
+Homepage: 
+Standards-Version: 3.9.2
+
+Package: ros-galactic-plansys2-executor
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, libzmq3-dev, ros-galactic-ament-index-cpp, ros-galactic-behaviortree-cpp-v3, ros-galactic-lifecycle-msgs, ros-galactic-plansys2-core, ros-galactic-plansys2-domain-expert, ros-galactic-plansys2-msgs, ros-galactic-plansys2-pddl-parser, ros-galactic-plansys2-planner, ros-galactic-plansys2-problem-expert, ros-galactic-popf, ros-galactic-rclcpp, ros-galactic-rclcpp-action, ros-galactic-rclcpp-cascade-lifecycle, ros-galactic-rclcpp-lifecycle, ros-galactic-std-msgs, ros-galactic-ros-workspace
+Description: This package contains the Executor module for the ROS2 Planning System
