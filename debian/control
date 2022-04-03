@@ -1,0 +1,12 @@
+Source: ros-galactic-plansys2-core
+Section: misc
+Priority: optional
+Maintainer: Francisco Martin Rico <fmrico@gmail.com>
+Build-Depends: debhelper (>= 9.0.0), ros-galactic-ament-cmake, ros-galactic-ament-lint-auto, ros-galactic-ament-lint-common, ros-galactic-plansys2-msgs, ros-galactic-plansys2-pddl-parser, ros-galactic-pluginlib, ros-galactic-rclcpp, ros-galactic-rclcpp-lifecycle, ros-galactic-ros-workspace
+Homepage: 
+Standards-Version: 3.9.2
+
+Package: ros-galactic-plansys2-core
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, ros-galactic-plansys2-msgs, ros-galactic-plansys2-pddl-parser, ros-galactic-pluginlib, ros-galactic-rclcpp, ros-galactic-rclcpp-lifecycle, ros-galactic-ros-workspace
+Description: This package contains the PDDL-based core for the ROS2 Planning System
