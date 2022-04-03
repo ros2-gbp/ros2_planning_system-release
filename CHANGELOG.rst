@@ -2,11 +2,15 @@
 Changelog for package plansys2_planner
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+2.0.2 (2022-04-03)
+------------------
+* test constants and problem file generation
+* Contributors: Francisco Martín Rico, Jake Keller, Mostafa Gomaa
+
 2.0.1 (2022-02-03)
 ------------------
 * Update deprecated APIs in launchers and parameters
 * Update launcher param names
-* Merge galactic-devel
 * Contributors: Francisco Martín Rico
 
 2.0.0 (2021-07-04)
