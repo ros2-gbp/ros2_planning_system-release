@@ -2,6 +2,9 @@
 Changelog for package plansys2_bt_actions
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+2.0.3 (2022-04-03)
+------------------
+
 2.0.2 (2022-04-03)
 ------------------
 * action-graph-fix: Reverting timeout modification for bt_action_test.
