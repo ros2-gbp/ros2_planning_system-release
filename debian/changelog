@@ -1,0 +1,202 @@
+ros-galactic-plansys2-bt-actions (2.0.2-1focal) focal; urgency=high
+
+  * action-graph-fix: Reverting timeout modification for bt_action_test.
+  * Refactor BTActionNode (#197 <https://github.com/IntelligentRoboticsLabs/ros2_planning_system/issues/197>)
+  * action-test-fix: Setting TIMEOUT value to 300 for bt_action_test.
+    Increase default server tiemout
+  * Replace runtime errors w/ BT::NodeStatus::FAILURE
+  * Add on_feedback method
+  * Fix issue if child classes override providedPorts
+  * Add (optional) server timeout to BtActionNode
+  * Contributors: Francisco Martín Rico, Jake Keller, Josh Zapf
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Sat, 02 Apr 2022 22:00:00 -0000
+
+ros-galactic-plansys2-bt-actions (2.0.1-1focal) focal; urgency=high
+
+  * Update deprecated APIs in launchers and parameters
+  * Fix plansys2_bt_actions CMakeLists.txt
+  * Merge galactic-devel
+  * Contributors: Francisco Martín Rico, Jake Keller
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Wed, 02 Feb 2022 23:00:00 -0000
+
+ros-galactic-plansys2-bt-actions (2.0.0-1focal) focal; urgency=high
+
+
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Sat, 03 Jul 2021 22:00:00 -0000
+
+ros-galactic-plansys2-bt-actions (1.0.10-1focal) focal; urgency=high
+
+  * Fix tests
+  * Fix rate conversions
+  * Reduce debug output
+  * Update version
+  * Contributors: Francisco Martín Rico
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Fri, 02 Jul 2021 22:00:00 -0000
+
+ros-galactic-plansys2-bt-actions (1.0.9-1focal) focal; urgency=high
+
+
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Sun, 14 Mar 2021 23:00:00 -0000
+
+ros-galactic-plansys2-bt-actions (1.0.8-1focal) focal; urgency=high
+
+  * Moving zmq publisher creation to on_activate in BTAction, resetting the publisher in on_deactivate.
+  * Action execution refactoring
+  * Adding zeromq-based groot monitoring of plansys2 behaviortree actions. Ports are not specified by default to keep two different actions from accidentally using the same ports.
+  * Add support for numeric conditions and effects.
+  * Monitorization info
+  * Improving BTActions
+  * Change 'move' action name
+  * Contributors: Alexander Xydes, Fabrice Larribe, Francisco Martin Rico, Josh Zapf
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Thu, 11 Mar 2021 23:00:00 -0000
+
+ros-galactic-plansys2-bt-actions (1.0.7-1focal) focal; urgency=high
+
+  * Making explicit dependencies
+  * Contributors: Francisco Martín Rico
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Sun, 03 Jan 2021 23:00:00 -0000
+
+ros-galactic-plansys2-bt-actions (1.0.6-1focal) focal; urgency=high
+
+
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Mon, 28 Dec 2020 23:00:00 -0000
+
+ros-galactic-plansys2-bt-actions (1.0.5-1focal) focal; urgency=high
+
+  * Migration to c++17
+  * Contributors: Francisco Martín Rico
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Sun, 27 Dec 2020 23:00:00 -0000
+
+ros-galactic-plansys2-bt-actions (1.0.4-1focal) focal; urgency=high
+
+
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Wed, 23 Dec 2020 23:00:00 -0000
+
+ros-galactic-plansys2-bt-actions (1.0.3-1focal) focal; urgency=high
+
+
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Tue, 22 Dec 2020 23:00:00 -0000
+
+ros-galactic-plansys2-bt-actions (1.0.2-1focal) focal; urgency=high
+
+  * Plan solvers as plugins
+  * Contributors: Fabrice Larribe, Francisco Martin Rico, f269858
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Tue, 22 Dec 2020 23:00:00 -0000
+
+ros-galactic-plansys2-bt-actions (1.0.1-1focal) focal; urgency=high
+
+
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Sat, 18 Jul 2020 22:00:00 -0000
+
+ros-galactic-plansys2-bt-actions (1.0.0-1focal) focal; urgency=high
+
+  * Foxy initial version
+  * Contributors: Francisco Martin Rico
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Sat, 18 Jul 2020 22:00:00 -0000
+
+ros-galactic-plansys2-bt-actions (0.0.8-1focal) focal; urgency=high
+
+  * Boost:optional
+  * Contributors: Francisco Martin Rico
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Fri, 17 Jul 2020 22:00:00 -0000
+
+ros-galactic-plansys2-bt-actions (0.0.7-1focal) focal; urgency=high
+
+  * Fix warning in last cmake versions
+    Signed-off-by: Francisco Martin Rico <mailto:fmrico@gmail.com>
+  * Contributors: Francisco Martín Rico
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Wed, 25 Mar 2020 23:00:00 -0000
+
+ros-galactic-plansys2-bt-actions (0.0.6-1focal) focal; urgency=high
+
+  * Run in separate namespaces. Monolothic node
+    Signed-off-by: Francisco Martin Rico <mailto:fmrico@gmail.com>
+  * Add multi domain
+    Signed-off-by: Francisco Martin Rico <mailto:fmrico@gmail.com>
+  * Contributors: Francisco Martin Rico
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Sun, 22 Mar 2020 23:00:00 -0000
+
+ros-galactic-plansys2-bt-actions (0.0.5-1focal) focal; urgency=high
+
+
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Sat, 11 Jan 2020 23:00:00 -0000
+
+ros-galactic-plansys2-bt-actions (0.0.4-1focal) focal; urgency=high
+
+  * Adding missing action dependencies
+    Signed-off-by: Francisco Martin Rico <mailto:fmrico@gmail.com>
+  * Contributors: Francisco Martín Rico
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Wed, 08 Jan 2020 23:00:00 -0000
+
+ros-galactic-plansys2-bt-actions (0.0.3-1focal) focal; urgency=high
+
+
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Wed, 08 Jan 2020 23:00:00 -0000
+
+ros-galactic-plansys2-bt-actions (0.0.2-1focal) focal; urgency=high
+
+  * Merge pull request #16 <https://github.com/IntelligentRoboticsLabs/ros2_planning_system/issues/16> from IntelligentRoboticsLabs/pddl_parser_rename
+    Rename pddl_parser
+  * Rename pddl_parser
+    Signed-off-by: Francisco Martin Rico <mailto:fmrico@gmail.com>
+  * Merge pull request #8 <https://github.com/IntelligentRoboticsLabs/ros2_planning_system/issues/8> from IntelligentRoboticsLabs/patrol_example
+    Patrol example
+  * Patrol example
+    Signed-off-by: Francisco Martin Rico <mailto:fmrico@gmail.com>
+  * Packages.xml description
+    Signed-off-by: Francisco Martin Rico <mailto:fmrico@gmail.com>
+  * Adding documentation
+    Signed-off-by: Francisco Martin Rico <mailto:fmartin@gsyc.urjc.es>
+  * Setting CI
+    Signed-off-by: Francisco Martin Rico <mailto:fmrico@gmail.com>
+  * Setting CI
+    Signed-off-by: Francisco Martin Rico <mailto:fmrico@gmail.com>
+  * Setting CI
+    Signed-off-by: Francisco Martin Rico <mailto:fmrico@gmail.com>
+  * Setting CI
+    Signed-off-by: Francisco Martin Rico <mailto:fmrico@gmail.com>
+  * Execute actions independiently. Example
+    Signed-off-by: Francisco Martin Rico <mailto:fmrico@gmail.com>
+  * Change to lowercasegit
+    Signed-off-by: Francisco Martin Rico <mailto:fmrico@gmail.com>
+  * First version of planner complete
+    Signed-off-by: Francisco Martin Rico <mailto:fmrico@gmail.com>
+  * Update notification in problem
+    Signed-off-by: Francisco Martin Rico <mailto:fmrico@gmail.com>
+  * Problem expert complete with terminal support
+    Signed-off-by: Francisco Martin Rico <mailto:fmrico@gmail.com>
+  * Problem expert client and node
+    Signed-off-by: Francisco Martin Rico <mailto:fmrico@gmail.com>
+  * Goals in problem generation
+    Signed-off-by: Francisco Martin Rico <mailto:fmrico@gmail.com>
+  * ProblemExpert local complete
+    Signed-off-by: Francisco Martin Rico <mailto:fmrico@gmail.com>
+  * Using shred_ptr. First commit Problem
+    Signed-off-by: Francisco Martin Rico <mailto:fmrico@gmail.com>
+  * Predicate Tree and types changed
+    Signed-off-by: Francisco Martin Rico <mailto:fmrico@gmail.com>
+  * Contributors: Francisco Martin Rico
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Tue, 07 Jan 2020 23:00:00 -0000
+
+
