@@ -2,6 +2,17 @@
 Changelog for package plansys2_planner
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+2.0.5 (2022-05-03)
+------------------
+* Fix ROS2 Buildfarm error due to Threads
+* Contributors: Francisco Martín Rico
+
+2.0.4 (2022-05-03)
+------------------
+* Fix version
+* Fix ROS2 Buildfarm error due to Threads
+* Contributors: Francisco Martín Rico
+
 2.0.3 (2022-04-03)
 ------------------
 
