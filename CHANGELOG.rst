@@ -2,6 +2,19 @@
 Changelog for package plansys2_tools
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+2.0.5 (2022-05-03)
+------------------
+* Fix package dep
+* Contributors: Francisco Martín Rico, Jake Keller, Marco Roveri
+
+2.0.4 (2022-05-03)
+------------------
+* Fix version
+* Fix ROS2 Buildfarm error due to Threads
+* Adding missing build dependencies
+* Merge branch 'IntelligentRoboticsLabs:master' into master
+* Contributors: Francisco Martín Rico, Jake Keller, Marco Roveri
+
 2.0.3 (2022-04-03)
 ------------------
 * Qt5 dependencies
