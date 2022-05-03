@@ -2,6 +2,11 @@
 Changelog for package plansys2_pddl_parser
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+2.0.6 (2022-05-03)
+------------------
+* Fix deps
+* Contributors: Francisco Martín Rico
+
 2.0.5 (2022-05-03)
 ------------------
 * Fix ROS2 Buildfarm error due to Threads
