@@ -1,0 +1,13 @@
+Source: ros-galactic-plansys2-pddl-parser
+Section: misc
+Priority: optional
+Maintainer: Francisco Martin Rico <fmrico@gmail.com>
+Build-Depends: debhelper (>= 9.0.0), ros-galactic-ament-cmake, ros-galactic-ament-lint-auto, ros-galactic-ament-lint-common, ros-galactic-plansys2-msgs, ros-galactic-rclcpp, ros-galactic-std-msgs, ros-galactic-ros-workspace
+Homepage: 
+Standards-Version: 3.9.2
+
+Package: ros-galactic-plansys2-pddl-parser
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, ros-galactic-plansys2-msgs, ros-galactic-rclcpp, ros-galactic-std-msgs, ros-galactic-ros-workspace
+Description: This package contains a library for parsing PDDL domains and problems.
+ This package derives from the work of Anders Jonsson, contained in https://github.com/wisdompoet/universal-pddl-parser.git with many modifications by Francisco Martin: * ROS2 packaging * Source code structure refactor * CMakeLists.txt for cmake compilation * Reading from String instead of files * Licensing
