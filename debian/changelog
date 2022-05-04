@@ -1,0 +1,194 @@
+ros-galactic-plansys2-pddl-parser (2.0.7-1focal) focal; urgency=high
+
+  * Add missing dependency
+  * Contributors: Francisco Martín Rico
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Tue, 03 May 2022 22:00:00 -0000
+
+ros-galactic-plansys2-pddl-parser (2.0.6-1focal) focal; urgency=high
+
+  * Fix deps
+  * Contributors: Francisco Martín Rico
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Mon, 02 May 2022 22:00:00 -0000
+
+ros-galactic-plansys2-pddl-parser (2.0.5-1focal) focal; urgency=high
+
+  * Fix ROS2 Buildfarm error due to Threads
+  * Contributors: Francisco Martín Rico, Jake Keller
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Mon, 02 May 2022 22:00:00 -0000
+
+ros-galactic-plansys2-pddl-parser (2.0.4-1focal) focal; urgency=high
+
+  * Fix version
+  * Fix ROS2 Buildfarm error due to Threads
+  * Merge branch 'IntelligentRoboticsLabs:master' into master
+  * Contributors: Francisco Martín Rico, Jake Keller
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Mon, 02 May 2022 22:00:00 -0000
+
+ros-galactic-plansys2-pddl-parser (2.0.3-1focal) focal; urgency=high
+
+
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Sat, 02 Apr 2022 22:00:00 -0000
+
+ros-galactic-plansys2-pddl-parser (2.0.2-1focal) focal; urgency=high
+
+  * Full supportr for (= _ _) PDDL constraints, added possibility to refer to constants, added initial test cases
+  * fix-getSubtrees: Removing empty line.
+  * fix-getSubtrees: Fixing bug in getSubtrees function in Utils.cpp.
+  * set_decimal_precision: Use std::setprecision to avoid incompatible scientific notation.
+  * [pddl_parser] ground constants also when no replace values
+  * [pddl_parser] account for pddl-constants while replacing ground params
+  * Contributors: Francisco Martín Rico, Jake Keller, Josh Zapf, Marco Roveri, Mostafa Gomaa
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Sat, 02 Apr 2022 22:00:00 -0000
+
+ros-galactic-plansys2-pddl-parser (2.0.1-1focal) focal; urgency=high
+
+  * remove-invalid-goals: Removing invalid goals when instances are removed. Keep track of update time in problem expert.
+  * Merge galactic-devel
+  * Contributors: Francisco Martín Rico, Josh Zapf
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Wed, 02 Feb 2022 23:00:00 -0000
+
+ros-galactic-plansys2-pddl-parser (2.0.0-1focal) focal; urgency=high
+
+
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Sat, 03 Jul 2021 22:00:00 -0000
+
+ros-galactic-plansys2-pddl-parser (1.0.10-1focal) focal; urgency=high
+
+  * Solves error "error: 'bind' is not a member of 'std'"
+  * Add ability to read in pddl problem files to plansys2 and a new AddProblem service to the plansys2_problem_expert.
+    Adding problem_file node parameter to plansys2_problem_expert to load a single problem file at launch.
+  * pddl-tree-messages: Performing some minor cleanup.
+  * pddl-tree-messages: Updating addInstance and removeInstance calls to use helper classes.
+  * pddl-tree-messages: Adding a couple more utility functions to plansys2_pddl_parser.
+  * pddl-tree-messages: Using ROS messages to define the PDDL construct trees.
+  * Adding support for PDDL addition and subtraction expressions. Courtesy of @jjzapf
+  * Plansys2_tests package
+  * Update version
+  * Contributors: Alexander Xydes, Francisco Martín Rico, Josh Zapf, mailto:mfernandezcarmona@lincoln.ac.uk
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Fri, 02 Jul 2021 22:00:00 -0000
+
+ros-galactic-plansys2-pddl-parser (1.0.9-1focal) focal; urgency=high
+
+
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Sun, 14 Mar 2021 23:00:00 -0000
+
+ros-galactic-plansys2-pddl-parser (1.0.8-1focal) focal; urgency=high
+
+  * Adding unit tests for the Utils file. Fixing bug in plansys2_pddl_parser when getting predicate or function name that has no params it used to include the closing parenthesis in the name, which was incorrect. Making truth value false for expression arithmetic variants. fixing bug: not applying function modifier if trying to divide by zero.
+  * Add support for numeric conditions and effects.
+  * Contributors: Alexander Xydes, Fabrice Larribe, Francisco Martin Rico, Josh Zapf
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Thu, 11 Mar 2021 23:00:00 -0000
+
+ros-galactic-plansys2-pddl-parser (1.0.7-1focal) focal; urgency=high
+
+
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Sun, 03 Jan 2021 23:00:00 -0000
+
+ros-galactic-plansys2-pddl-parser (1.0.6-1focal) focal; urgency=high
+
+
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Mon, 28 Dec 2020 23:00:00 -0000
+
+ros-galactic-plansys2-pddl-parser (1.0.5-1focal) focal; urgency=high
+
+  * Migration to c++17
+  * Contributors: Francisco Martín Rico
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Sun, 27 Dec 2020 23:00:00 -0000
+
+ros-galactic-plansys2-pddl-parser (1.0.4-1focal) focal; urgency=high
+
+
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Wed, 23 Dec 2020 23:00:00 -0000
+
+ros-galactic-plansys2-pddl-parser (1.0.3-1focal) focal; urgency=high
+
+
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Tue, 22 Dec 2020 23:00:00 -0000
+
+ros-galactic-plansys2-pddl-parser (1.0.2-1focal) focal; urgency=high
+
+  * Plan solvers as plugins
+  * Contributors: Fabrice Larribe, Francisco Martin Rico, f269858
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Tue, 22 Dec 2020 23:00:00 -0000
+
+ros-galactic-plansys2-pddl-parser (1.0.1-1focal) focal; urgency=high
+
+
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Sat, 18 Jul 2020 22:00:00 -0000
+
+ros-galactic-plansys2-pddl-parser (1.0.0-1focal) focal; urgency=high
+
+  * Foxy initial version
+  * Contributors: Francisco Martín Rico
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Sat, 18 Jul 2020 22:00:00 -0000
+
+ros-galactic-plansys2-pddl-parser (0.0.8-1focal) focal; urgency=high
+
+
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Fri, 17 Jul 2020 22:00:00 -0000
+
+ros-galactic-plansys2-pddl-parser (0.0.7-1focal) focal; urgency=high
+
+  * Fix warning in last cmake versions
+    Signed-off-by: Francisco Martin Rico <mailto:fmrico@gmail.com>
+  * Contributors: Francisco Martín Rico
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Wed, 25 Mar 2020 23:00:00 -0000
+
+ros-galactic-plansys2-pddl-parser (0.0.6-1focal) focal; urgency=high
+
+  * Avoid inserting duplicate types
+    Signed-off-by: Francisco Martin Rico <mailto:fmrico@gmail.com>
+  * Contributors: Francisco Martin Rico
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Sun, 22 Mar 2020 23:00:00 -0000
+
+ros-galactic-plansys2-pddl-parser (0.0.5-1focal) focal; urgency=high
+
+
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Sat, 11 Jan 2020 23:00:00 -0000
+
+ros-galactic-plansys2-pddl-parser (0.0.4-1focal) focal; urgency=high
+
+
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Wed, 08 Jan 2020 23:00:00 -0000
+
+ros-galactic-plansys2-pddl-parser (0.0.3-1focal) focal; urgency=high
+
+
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Wed, 08 Jan 2020 23:00:00 -0000
+
+ros-galactic-plansys2-pddl-parser (0.0.2-1focal) focal; urgency=high
+
+  * Merge pull request #16 <https://github.com/IntelligentRoboticsLabs/ros2_planning_system/issues/16> from IntelligentRoboticsLabs/pddl_parser_rename
+    Rename pddl_parser
+  * Rename pddl_parser
+    Signed-off-by: Francisco Martin Rico <mailto:fmrico@gmail.com>
+  * Contributors: Francisco Martin Rico
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Tue, 07 Jan 2020 23:00:00 -0000
+
+
