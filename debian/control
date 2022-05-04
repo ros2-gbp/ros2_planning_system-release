@@ -1,0 +1,12 @@
+Source: ros-galactic-plansys2-bringup
+Section: misc
+Priority: optional
+Maintainer: Francisco Martin Rico <fmrico@gmail.com>
+Build-Depends: debhelper (>= 9.0.0), ros-galactic-ament-cmake, ros-galactic-ament-lint-auto, ros-galactic-ament-lint-common, ros-galactic-launch, ros-galactic-launch-testing, ros-galactic-plansys2-domain-expert, ros-galactic-plansys2-executor, ros-galactic-plansys2-lifecycle-manager, ros-galactic-plansys2-planner, ros-galactic-plansys2-problem-expert, ros-galactic-rclcpp, ros-galactic-ros-workspace
+Homepage: 
+Standards-Version: 3.9.2
+
+Package: ros-galactic-plansys2-bringup
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, ros-galactic-launch-ros, ros-galactic-plansys2-domain-expert, ros-galactic-plansys2-executor, ros-galactic-plansys2-lifecycle-manager, ros-galactic-plansys2-planner, ros-galactic-plansys2-problem-expert, ros-galactic-rclcpp, ros-galactic-ros-workspace
+Description: Bringup scripts and configurations for the ROS2 Planning System
