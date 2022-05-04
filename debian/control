@@ -1,0 +1,12 @@
+Source: ros-galactic-plansys2-tools
+Section: misc
+Priority: optional
+Maintainer: Francisco Martin Rico <fmrico@gmail.com>
+Build-Depends: debhelper (>= 9.0.0), qtbase5-dev, ros-galactic-ament-cmake, ros-galactic-ament-cmake-gtest, ros-galactic-ament-index-cpp, ros-galactic-ament-lint-auto, ros-galactic-ament-lint-common, ros-galactic-plansys2-msgs, ros-galactic-plansys2-problem-expert, ros-galactic-qt-gui-cpp, ros-galactic-rclcpp, ros-galactic-rclcpp-lifecycle, ros-galactic-rqt-gui, ros-galactic-rqt-gui-cpp, ros-galactic-ros-workspace
+Homepage: 
+Standards-Version: 3.9.2
+
+Package: ros-galactic-plansys2-tools
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, ros-galactic-plansys2-msgs, ros-galactic-plansys2-problem-expert, ros-galactic-qt-gui-cpp, ros-galactic-rclcpp, ros-galactic-rclcpp-lifecycle, ros-galactic-rqt-gui, ros-galactic-rqt-gui-cpp, ros-galactic-ros-workspace
+Description: A set of tools for monitoring ROS2 Planning System
