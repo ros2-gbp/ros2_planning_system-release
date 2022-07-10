@@ -1,0 +1,12 @@
+Source: ros-humble-plansys2-popf-plan-solver
+Section: misc
+Priority: optional
+Maintainer: Francisco Martin Rico <fmrico@gmail.com>
+Build-Depends: debhelper (>= 9.0.0), ros-humble-ament-cmake, ros-humble-ament-cmake-gtest <!nocheck>, ros-humble-ament-index-cpp, ros-humble-ament-lint-auto <!nocheck>, ros-humble-ament-lint-common <!nocheck>, ros-humble-plansys2-core, ros-humble-pluginlib, ros-humble-rclcpp, ros-humble-ros2run <!nocheck>, ros-humble-ros-workspace
+Homepage: 
+Standards-Version: 3.9.2
+
+Package: ros-humble-plansys2-popf-plan-solver
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, ros-humble-ament-index-cpp, ros-humble-plansys2-core, ros-humble-pluginlib, ros-humble-popf, ros-humble-rclcpp, ros-humble-ros-workspace
+Description: This package contains the PDDL-based Planner module for the ROS2 Planning System
