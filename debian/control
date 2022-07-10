@@ -1,0 +1,12 @@
+Source: ros-humble-plansys2-bt-actions
+Section: misc
+Priority: optional
+Maintainer: Francisco Martin Rico <fmrico@gmail.com>
+Build-Depends: debhelper (>= 9.0.0), libzmq3-dev, ros-humble-action-msgs, ros-humble-ament-cmake, ros-humble-ament-cmake-gtest <!nocheck>, ros-humble-ament-lint-auto <!nocheck>, ros-humble-ament-lint-common <!nocheck>, ros-humble-behaviortree-cpp-v3, ros-humble-geometry-msgs <!nocheck>, ros-humble-plansys2-executor, ros-humble-plansys2-msgs <!nocheck>, ros-humble-rclcpp, ros-humble-rclcpp-action, ros-humble-rclcpp-lifecycle, ros-humble-test-msgs <!nocheck>, ros-humble-ros-workspace
+Homepage: 
+Standards-Version: 3.9.2
+
+Package: ros-humble-plansys2-bt-actions
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, libzmq3-dev, ros-humble-action-msgs, ros-humble-behaviortree-cpp-v3, ros-humble-plansys2-executor, ros-humble-rclcpp, ros-humble-rclcpp-action, ros-humble-rclcpp-lifecycle, ros-humble-ros-workspace
+Description: This package contains the Problem Expert module for the ROS2 Planning System
