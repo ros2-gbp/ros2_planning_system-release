@@ -1,0 +1,12 @@
+Source: ros-humble-plansys2-domain-expert
+Section: misc
+Priority: optional
+Maintainer: Francisco Martin Rico <fmrico@gmail.com>
+Build-Depends: debhelper (>= 9.0.0), ros-humble-ament-cmake, ros-humble-ament-cmake-gtest <!nocheck>, ros-humble-ament-index-cpp, ros-humble-ament-lint-auto <!nocheck>, ros-humble-ament-lint-common <!nocheck>, ros-humble-lifecycle-msgs, ros-humble-plansys2-core, ros-humble-plansys2-msgs, ros-humble-plansys2-pddl-parser, ros-humble-plansys2-popf-plan-solver, ros-humble-rclcpp, ros-humble-rclcpp-action, ros-humble-rclcpp-lifecycle, ros-humble-std-msgs, ros-humble-ros-workspace
+Homepage: 
+Standards-Version: 3.9.2
+
+Package: ros-humble-plansys2-domain-expert
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, ros-humble-ament-index-cpp, ros-humble-lifecycle-msgs, ros-humble-plansys2-core, ros-humble-plansys2-msgs, ros-humble-plansys2-pddl-parser, ros-humble-plansys2-popf-plan-solver, ros-humble-rclcpp, ros-humble-rclcpp-action, ros-humble-rclcpp-lifecycle, ros-humble-std-msgs, ros-humble-ros-workspace
+Description: This package contains the Domain Expert module for the ROS2 Planning System
