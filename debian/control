@@ -1,0 +1,12 @@
+Source: ros-humble-plansys2-lifecycle-manager
+Section: misc
+Priority: optional
+Maintainer: Francisco Martin Rico <fmrico@gmail.com>
+Build-Depends: debhelper (>= 9.0.0), ros-humble-ament-cmake, ros-humble-ament-cmake-gtest <!nocheck>, ros-humble-ament-lint-auto <!nocheck>, ros-humble-ament-lint-common <!nocheck>, ros-humble-lifecycle-msgs, ros-humble-rclcpp, ros-humble-rclcpp-lifecycle, ros-humble-ros-workspace
+Homepage: 
+Standards-Version: 3.9.2
+
+Package: ros-humble-plansys2-lifecycle-manager
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, ros-humble-lifecycle-msgs, ros-humble-rclcpp, ros-humble-rclcpp-lifecycle, ros-humble-ros-workspace
+Description: A controller/manager for the lifecycle nodes of the ROS2 Planning System
