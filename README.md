@@ -1,3 +1,42 @@
+## ros2_planning_system (humble) - 2.0.9-1
+
+The packages in the `ros2_planning_system` repository were released into the `humble` distro by running `/usr/bin/bloom-release ros2_planning_system --rosdistro humble` on `Sun, 10 Jul 2022 07:10:44 -0000`
+
+These packages were released:
+- `plansys2_bringup`
+- `plansys2_bt_actions`
+- `plansys2_core`
+- `plansys2_domain_expert`
+- `plansys2_executor`
+- `plansys2_lifecycle_manager`
+- `plansys2_msgs`
+- `plansys2_pddl_parser`
+- `plansys2_planner`
+- `plansys2_popf_plan_solver`
+- `plansys2_problem_expert`
+- `plansys2_terminal`
+- `plansys2_tools`
+
+These packages were explicitly ignored:
+- `plansys2_tests`
+
+Version of package(s) in repository `ros2_planning_system`:
+
+- upstream repository: https://github.com/IntelligentRoboticsLabs/ros2_planning_system.git
+- release repository: unknown
+- rosdistro version: `null`
+- old version: `null`
+- new version: `2.0.9-1`
+
+Versions of tools used:
+
+- bloom version: `0.11.1`
+- catkin_pkg version: `0.5.2`
+- rosdep version: `0.22.1`
+- rosdistro version: `0.9.0`
+- vcstools version: `0.1.42`
+
+
 ## ros2_planning_system (galactic) - 2.0.8-1
 
 The packages in the `ros2_planning_system` repository were released into the `galactic` distro by running `/usr/bin/bloom-release ros2_planning_system --rosdistro galactic` on `Wed, 04 May 2022 16:00:15 -0000`
