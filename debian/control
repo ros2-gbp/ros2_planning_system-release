@@ -1,0 +1,12 @@
+Source: ros-humble-plansys2-terminal
+Section: misc
+Priority: optional
+Maintainer: Francisco Martin Rico <fmrico@gmail.com>
+Build-Depends: debhelper (>= 9.0.0), libreadline-dev, ros-humble-ament-cmake, ros-humble-ament-cmake-gtest <!nocheck>, ros-humble-ament-index-cpp <!nocheck>, ros-humble-ament-lint-auto <!nocheck>, ros-humble-ament-lint-common <!nocheck>, ros-humble-lifecycle-msgs <!nocheck>, ros-humble-plansys2-domain-expert, ros-humble-plansys2-executor, ros-humble-plansys2-msgs, ros-humble-plansys2-pddl-parser, ros-humble-plansys2-planner, ros-humble-plansys2-problem-expert, ros-humble-rclcpp, ros-humble-rclcpp-action, ros-humble-rclcpp-lifecycle, ros-humble-ros-workspace
+Homepage: 
+Standards-Version: 3.9.2
+
+Package: ros-humble-plansys2-terminal
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, libreadline-dev, ros-humble-plansys2-domain-expert, ros-humble-plansys2-executor, ros-humble-plansys2-msgs, ros-humble-plansys2-pddl-parser, ros-humble-plansys2-planner, ros-humble-plansys2-problem-expert, ros-humble-rclcpp, ros-humble-rclcpp-action, ros-humble-rclcpp-lifecycle, ros-humble-ros-workspace
+Description: A terminal tool for monitor and manage the ROS2 Planning System
