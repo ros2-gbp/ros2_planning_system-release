@@ -1,0 +1,12 @@
+Source: ros-humble-plansys2-tools
+Section: misc
+Priority: optional
+Maintainer: Francisco Martin Rico <fmrico@gmail.com>
+Build-Depends: debhelper (>= 9.0.0), qtbase5-dev, ros-humble-ament-cmake, ros-humble-ament-cmake-gtest <!nocheck>, ros-humble-ament-index-cpp <!nocheck>, ros-humble-ament-lint-auto <!nocheck>, ros-humble-ament-lint-common <!nocheck>, ros-humble-plansys2-msgs, ros-humble-plansys2-problem-expert, ros-humble-qt-gui-cpp, ros-humble-rclcpp, ros-humble-rclcpp-lifecycle, ros-humble-rqt-gui, ros-humble-rqt-gui-cpp, ros-humble-ros-workspace
+Homepage: 
+Standards-Version: 3.9.2
+
+Package: ros-humble-plansys2-tools
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, ros-humble-plansys2-msgs, ros-humble-plansys2-problem-expert, ros-humble-qt-gui-cpp, ros-humble-rclcpp, ros-humble-rclcpp-lifecycle, ros-humble-rqt-gui, ros-humble-rqt-gui-cpp, ros-humble-ros-workspace
+Description: A set of tools for monitoring ROS2 Planning System
