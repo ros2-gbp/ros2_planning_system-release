@@ -1,0 +1,12 @@
+Source: ros-humble-plansys2-bringup
+Section: misc
+Priority: optional
+Maintainer: Francisco Martin Rico <fmrico@gmail.com>
+Build-Depends: debhelper (>= 9.0.0), ros-humble-ament-cmake, ros-humble-ament-lint-auto <!nocheck>, ros-humble-ament-lint-common <!nocheck>, ros-humble-launch <!nocheck>, ros-humble-launch-testing <!nocheck>, ros-humble-plansys2-domain-expert, ros-humble-plansys2-executor, ros-humble-plansys2-lifecycle-manager, ros-humble-plansys2-planner, ros-humble-plansys2-problem-expert, ros-humble-rclcpp, ros-humble-ros-workspace
+Homepage: 
+Standards-Version: 3.9.2
+
+Package: ros-humble-plansys2-bringup
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, ros-humble-launch-ros, ros-humble-plansys2-domain-expert, ros-humble-plansys2-executor, ros-humble-plansys2-lifecycle-manager, ros-humble-plansys2-planner, ros-humble-plansys2-problem-expert, ros-humble-rclcpp, ros-humble-ros-workspace
+Description: Bringup scripts and configurations for the ROS2 Planning System
