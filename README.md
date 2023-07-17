@@ -1,3 +1,40 @@
+## ros2_planning_system (iron) - 2.0.10-1
+
+The packages in the `ros2_planning_system` repository were released into the `iron` distro by running `/usr/local/bin/bloom-release --edit ros2_planning_system --rosdistro iron` on `Mon, 17 Jul 2023 12:34:47 -0000`
+
+These packages were released:
+- `plansys2_bringup`
+- `plansys2_bt_actions`
+- `plansys2_core`
+- `plansys2_domain_expert`
+- `plansys2_executor`
+- `plansys2_lifecycle_manager`
+- `plansys2_msgs`
+- `plansys2_pddl_parser`
+- `plansys2_planner`
+- `plansys2_popf_plan_solver`
+- `plansys2_problem_expert`
+- `plansys2_terminal`
+- `plansys2_tests`
+- `plansys2_tools`
+
+Version of package(s) in repository `ros2_planning_system`:
+
+- upstream repository: https://github.com/PlanSys2/ros2_planning_system.git
+- release repository: unknown
+- rosdistro version: `null`
+- old version: `null`
+- new version: `2.0.10-1`
+
+Versions of tools used:
+
+- bloom version: `0.11.2`
+- catkin_pkg version: `0.5.2`
+- rosdep version: `0.22.2`
+- rosdistro version: `0.9.0`
+- vcstools version: `0.1.42`
+
+
 ## ros2_planning_system (humble) - 2.0.9-1
 
 The packages in the `ros2_planning_system` repository were released into the `humble` distro by running `/usr/bin/bloom-release ros2_planning_system --rosdistro humble` on `Sun, 10 Jul 2022 07:10:44 -0000`
