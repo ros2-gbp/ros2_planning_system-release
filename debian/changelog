@@ -1,0 +1,198 @@
+ros-iron-plansys2-popf-plan-solver (2.0.10-1jammy) jammy; urgency=high
+
+  * Merge remote-tracking branch 'origin/humble-devel'
+  * Merge pull request #254 <https://github.com/PlanSys2/ros2_planning_system/issues/254> from PlanSys2/remove_ptr_refs
+    Remove reference to SharedPtr
+  * Remove reference to SharedPtr
+  * Merge remote-tracking branch 'origin/master' into fix_goal_structure_issue_205
+  * Merge branch 'master' into bt-builder-plugins
+  * Merge pull request #241 <https://github.com/PlanSys2/ros2_planning_system/issues/241> from PlanSys2/fix_popf_plugin
+    Fix is_valid_domain by parsing out file
+  * Fix is_valid_domain by parsing out file
+  * Merge pull request #236 <https://github.com/PlanSys2/ros2_planning_system/issues/236> from sarcasticnature/feature/misc-fixes
+    Fixes for bt_actions and popf_plan_sover
+  * bt-builder-plugins: Creating BT builder plugin interface. Moving current BT builder to plugin named SimpleBTBuilder. Adding new and improved STN-based BT builder plugin named STNBTBuilder.
+  * Merge remote-tracking branch 'origin/master' into fix_goal_structure_issue_205
+  * Fix problem in is_valid_domain function
+  * Merge pull request #215 <https://github.com/PlanSys2/ros2_planning_system/issues/215> from Splinter1984/master
+    add system status check
+  * add status check into popf_plan_solver
+  * Merge remote-tracking branch 'upstream/master'
+  * add semicolom
+  * add system status check
+  * Contributors: Andrianov Roman, Francisco Martín Rico, Jake Keller, Josh Zapf, Marco Roveri, Splinter1984
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Sun, 16 Jul 2023 22:00:00 -0000
+
+ros-iron-plansys2-popf-plan-solver (2.0.9-1jammy) jammy; urgency=high
+
+  * Humble Upgrade
+  * Update popf checker interface
+  * Contributors: Francisco Martín Rico
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Sat, 09 Jul 2022 22:00:00 -0000
+
+ros-iron-plansys2-popf-plan-solver (2.0.8-1jammy) jammy; urgency=high
+
+
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Tue, 03 May 2022 22:00:00 -0000
+
+ros-iron-plansys2-popf-plan-solver (2.0.7-1jammy) jammy; urgency=high
+
+
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Tue, 03 May 2022 22:00:00 -0000
+
+ros-iron-plansys2-popf-plan-solver (2.0.6-1jammy) jammy; urgency=high
+
+
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Mon, 02 May 2022 22:00:00 -0000
+
+ros-iron-plansys2-popf-plan-solver (2.0.5-1jammy) jammy; urgency=high
+
+  * Fix ROS2 Buildfarm error due to Threads
+  * Contributors: Francisco Martín Rico
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Mon, 02 May 2022 22:00:00 -0000
+
+ros-iron-plansys2-popf-plan-solver (2.0.4-1jammy) jammy; urgency=high
+
+  * Fix version
+  * Fix ROS2 Buildfarm error due to Threads
+  * Contributors: Francisco Martín Rico
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Mon, 02 May 2022 22:00:00 -0000
+
+ros-iron-plansys2-popf-plan-solver (2.0.3-1jammy) jammy; urgency=high
+
+
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Sat, 02 Apr 2022 22:00:00 -0000
+
+ros-iron-plansys2-popf-plan-solver (2.0.2-1jammy) jammy; urgency=high
+
+
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Sat, 02 Apr 2022 22:00:00 -0000
+
+ros-iron-plansys2-popf-plan-solver (2.0.1-1jammy) jammy; urgency=high
+
+  * Merge galactic-devel
+  * Contributors: Francisco Martín Rico
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Wed, 02 Feb 2022 23:00:00 -0000
+
+ros-iron-plansys2-popf-plan-solver (2.0.0-1jammy) jammy; urgency=high
+
+
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Sat, 03 Jul 2021 22:00:00 -0000
+
+ros-iron-plansys2-popf-plan-solver (1.0.10-1jammy) jammy; urgency=high
+
+  * ros2-plan-msg: Passing plan to executor to add further separation between plan creation and plan execution.
+  * pddl-tree-messages: Merging upstream master and resolving conflicts.
+  * Added ability to provide command-line arguments to popf via ROS parameter.
+  * Update version
+  * Contributors: Francisco Martín Rico, Greg Kogut, Josh Zapf
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Fri, 02 Jul 2021 22:00:00 -0000
+
+ros-iron-plansys2-popf-plan-solver (1.0.9-1jammy) jammy; urgency=high
+
+
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Sun, 14 Mar 2021 23:00:00 -0000
+
+ros-iron-plansys2-popf-plan-solver (1.0.8-1jammy) jammy; urgency=high
+
+  * Create tmp directories
+  * Add more verbose output to pddl errors
+  * Contributors: Fabrice Larribe, Francisco Martín Rico
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Thu, 11 Mar 2021 23:00:00 -0000
+
+ros-iron-plansys2-popf-plan-solver (1.0.7-1jammy) jammy; urgency=high
+
+
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Sun, 03 Jan 2021 23:00:00 -0000
+
+ros-iron-plansys2-popf-plan-solver (1.0.6-1jammy) jammy; urgency=high
+
+  * Disable boost functions
+  * Contributors: Francisco Martín Rico
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Mon, 28 Dec 2020 23:00:00 -0000
+
+ros-iron-plansys2-popf-plan-solver (1.0.5-1jammy) jammy; urgency=high
+
+  * Migration to c++17
+  * Contributors: Francisco Martín Rico
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Sun, 27 Dec 2020 23:00:00 -0000
+
+ros-iron-plansys2-popf-plan-solver (1.0.4-1jammy) jammy; urgency=high
+
+
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Wed, 23 Dec 2020 23:00:00 -0000
+
+ros-iron-plansys2-popf-plan-solver (1.0.3-1jammy) jammy; urgency=high
+
+
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Tue, 22 Dec 2020 23:00:00 -0000
+
+ros-iron-plansys2-popf-plan-solver (1.0.2-1jammy) jammy; urgency=high
+
+  * Plan solvers as plugins
+  * Contributors: Fabrice Larribe, Francisco Martin Rico, f269858
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Tue, 22 Dec 2020 23:00:00 -0000
+
+ros-iron-plansys2-popf-plan-solver (1.0.1-1jammy) jammy; urgency=high
+
+
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Sat, 18 Jul 2020 22:00:00 -0000
+
+ros-iron-plansys2-popf-plan-solver (0.0.7-1jammy) jammy; urgency=high
+
+
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Wed, 25 Mar 2020 23:00:00 -0000
+
+ros-iron-plansys2-popf-plan-solver (0.0.6-1jammy) jammy; urgency=high
+
+
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Sun, 22 Mar 2020 23:00:00 -0000
+
+ros-iron-plansys2-popf-plan-solver (0.0.5-1jammy) jammy; urgency=high
+
+
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Sat, 11 Jan 2020 23:00:00 -0000
+
+ros-iron-plansys2-popf-plan-solver (0.0.4-1jammy) jammy; urgency=high
+
+
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Thu, 09 Jan 2020 06:55:00 -0000
+
+ros-iron-plansys2-popf-plan-solver (0.0.3-1jammy) jammy; urgency=high
+
+
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Thu, 09 Jan 2020 06:11:00 -0000
+
+ros-iron-plansys2-popf-plan-solver (0.0.2-1jammy) jammy; urgency=high
+
+
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Tue, 07 Jan 2020 23:00:00 -0000
+
+
