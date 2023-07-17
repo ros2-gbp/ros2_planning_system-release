@@ -52,6 +52,9 @@
 #include "lifecycle_msgs/msg/state.hpp"
 #include "plansys2_msgs/msg/action_execution_info.hpp"
 
+#include "pluginlib/class_loader.hpp"
+#include "pluginlib/class_list_macros.hpp"
+
 #include "rclcpp/rclcpp.hpp"
 #include "rclcpp_action/rclcpp_action.hpp"
 #include "rclcpp_lifecycle/lifecycle_node.hpp"
@@ -221,7 +224,7 @@ TEST(executor, action_executor_client)
   test_node->trigger_transition(lifecycle_msgs::msg::Transition::TRANSITION_ACTIVATE);
   aux_node->trigger_transition(lifecycle_msgs::msg::Transition::TRANSITION_ACTIVATE);
 
-  rclcpp::executors::MultiThreadedExecutor exe(rclcpp::ExecutorOptions(), 8);
+  rclcpp::executors::SingleThreadedExecutor exe;
 
   exe.add_node(test_node->get_node_base_interface());
   exe.add_node(aux_node->get_node_base_interface());
@@ -310,7 +313,7 @@ TEST(executor, action_executor)
   domain_node->set_parameter({"model_file", pkgpath + "/pddl/factory.pddl"});
   problem_node->set_parameter({"model_file", pkgpath + "/pddl/factory.pddl"});
 
-  rclcpp::executors::MultiThreadedExecutor exe(rclcpp::ExecutorOptions(), 8);
+  rclcpp::executors::SingleThreadedExecutor exe;
 
   exe.add_node(domain_node->get_node_base_interface());
   exe.add_node(problem_node->get_node_base_interface());
@@ -415,8 +418,18 @@ TEST(executor, action_executor)
   auto plan = planner_client->getPlan(domain_client->getDomain(), problem_client->getProblem());
   ASSERT_TRUE(plan);
 
-  plansys2::BTBuilder exec_tree(test_node);
-  auto tree_str = exec_tree.get_tree(plan.value());
+
+  std::shared_ptr<plansys2::BTBuilder> bt_builder;
+  pluginlib::ClassLoader<plansys2::BTBuilder> bt_builder_loader("plansys2_executor",
+    "plansys2::BTBuilder");
+  try {
+    bt_builder = bt_builder_loader.createSharedInstance("plansys2::SimpleBTBuilder");
+  } catch (pluginlib::PluginlibException & ex) {
+    std::cerr << "pluginlib error: " << std::string(ex.what()) << std::endl;
+  }
+
+  bt_builder->initialize();
+  auto tree_str = bt_builder->get_tree(plan.value());
 
   finish = true;
   t.join();
@@ -627,7 +640,7 @@ TEST(executor, action_real_action_1)
   domain_node->set_parameter({"model_file", pkgpath + "/pddl/factory3.pddl"});
   problem_node->set_parameter({"model_file", pkgpath + "/pddl/factory3.pddl"});
 
-  rclcpp::executors::MultiThreadedExecutor exe(rclcpp::ExecutorOptions(), 8);
+  rclcpp::executors::SingleThreadedExecutor exe;
 
   exe.add_node(domain_node->get_node_base_interface());
   exe.add_node(problem_node->get_node_base_interface());
@@ -882,7 +895,7 @@ TEST(executor, cancel_bt_execution)
   domain_node->set_parameter({"model_file", pkgpath + "/pddl/factory3.pddl"});
   problem_node->set_parameter({"model_file", pkgpath + "/pddl/factory3.pddl"});
 
-  rclcpp::executors::MultiThreadedExecutor exe(rclcpp::ExecutorOptions(), 8);
+  rclcpp::executors::SingleThreadedExecutor exe;
 
   exe.add_node(domain_node->get_node_base_interface());
   exe.add_node(problem_node->get_node_base_interface());
@@ -1084,7 +1097,7 @@ TEST(executor, executor_client_execute_plan)
   domain_node->set_parameter({"model_file", pkgpath + "/pddl/factory3.pddl"});
   problem_node->set_parameter({"model_file", pkgpath + "/pddl/factory3.pddl"});
 
-  rclcpp::executors::MultiThreadedExecutor exe(rclcpp::ExecutorOptions(), 8);
+  rclcpp::executors::SingleThreadedExecutor exe;
 
   exe.add_node(domain_node->get_node_base_interface());
   exe.add_node(problem_node->get_node_base_interface());
@@ -1285,7 +1298,7 @@ TEST(executor, executor_client_ordered_sub_goals)
   domain_node->set_parameter({"model_file", pkgpath + "/pddl/domain_charging.pddl"});
   problem_node->set_parameter({"model_file", pkgpath + "/pddl/domain_charging.pddl"});
 
-  rclcpp::executors::MultiThreadedExecutor exe(rclcpp::ExecutorOptions(), 9);
+  rclcpp::executors::SingleThreadedExecutor exe;
 
   exe.add_node(domain_node->get_node_base_interface());
   exe.add_node(problem_node->get_node_base_interface());
@@ -1428,7 +1441,7 @@ TEST(executor, executor_client_cancel_plan)
   domain_node->set_parameter({"model_file", pkgpath + "/pddl/factory3.pddl"});
   problem_node->set_parameter({"model_file", pkgpath + "/pddl/factory3.pddl"});
 
-  rclcpp::executors::MultiThreadedExecutor exe(rclcpp::ExecutorOptions(), 8);
+  rclcpp::executors::SingleThreadedExecutor exe;
 
   exe.add_node(domain_node->get_node_base_interface());
   exe.add_node(problem_node->get_node_base_interface());
@@ -1565,13 +1578,14 @@ TEST(executor, action_timeout)
   executor_node->set_parameter(
     {"default_action_bt_xml_filename",
       pkgpath + "/test_behavior_trees/test_action_timeout_bt.xml"});
+  executor_node->set_parameter({"bt_builder_plugin", "SimpleBTBuilder"});
   executor_node->set_parameter({"action_timeouts.actions", std::vector<std::string>({"move"})});
   // have to declare because the actions vector above was not available at node creation
   executor_node->declare_parameter<double>(
     "action_timeouts.move.duration_overrun_percentage", 1.0);
   executor_node->set_parameter({"action_timeouts.move.duration_overrun_percentage", 1.0});
 
-  rclcpp::executors::MultiThreadedExecutor exe(rclcpp::ExecutorOptions(), 8);
+  rclcpp::executors::SingleThreadedExecutor exe;
 
   exe.add_node(domain_node->get_node_base_interface());
   exe.add_node(problem_node->get_node_base_interface());

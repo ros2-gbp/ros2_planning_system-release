@@ -33,7 +33,7 @@ POPFPlanSolver::POPFPlanSolver()
 }
 
 void POPFPlanSolver::configure(
-  rclcpp_lifecycle::LifecycleNode::SharedPtr & lc_node,
+  rclcpp_lifecycle::LifecycleNode::SharedPtr lc_node,
   const std::string & plugin_name)
 {
   parameter_name_ = plugin_name + ".arguments";
@@ -46,6 +46,10 @@ POPFPlanSolver::getPlan(
   const std::string & domain, const std::string & problem,
   const std::string & node_namespace)
 {
+  if (system(nullptr) == 0) {
+    return {};
+  }
+
   if (node_namespace != "") {
     std::filesystem::path tp = std::filesystem::temp_directory_path();
     for (auto p : std::filesystem::path(node_namespace) ) {
@@ -65,11 +69,15 @@ POPFPlanSolver::getPlan(
   problem_out << problem;
   problem_out.close();
 
-  system(
+  int status = system(
     ("ros2 run popf popf " +
     lc_node_->get_parameter(parameter_name_).value_to_string() +
     " /tmp/" + node_namespace + "/domain.pddl /tmp/" + node_namespace +
     "/problem.pddl > /tmp/" + node_namespace + "/plan").c_str());
+
+  if (status == -1) {
+    return {};
+  }
 
   std::string line;
   std::ifstream plan_file("/tmp/" + node_namespace + "/plan");
@@ -104,9 +112,9 @@ POPFPlanSolver::getPlan(
 
   if (ret.items.empty()) {
     return {};
-  } else {
-    return ret;
   }
+
+  return ret;
 }
 
 bool
@@ -114,28 +122,52 @@ POPFPlanSolver::is_valid_domain(
   const std::string & domain,
   const std::string & node_namespace)
 {
-  if (node_namespace != "") {
-    mkdir(("/tmp/" + node_namespace).c_str(), ACCESSPERMS);
+  if (system(nullptr) == 0) {
+    return false;
   }
 
-  std::ofstream domain_out("/tmp/" + node_namespace + "/check_domain.pddl");
+  std::filesystem::path temp_dir = std::filesystem::temp_directory_path();
+  if (node_namespace != "") {
+    for (auto p : std::filesystem::path(node_namespace) ) {
+      if (p != std::filesystem::current_path().root_directory()) {
+        temp_dir /= p;
+      }
+    }
+    std::filesystem::create_directories(temp_dir);
+  }
+
+  std::ofstream domain_out(temp_dir.string() + "/check_domain.pddl");
   domain_out << domain;
   domain_out.close();
 
-  std::ofstream problem_out("/tmp/" + node_namespace + "/check_problem.pddl");
+  std::ofstream problem_out(temp_dir.string() + "/check_problem.pddl");
   problem_out << "(define (problem void) (:domain plansys2))";
   problem_out.close();
 
-  system(
-    ("ros2 run popf popf /tmp/" + node_namespace + "/check_domain.pddl /tmp/" +
-    node_namespace + "/check_problem.pddl > /tmp/" + node_namespace + "/check.out").c_str());
+  int status = system(
+    ("ros2 run popf popf " + temp_dir.string() + "/check_domain.pddl " + temp_dir.string() +
+    "/check_problem.pddl > " + temp_dir.string() + "/check.out").c_str());
 
-  std::ifstream plan_file("/tmp/" + node_namespace + "/check.out");
+  if (status == -1) {
+    return false;
+  }
 
-  std::string result((std::istreambuf_iterator<char>(plan_file)),
-    std::istreambuf_iterator<char>());
+  std::string line;
+  std::ifstream plan_file(temp_dir.string() + "/check.out");
+  bool solution = false;
 
-  return result.find("Solution Found") != result.npos;
+  if (plan_file && plan_file.is_open()) {
+    while (getline(plan_file, line)) {
+      if (!solution) {
+        if (line.find("Solution Found") != std::string::npos) {
+          solution = true;
+        }
+      }
+    }
+    plan_file.close();
+  }
+
+  return solution;
 }
 
 }  // namespace plansys2
