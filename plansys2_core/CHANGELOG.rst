@@ -2,6 +2,9 @@
 Changelog for package plansys2_core
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+2.0.11 (2023-08-02)
+-------------------
+
 2.0.10 (2023-07-17)
 -------------------
 * Merge pull request `#254 <https://github.com/PlanSys2/ros2_planning_system/issues/254>`_ from PlanSys2/remove_ptr_refs
