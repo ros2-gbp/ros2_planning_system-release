@@ -54,6 +54,7 @@ DomainReader::add_domain(const std::string & domain)
   new_domain.constants = get_constants(lc_domain);
   new_domain.predicates = get_predicates(lc_domain);
   new_domain.functions = get_functions(lc_domain);
+  new_domain.derived_predicates = get_derived_predicates(lc_domain);
   new_domain.actions = get_actions(lc_domain);
 
   domains_.push_back(new_domain);
@@ -84,21 +85,41 @@ DomainReader::get_joint_domain() const
   }
   ret += ")\n\n";
 
-  ret += "(:types\n";
-  for (auto & domain : domains_) {
-    if (!domain.types.empty()) {
-      ret += domain.types + "\n";
-    }
-  }
-  ret += ")\n\n";
+  bool functions = false;
+  bool constants = false;
+  bool types = false;
 
-  ret += "(:constants\n";
-  for (const auto & domain : domains_) {
+  for (auto & domain : domains_) {
+    if (!domain.functions.empty()) {
+      functions = true;
+    }
+    if (!domain.types.empty()) {
+      types = true;
+    }
     if (!domain.constants.empty()) {
-      ret += domain.constants + "\n";
+      constants = true;
     }
   }
-  ret += ")\n\n";
+
+  if (types) {
+    ret += "(:types\n";
+    for (auto & domain : domains_) {
+      if (!domain.types.empty()) {
+        ret += domain.types + "\n";
+      }
+    }
+    ret += ")\n\n";
+  }
+
+  if (constants) {
+    ret += "(:constants\n";
+    for (const auto & domain : domains_) {
+      if (!domain.constants.empty()) {
+        ret += domain.constants + "\n";
+      }
+    }
+    ret += ")\n\n";
+  }
 
   ret += "(:predicates\n";
   std::set<std::string> preds_set;
@@ -111,13 +132,23 @@ DomainReader::get_joint_domain() const
   }
   ret += ")\n\n";
 
-  ret += "(:functions\n";
+  if (functions) {
+    ret += "(:functions\n";
+    for (auto & domain : domains_) {
+      if (!domain.functions.empty()) {
+        ret += domain.functions + "\n";
+      }
+    }
+    ret += ")\n\n";
+  }
+
   for (auto & domain : domains_) {
-    if (!domain.functions.empty()) {
-      ret += domain.functions + "\n";
+    for (auto & derived : domain.derived_predicates) {
+      if (!derived.empty()) {
+        ret += derived + "\n\n";
+      }
     }
   }
-  ret += ")\n\n";
 
   for (auto & domain : domains_) {
     for (auto & action : domain.actions) {
@@ -291,6 +322,35 @@ DomainReader::get_functions(const std::string & domain)
   } else {
     return "";
   }
+}
+
+std::vector<std::string>
+DomainReader::get_derived_predicates(const std::string & domain)
+{
+  std::vector<std::string> ret;
+
+  const std::string derived_pattern(":derived");
+
+  auto ldomain = domain;
+
+  size_t pos = std::string::npos;
+  do {
+    pos = ldomain.find(derived_pattern);
+
+    if (pos != std::string::npos) {
+      auto end_pos = get_end_block(ldomain, pos + 1);
+
+      if (end_pos == -1) {
+        break;
+      }
+
+      std::string lines = substr_without_empty_lines(ldomain, pos, end_pos + 1);
+      ret.push_back("(" + lines);
+      ldomain = ldomain.substr(end_pos + 1);
+    }
+  } while (!ldomain.empty() && pos != std::string::npos);
+
+  return ret;
 }
 
 std::vector<std::string>

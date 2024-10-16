@@ -2,13 +2,16 @@
 Changelog for package plansys2_terminal
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-2.0.11 (2023-08-02)
+2.0.12 (2024-10-16)
 -------------------
+* add get model derived predicates to terminal
+* Added some information in the README to allow for using a configuration file to change the planner timeout
 * Read multiple lines in terminal input
-* Contributors: Francisco Martín Rico
+* Fix Terminal and executor bugs
+* Change MultiThreaded for SingleThreaded in CI failing tests
+* Fix terminal tests
+* Contributors: Andrianov Roman, Francisco Martín Rico, Gustavo, Josh Zapf, Marco Roveri, Splinter1984
 
-2.0.10 (2023-07-17)
--------------------
 * Merge remote-tracking branch 'origin/humble-devel'
 * Merge pull request `#251 <https://github.com/PlanSys2/ros2_planning_system/issues/251>`_ from PlanSys2/fix_bt_node
   Fix bt node

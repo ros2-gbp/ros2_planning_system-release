@@ -18,13 +18,14 @@
 #include <tuple>
 
 #include "plansys2_executor/behavior_tree/check_overall_req_node.hpp"
+#include "plansys2_msgs/msg/action.hpp"
 
 namespace plansys2
 {
 
 CheckOverAllReq::CheckOverAllReq(
   const std::string & xml_tag_name,
-  const BT::NodeConfiguration & conf)
+  const BT::NodeConfig & conf)
 : ActionNodeBase(xml_tag_name, conf)
 {
   action_map_ =
@@ -44,7 +45,7 @@ CheckOverAllReq::tick()
 
   auto node = config().blackboard->get<rclcpp_lifecycle::LifecycleNode::SharedPtr>("node");
 
-  auto reqs = (*action_map_)[action].durative_action_info->over_all_requirements;
+  auto reqs = (*action_map_)[action].action_info.get_overall_requirements();
 
   if (!check(reqs, problem_client_)) {
     (*action_map_)[action].execution_error_info = "Error checking over all requirements";
@@ -52,7 +53,7 @@ CheckOverAllReq::tick()
     RCLCPP_ERROR_STREAM(
       node->get_logger(),
       "[" << action << "]" << (*action_map_)[action].execution_error_info << ": " <<
-        parser::pddl::toString((*action_map_)[action].durative_action_info->over_all_requirements));
+        parser::pddl::toString(reqs));
 
     return BT::NodeStatus::FAILURE;
   } else {

@@ -16,11 +16,15 @@
 #define PLANSYS2_EXECUTOR__BTBUILDER_HPP_
 
 #include <map>
+#include <set>
+#include <tuple>
+#include <list>
 #include <memory>
 #include <string>
 
 #include "plansys2_executor/ActionExecutor.hpp"
 #include "plansys2_msgs/msg/plan.hpp"
+#include "plansys2_pddl_parser/Utils.hpp"
 
 namespace plansys2
 {
@@ -42,10 +46,33 @@ struct ActionStamped
   std::string expression;
   float duration;
   ActionType type;
-  std::shared_ptr<plansys2_msgs::msg::DurativeAction> action;
+  ActionVariant action;
 
   ActionStamped()
   : time(0.0), duration(0.0) {}
+};
+
+struct Node
+{
+  using Ptr = std::shared_ptr<Node>;
+  static Ptr make_shared(int id) {return std::make_shared<Node>(id);}
+
+  int node_num;
+  ActionStamped action;
+
+  std::set<std::tuple<Node::Ptr, double, double>> input_arcs;
+  std::set<std::tuple<Node::Ptr, double, double>> output_arcs;
+
+  explicit Node(int id)
+  : node_num(id) {}
+};
+
+struct Graph
+{
+  using Ptr = std::shared_ptr<Graph>;
+  static Ptr make_shared() {return std::make_shared<Graph>();}
+
+  std::list<Node::Ptr> nodes;
 };
 
 class BTBuilder
@@ -59,6 +86,8 @@ public:
     int precision = 3) = 0;
 
   virtual std::string get_tree(const plansys2_msgs::msg::Plan & current_plan) = 0;
+  virtual Graph::Ptr get_graph() = 0;
+  virtual bool propagate(Graph::Ptr graph) = 0;
   virtual std::string get_dotgraph(
     std::shared_ptr<std::map<std::string, ActionExecutionInfo>> action_map,
     bool enable_legend = false,

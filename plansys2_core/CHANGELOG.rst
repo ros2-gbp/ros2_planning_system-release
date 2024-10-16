@@ -2,17 +2,14 @@
 Changelog for package plansys2_core
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-2.0.11 (2023-08-02)
+2.0.12 (2024-10-16)
 -------------------
-
-2.0.10 (2023-07-17)
--------------------
-* Merge pull request `#254 <https://github.com/PlanSys2/ros2_planning_system/issues/254>`_ from PlanSys2/remove_ptr_refs
-  Remove reference to SharedPtr
+* Integrated feedback, and fixes to have tests to pass
+* Added support for configuring the planner timeout
+* Remove cmake warning
+* Add option to use planner node to validate domain in domain expert
 * Remove reference to SharedPtr
-* Merge remote-tracking branch 'origin/master' into fix_goal_structure_issue_205
-* Merge remote-tracking branch 'upstream/master'
-* Contributors: Francisco Martín Rico, Marco Roveri, Splinter1984
+* Contributors: Francisco Martín Rico, Gustavo, Josh Zapf, Marco Roveri, Robodrome, Sebastian Castro, Splinter1984
 
 2.0.9 (2022-07-10)
 ------------------

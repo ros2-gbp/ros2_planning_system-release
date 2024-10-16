@@ -24,8 +24,8 @@
 #include <map>
 
 #include "plansys2_core/Utils.hpp"
-#include "plansys2_pddl_parser/Domain.h"
-#include "plansys2_pddl_parser/Instance.h"
+#include "plansys2_pddl_parser/Domain.hpp"
+#include "plansys2_pddl_parser/Instance.hpp"
 #include "plansys2_problem_expert/Utils.hpp"
 
 #include "plansys2_core/Types.hpp"
@@ -41,19 +41,29 @@ ProblemExpert::ProblemExpert(std::shared_ptr<DomainExpert> & domain_expert)
 bool
 ProblemExpert::addInstance(const plansys2::Instance & instance)
 {
-  if (!isValidType(instance.type)) {
+  plansys2::Instance lowercase_instance = instance;
+  std::transform(
+    lowercase_instance.type.begin(), lowercase_instance.type.end(), lowercase_instance.type.begin(),
+    [](unsigned char c) {return std::tolower(c);});
+  for (auto i = 0; i < lowercase_instance.sub_types.size(); ++i) {
+    std::transform(
+      lowercase_instance.sub_types[i].begin(), lowercase_instance.sub_types[i].end(),
+      lowercase_instance.sub_types[i].begin(), [](unsigned char c) {return std::tolower(c);});
+  }
+
+  if (!isValidType(lowercase_instance.type)) {
     return false;
   }
 
-  std::optional<plansys2::Instance> existing_instance = getInstance(instance.name);
+  std::optional<plansys2::Instance> existing_instance = getInstance(lowercase_instance.name);
   bool exist_instance = existing_instance.has_value();
 
-  if (exist_instance && existing_instance.value().type != instance.type) {
+  if (exist_instance && existing_instance.value().type != lowercase_instance.type) {
     return false;
   }
 
   if (!exist_instance) {
-    instances_.push_back(instance);
+    instances_.push_back(lowercase_instance);
   }
 
   return true;
@@ -111,7 +121,52 @@ ProblemExpert::getInstance(const std::string & instance_name)
 std::vector<plansys2::Predicate>
 ProblemExpert::getPredicates()
 {
-  return predicates_;
+  std::vector<plansys2::Predicate> ret = predicates_;
+
+  auto derived_predicates = domain_expert_->getDerivedPredicates();
+  for (auto derived_name : derived_predicates) {
+    auto derived = domain_expert_->getDerivedPredicate(derived_name.name);
+    for (auto d : derived) {
+      std::vector<std::vector<std::string>> parameters_vector;
+      for (size_t i = 0; i < d.predicate.parameters.size(); i++) {
+        std::vector<std::string> p_vector;
+        std::for_each(
+          instances_.begin(), instances_.end(),
+          [&](auto instance) {
+            if (d.predicate.parameters[i].type == instance.type) {
+              p_vector.push_back(instance.name);
+            }
+          });
+        parameters_vector.push_back(p_vector);
+      }
+      std::vector<std::vector<std::string>> possible_parameters_values;
+      std::vector<std::string> aux;
+      plansys2::cart_product(
+        possible_parameters_values, aux, parameters_vector.begin(), parameters_vector.end());
+
+      for (auto parameters_values : possible_parameters_values) {
+        std::map<std::string, std::string> replace;
+        for (size_t i = 0; i < d.predicate.parameters.size(); i++) {
+          replace["?" + std::to_string(i)] = parameters_values[i];
+        }
+        auto tree_replaced = plansys2::replace_children_param(
+          d.preconditions, d.preconditions.nodes[0].node_id, replace);
+        bool result = check(tree_replaced, predicates_, functions_);
+        if (result) {
+          plansys2::Predicate inferred_predicate;
+          inferred_predicate.node_type = plansys2_msgs::msg::Node::PREDICATE;
+          inferred_predicate.name = d.predicate.name;
+          for (size_t i = 0; i < d.predicate.parameters.size(); i++) {
+            plansys2_msgs::msg::Param param;
+            param.name = replace.at("?" + std::to_string(i));
+            inferred_predicate.parameters.push_back(param);
+          }
+          ret.push_back(inferred_predicate);
+        }
+      }
+    }
+  }
+  return ret;
 }
 
 bool
@@ -398,8 +453,13 @@ ProblemExpert::clearKnowledge()
 bool
 ProblemExpert::isValidType(const std::string & type)
 {
+  std::string lowercase_type = type;
+  std::transform(
+    lowercase_type.begin(), lowercase_type.end(), lowercase_type.begin(),
+    [](unsigned char c) {return std::tolower(c);});
+
   auto valid_types = domain_expert_->getTypes();
-  auto it = std::find(valid_types.begin(), valid_types.end(), type);
+  auto it = std::find(valid_types.begin(), valid_types.end(), lowercase_type);
 
   return it != valid_types.end();
 }
@@ -431,6 +491,20 @@ ProblemExpert::existPredicate(const plansys2::Predicate & predicate)
       found = true;
     }
     i++;
+  }
+
+  if (!found) {
+    std::vector<std::string> parameters_names;
+    std::for_each(
+      predicate.parameters.begin(), predicate.parameters.end(),
+      [&](auto p) {parameters_names.push_back(p.name);});
+    auto derived_predicates = domain_expert_->getDerivedPredicate(predicate.name, parameters_names);
+    for (auto derived : derived_predicates) {
+      if (check(derived.preconditions, predicates_, functions_)) {
+        found = true;
+        break;
+      }
+    }
   }
 
   return found;
@@ -467,7 +541,15 @@ ProblemExpert::isValidPredicate(const plansys2::Predicate & predicate)
         auto arg_type = getInstance(predicate.parameters[i].name);
 
         if (!arg_type.has_value()) {
+          // It might be a constant, so we check if the type is correct
           same_types = false;
+          auto constants = domain_expert_->getConstants(model_predicate.value().parameters[i].type);
+          for (auto constant : constants) {
+            if (constant == predicate.parameters[i].name) {
+              same_types = true;
+              break;
+            }
+          }
         } else if (arg_type.value().type != model_predicate.value().parameters[i].type) {
           bool isSubtype = false;
           for (std::string subType : model_predicate.value().parameters[i].sub_types) {
@@ -504,7 +586,15 @@ ProblemExpert::isValidFunction(const plansys2::Function & function)
         auto arg_type = getInstance(function.parameters[i].name);
 
         if (!arg_type.has_value()) {
+          // It might be a constant, so we check if the type is correct
           same_types = false;
+          auto constants = domain_expert_->getConstants(model_function.value().parameters[i].type);
+          for (auto constant : constants) {
+            if (constant == function.parameters[i].name) {
+              same_types = true;
+              break;
+            }
+          }
         } else if (arg_type.value().type != model_function.value().parameters[i].type) {
           bool isSubtype = false;
           for (std::string subType : model_function.value().parameters[i].sub_types) {

@@ -2,14 +2,13 @@
 Changelog for package plansys2_msgs
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-2.0.11 (2023-08-02)
+2.0.12 (2024-10-16)
 -------------------
-
-2.0.10 (2023-07-17)
--------------------
-* Merge remote-tracking branch 'origin/humble-devel'
-* Merge remote-tracking branch 'origin/master' into fix_goal_structure_issue_205
-* Contributors: Francisco Martín Rico, Marco Roveri
+* add uint8 EXISTS = 10 to Node.msg
+* support for ParamExpression and ConstExpression
+* add Derived.msg and GetDomainDerivedPredicateDetails.srv
+* Add option to use planner node to validate domain in domain expert
+* Contributors: Francisco Martín Rico, Gustavo, Josh Zapf, Marco Roveri, Robodrome, Sebastian Castro
 
 2.0.9 (2022-07-10)
 ------------------

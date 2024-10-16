@@ -19,6 +19,7 @@
 #include <memory>
 
 #include "plansys2_domain_expert/DomainExpert.hpp"
+#include "plansys2_popf_plan_solver/popf_plan_solver.hpp"
 
 #include "std_msgs/msg/string.hpp"
 #include "lifecycle_msgs/msg/state.hpp"
@@ -27,10 +28,12 @@
 #include "plansys2_msgs/srv/get_domain_types.hpp"
 #include "plansys2_msgs/srv/get_domain_actions.hpp"
 #include "plansys2_msgs/srv/get_domain_action_details.hpp"
+#include "plansys2_msgs/srv/get_domain_derived_predicate_details.hpp"
 #include "plansys2_msgs/srv/get_domain_durative_action_details.hpp"
 #include "plansys2_msgs/srv/get_domain.hpp"
 #include "plansys2_msgs/srv/get_node_details.hpp"
 #include "plansys2_msgs/srv/get_states.hpp"
+#include "plansys2_msgs/srv/validate_domain.hpp"
 
 #include "rclcpp/rclcpp.hpp"
 #include "rclcpp_lifecycle/lifecycle_node.hpp"
@@ -201,6 +204,28 @@ public:
     const std::shared_ptr<plansys2_msgs::srv::GetNodeDetails::Request> request,
     const std::shared_ptr<plansys2_msgs::srv::GetNodeDetails::Response> response);
 
+  /// Receives the result of the GetDomainDerivedPredicates service call
+  /**
+   * \param[in] request_header The header of the request
+   * \param[in] request The request
+   * \param[out] request The response
+   */
+  void get_domain_derived_predicates_service_callback(
+    const std::shared_ptr<rmw_request_id_t> request_header,
+    const std::shared_ptr<plansys2_msgs::srv::GetStates::Request> request,
+    const std::shared_ptr<plansys2_msgs::srv::GetStates::Response> response);
+
+  /// Receives the result of the GetDomainDerivedPredicateDetails service call
+  /**
+   * \param[in] request_header The header of the request
+   * \param[in] request The request
+   * \param[out] request The response
+   */
+  void get_domain_derived_predicate_details_service_callback(
+    const std::shared_ptr<rmw_request_id_t> request_header,
+    const std::shared_ptr<plansys2_msgs::srv::GetDomainDerivedPredicateDetails::Request> request,
+    const std::shared_ptr<plansys2_msgs::srv::GetDomainDerivedPredicateDetails::Response> response);
+
   /// Receives the result of the GetDomain service call
   /**
    * \param[in] request_header The header of the request
@@ -232,7 +257,17 @@ private:
     get_domain_functions_service_;
   rclcpp::Service<plansys2_msgs::srv::GetNodeDetails>::SharedPtr
     get_domain_function_details_service_;
+  rclcpp::Service<plansys2_msgs::srv::GetStates>::SharedPtr
+    get_domain_derived_predicates_service_;
+  rclcpp::Service<plansys2_msgs::srv::GetDomainDerivedPredicateDetails>::SharedPtr
+    get_domain_derived_predicate_details_service_;
   rclcpp::Service<plansys2_msgs::srv::GetDomain>::SharedPtr get_domain_service_;
+
+  rclcpp::Client<plansys2_msgs::srv::ValidateDomain>::SharedPtr
+    validate_domain_client_;
+  rclcpp::CallbackGroup::SharedPtr validate_domain_callback_group_;
+
+  std::unique_ptr<plansys2::POPFPlanSolver> popf_plan_solver_;
 };
 
 }  // namespace plansys2
