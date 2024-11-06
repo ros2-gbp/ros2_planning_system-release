@@ -1,0 +1,12 @@
+Source: ros-jazzy-plansys2-terminal
+Section: misc
+Priority: optional
+Maintainer: Francisco Martin Rico <fmrico@gmail.com>
+Build-Depends: debhelper (>= 9.0.0), libreadline-dev, ros-jazzy-ament-cmake, ros-jazzy-ament-cmake-gtest <!nocheck>, ros-jazzy-ament-index-cpp <!nocheck>, ros-jazzy-ament-lint-auto <!nocheck>, ros-jazzy-ament-lint-common <!nocheck>, ros-jazzy-lifecycle-msgs <!nocheck>, ros-jazzy-plansys2-domain-expert, ros-jazzy-plansys2-executor, ros-jazzy-plansys2-msgs, ros-jazzy-plansys2-pddl-parser, ros-jazzy-plansys2-planner, ros-jazzy-plansys2-problem-expert, ros-jazzy-rclcpp, ros-jazzy-rclcpp-action, ros-jazzy-rclcpp-lifecycle, ros-jazzy-ros-workspace
+Homepage: 
+Standards-Version: 3.9.2
+
+Package: ros-jazzy-plansys2-terminal
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, libreadline-dev, ros-jazzy-plansys2-domain-expert, ros-jazzy-plansys2-executor, ros-jazzy-plansys2-msgs, ros-jazzy-plansys2-pddl-parser, ros-jazzy-plansys2-planner, ros-jazzy-plansys2-problem-expert, ros-jazzy-rclcpp, ros-jazzy-rclcpp-action, ros-jazzy-rclcpp-lifecycle, ros-jazzy-ros-workspace
+Description: A terminal tool for monitor and manage the ROS2 Planning System
