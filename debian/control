@@ -1,0 +1,12 @@
+Source: ros-jazzy-plansys2-bringup
+Section: misc
+Priority: optional
+Maintainer: Francisco Martin Rico <fmrico@gmail.com>
+Build-Depends: debhelper (>= 9.0.0), ros-jazzy-ament-cmake, ros-jazzy-ament-lint-auto <!nocheck>, ros-jazzy-ament-lint-common <!nocheck>, ros-jazzy-launch <!nocheck>, ros-jazzy-launch-testing <!nocheck>, ros-jazzy-plansys2-domain-expert, ros-jazzy-plansys2-executor, ros-jazzy-plansys2-lifecycle-manager, ros-jazzy-plansys2-planner, ros-jazzy-plansys2-problem-expert, ros-jazzy-rclcpp, ros-jazzy-ros-workspace
+Homepage: 
+Standards-Version: 3.9.2
+
+Package: ros-jazzy-plansys2-bringup
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, ros-jazzy-launch-ros, ros-jazzy-plansys2-domain-expert, ros-jazzy-plansys2-executor, ros-jazzy-plansys2-lifecycle-manager, ros-jazzy-plansys2-planner, ros-jazzy-plansys2-problem-expert, ros-jazzy-rclcpp, ros-jazzy-ros-workspace
+Description: Bringup scripts and configurations for the ROS2 Planning System
