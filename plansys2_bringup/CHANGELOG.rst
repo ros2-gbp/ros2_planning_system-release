@@ -2,6 +2,11 @@
 Changelog for package plansys2_bringup
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+2.0.13 (2024-11-06)
+-------------------
+* Change to EventsExecutor
+* Contributors: Francisco Martín Rico
+
 2.0.12 (2024-10-16)
 -------------------
 * Add parameter for timeout of plan solver
