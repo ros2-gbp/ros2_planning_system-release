@@ -1,0 +1,12 @@
+Source: ros-jazzy-plansys2-tools
+Section: misc
+Priority: optional
+Maintainer: Francisco Martin Rico <fmrico@gmail.com>
+Build-Depends: debhelper (>= 9.0.0), qtbase5-dev, ros-jazzy-ament-cmake, ros-jazzy-ament-cmake-gtest <!nocheck>, ros-jazzy-ament-index-cpp <!nocheck>, ros-jazzy-ament-lint-auto <!nocheck>, ros-jazzy-ament-lint-common <!nocheck>, ros-jazzy-plansys2-msgs, ros-jazzy-plansys2-problem-expert, ros-jazzy-qt-gui-cpp, ros-jazzy-rclcpp, ros-jazzy-rclcpp-lifecycle, ros-jazzy-rqt-gui, ros-jazzy-rqt-gui-cpp, ros-jazzy-ros-workspace
+Homepage: 
+Standards-Version: 3.9.2
+
+Package: ros-jazzy-plansys2-tools
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, ros-jazzy-plansys2-msgs, ros-jazzy-plansys2-problem-expert, ros-jazzy-qt-gui-cpp, ros-jazzy-rclcpp, ros-jazzy-rclcpp-lifecycle, ros-jazzy-rqt-gui, ros-jazzy-rqt-gui-cpp, ros-jazzy-ros-workspace
+Description: A set of tools for monitoring ROS2 Planning System
