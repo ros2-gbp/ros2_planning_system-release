@@ -1,0 +1,12 @@
+Source: ros-jazzy-plansys2-bt-actions
+Section: misc
+Priority: optional
+Maintainer: Francisco Martin Rico <fmrico@gmail.com>
+Build-Depends: debhelper (>= 9.0.0), ros-jazzy-action-msgs, ros-jazzy-ament-cmake, ros-jazzy-ament-cmake-gtest <!nocheck>, ros-jazzy-ament-lint-auto <!nocheck>, ros-jazzy-ament-lint-common <!nocheck>, ros-jazzy-behaviortree-cpp, ros-jazzy-geometry-msgs <!nocheck>, ros-jazzy-plansys2-executor, ros-jazzy-plansys2-msgs <!nocheck>, ros-jazzy-rclcpp, ros-jazzy-rclcpp-action, ros-jazzy-rclcpp-lifecycle, ros-jazzy-test-msgs <!nocheck>, ros-jazzy-ros-workspace
+Homepage: 
+Standards-Version: 3.9.2
+
+Package: ros-jazzy-plansys2-bt-actions
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, ros-jazzy-action-msgs, ros-jazzy-behaviortree-cpp, ros-jazzy-plansys2-executor, ros-jazzy-rclcpp, ros-jazzy-rclcpp-action, ros-jazzy-rclcpp-lifecycle, ros-jazzy-ros-workspace
+Description: This package contains the Problem Expert module for the ROS2 Planning System
