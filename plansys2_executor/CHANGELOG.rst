@@ -2,6 +2,16 @@
 Changelog for package plansys2_executor
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+2.0.17 (2024-12-30)
+-------------------
+* Fixing Eigen deps
+* Contributors: Francisco Martín Rico
+
+2.0.16 (2024-12-30)
+-------------------
+* Fixing Eigen deps
+* Contributors: Francisco Martín Rico
+
 2.0.15 (2024-12-03)
 -------------------
 * Fixing Eigen dep
