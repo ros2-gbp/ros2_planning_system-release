@@ -12,15 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "plansys2_domain_expert/DomainExpertNode.hpp"
-
 #include <string>
 #include <memory>
 #include <vector>
 
 #include "plansys2_core/Utils.hpp"
-
-#include "lifecycle_msgs/msg/state.hpp"
+#include "plansys2_domain_expert/DomainExpertNode.hpp"
+#include "plansys2_msgs/msg/node.hpp"
 
 namespace plansys2
 {
@@ -107,6 +105,9 @@ DomainExpertNode::DomainExpertNode()
       &DomainExpertNode::get_domain_service_callback,
       this, std::placeholders::_1, std::placeholders::_2,
       std::placeholders::_3));
+  domain_pub_ = create_publisher<std_msgs::msg::String>(
+    "domain_expert/domain",
+    rclcpp::QoS(100).transient_local());
 }
 
 
@@ -181,6 +182,12 @@ DomainExpertNode::on_activate(const rclcpp_lifecycle::State & state)
   RCLCPP_INFO(get_logger(), "[%s] Activating...", get_name());
   RCLCPP_INFO(get_logger(), "[%s] Activated", get_name());
 
+  domain_pub_->on_activate();
+
+  std_msgs::msg::String domain_msg;
+  domain_msg.data = domain_expert_->getDomain();
+  domain_pub_->publish(domain_msg);
+
   return CallbackReturnT::SUCCESS;
 }
 
@@ -190,6 +197,8 @@ DomainExpertNode::on_deactivate(const rclcpp_lifecycle::State & state)
   RCLCPP_INFO(get_logger(), "[%s] Deactivating...", get_name());
   RCLCPP_INFO(get_logger(), "[%s] Deactivated", get_name());
 
+  domain_pub_->on_deactivate();
+
   return CallbackReturnT::SUCCESS;
 }
 
@@ -198,6 +207,8 @@ DomainExpertNode::on_cleanup(const rclcpp_lifecycle::State & state)
 {
   RCLCPP_INFO(get_logger(), "[%s] Cleaning up...", get_name());
   RCLCPP_INFO(get_logger(), "[%s] Cleaned up", get_name());
+
+  domain_pub_->on_deactivate();
 
   return CallbackReturnT::SUCCESS;
 }

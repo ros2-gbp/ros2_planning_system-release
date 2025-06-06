@@ -12,13 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "plansys2_domain_expert/DomainExpertClient.hpp"
-
 #include <optional>
 #include <algorithm>
 #include <string>
 #include <vector>
 #include <memory>
+
+#include "plansys2_domain_expert/DomainExpertClient.hpp"
+#include "plansys2_msgs/msg/node.hpp"
 
 namespace plansys2
 {
@@ -59,6 +60,12 @@ DomainExpertClient::DomainExpertClient()
   get_durative_action_details_client_ =
     node_->create_client<plansys2_msgs::srv::GetDomainDurativeActionDetails>(
     "domain_expert/get_domain_durative_action_details");
+
+  domain_sub_ = node_->create_subscription<std_msgs::msg::String>(
+    "domain_expert/domain",
+    rclcpp::QoS(100).transient_local(), [this](std_msgs::msg::String::SharedPtr msg) {
+      cached_domain_ = msg->data;
+    });
 }
 
 std::string
@@ -523,6 +530,16 @@ DomainExpertClient::getDurativeAction(
       get_durative_action_details_client_->get_service_name() << ": " <<
         result.error_info);
     return nullptr;
+  }
+}
+
+std::string
+DomainExpertClient::getDomain(bool use_cache)
+{
+  if (use_cache && cached_domain_ != "") {
+    return cached_domain_;
+  } else {
+    return getDomain();
   }
 }
 

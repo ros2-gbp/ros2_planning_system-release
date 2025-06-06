@@ -818,6 +818,9 @@ Terminal::execute_plan(int items)
   if (!plan.has_value()) {
     std::cout << "Plan could not be computed " << std::endl;
     return;
+  } else if (plan.value().items.size() == 0) {
+    std::cout << "Planning succeeded, but there are no actions to execute " << std::endl;
+    return;
   }
 
   if (items > 0 && items <= plan.value().items.size()) {
@@ -881,10 +884,16 @@ Terminal::execute_plan(const plansys2_msgs::msg::Plan & plan)
 
   std::cout << std::endl;
 
-  if (executor_client_->getResult().value().success) {
-    std::cout << "Successful finished " << std::endl;
-  } else {
-    std::cout << "Finished with error(s) " << std::endl;
+  switch (executor_client_->getResult().value().result) {
+    case plansys2_msgs::action::ExecutePlan::Result::SUCCESS:
+      std::cout << "Successful finished " << std::endl;
+      break;
+    case plansys2_msgs::action::ExecutePlan::Result::PREEMPT:
+      std::cout << "Preempted " << std::endl;
+      break;
+    case plansys2_msgs::action::ExecutePlan::Result::FAILURE:
+      std::cout << "Finished with error(s) " << std::endl;
+      break;
   }
 }
 
@@ -898,7 +907,6 @@ Terminal::execute_action(std::vector<std::string> & command)
 
   complete_action.pop_back();
 
-  std::cerr << "<[" << complete_action << "]" << std::endl;
   plansys2_msgs::msg::PlanItem action;
   action.time = 0.0;
   action.action = complete_action;

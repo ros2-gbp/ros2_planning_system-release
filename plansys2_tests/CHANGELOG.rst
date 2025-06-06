@@ -2,30 +2,25 @@
 Changelog for package plansys2_tests
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-2.0.18 (2024-12-30)
--------------------
-
-2.0.17 (2024-12-30)
--------------------
-
-2.0.16 (2024-12-30)
--------------------
-
-2.0.15 (2024-12-03)
--------------------
-
-2.0.14 (2024-11-14)
--------------------
-
-2.0.13 (2024-11-06)
--------------------
+3.0.0 (2025-06-06)
+------------------
+* Revamp CMake and clean unused headers
+* Update CMakeLists to manage dependencies more efficiently in various packages.
+* Update CI adding BT.CPP as source dependecy
+* Fix deprecation of ament_target_dependencies
+* Multiple plans and replanning stability
+* Replanning
+* Adaptation of the rest of the packages
+* Merge pull request `#332 <https://github.com/PlanSys2/ros2_planning_system/issues/332>`_ from PlanSys2/maintenance_rolling
+  Maintenance rolling
 * Change to EventsExecutor
-* Contributors: Francisco Martín Rico
-
-2.0.12 (2024-10-16)
--------------------
+* 🎨 linter for plansys2_pddl_parser
+* Fix CI after BT-CPP v4
+* Remove cmake warning
+* Upgrade to Behaviortree.CPP v4
 * Bump Behaviortree.CPP v3 to v4
-* Contributors: Francisco Martín Rico, Gustavo, Josh Zapf, Marco Roveri, robodrome
+* Contributors: Alberto Tudela, Francisco Martín Rico, Gustavo, Josh Zapf, Marco Roveri, robodrome
+
 
 2.0.9 (2022-07-10)
 ------------------

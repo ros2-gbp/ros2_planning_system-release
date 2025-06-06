@@ -109,7 +109,22 @@ private:
   bool cancelled_ {false};
 };
 
-TEST(bt_actions, load_plugins)
+class BTActionsTestCase : public ::testing::Test
+{
+protected:
+  void SetUp()
+  {
+    rclcpp::init(0, nullptr);
+  }
+
+  void TearDown()
+  {
+    rclcpp::shutdown();
+  }
+};
+
+
+TEST_F(BTActionsTestCase, load_plugins)
 {
   auto node = rclcpp_lifecycle::LifecycleNode::make_shared("load_plugins_node");
   auto move_server_node = std::make_shared<MoveServer>();
@@ -117,9 +132,11 @@ TEST(bt_actions, load_plugins)
 
   bool finish = false;
   std::thread t([&]() {
+      rclcpp::Rate rate(100);
       while (!finish) {
         rclcpp::spin_some(move_server_node);
         rclcpp::spin_some(node->get_node_base_interface());
+        rate.sleep();
       }
     });
 
@@ -147,9 +164,11 @@ TEST(bt_actions, load_plugins)
   }
 
   t.join();
+
+  node->shutdown();
 }
 
-TEST(bt_actions, on_tick_failure)
+TEST_F(BTActionsTestCase, on_tick_failure)
 {
   auto node = rclcpp_lifecycle::LifecycleNode::make_shared("test_node");
   auto move_server_node = std::make_shared<MoveServer>();
@@ -157,9 +176,11 @@ TEST(bt_actions, on_tick_failure)
 
   bool finished = false;
   std::thread t([&]() {
+      rclcpp::Rate rate(100);
       while (!finished) {
         rclcpp::spin_some(move_server_node);
         rclcpp::spin_some(node->get_node_base_interface());
+        rate.sleep();
       }
     });
 
@@ -185,9 +206,11 @@ TEST(bt_actions, on_tick_failure)
 
   finished = true;
   t.join();
+
+  node->shutdown();
 }
 
-TEST(bt_actions, on_feedback_failure)
+TEST_F(BTActionsTestCase, on_feedback_failure)
 {
   auto node = rclcpp_lifecycle::LifecycleNode::make_shared("test_node");
   auto move_server_node = std::make_shared<MoveServer>();
@@ -195,9 +218,11 @@ TEST(bt_actions, on_feedback_failure)
 
   bool finished = false;
   std::thread t([&]() {
+      rclcpp::Rate rate(100);
       while (!finished) {
         rclcpp::spin_some(move_server_node);
         rclcpp::spin_some(node->get_node_base_interface());
+        rate.sleep();
       }
     });
 
@@ -224,9 +249,11 @@ TEST(bt_actions, on_feedback_failure)
 
   finished = true;
   t.join();
+
+  node->shutdown();
 }
 
-TEST(bt_actions, bt_action)
+TEST_F(BTActionsTestCase, bt_action)
 {
   std::string pkgpath = ament_index_cpp::get_package_share_directory("plansys2_bt_actions");
   std::string xml_file = pkgpath + "/test/behavior_tree/assemble.xml";
@@ -261,9 +288,11 @@ TEST(bt_actions, bt_action)
   while ( (lc_node->now() - start).seconds() < 2) {
     exe.spin_some();
   }
+
+  lc_node->shutdown();
 }
 
-TEST(bt_actions, cancel_bt_action)
+TEST_F(BTActionsTestCase, cancel_bt_action)
 {
   std::string pkgpath = ament_index_cpp::get_package_share_directory("plansys2_bt_actions");
   std::string xml_file = pkgpath + "/test/behavior_tree/assemble.xml";
@@ -350,12 +379,6 @@ TEST(bt_actions, cancel_bt_action)
 
   finish = true;
   t.join();
-}
 
-int main(int argc, char ** argv)
-{
-  rclcpp::init(argc, argv);
-
-  testing::InitGoogleTest(&argc, argv);
-  return RUN_ALL_TESTS();
+  lc_node->shutdown();
 }
