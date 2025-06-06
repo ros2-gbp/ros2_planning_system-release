@@ -1,3 +1,42 @@
+## ros2_planning_system (kilted) - 3.0.0-1
+
+The packages in the `ros2_planning_system` repository were released into the `kilted` distro by running `/usr/bin/bloom-release --rosdistro kilted --track kilted ros2_planning_system` on `Fri, 06 Jun 2025 06:15:01 -0000`
+
+These packages were released:
+- `plansys2`
+- `plansys2_bringup`
+- `plansys2_bt_actions`
+- `plansys2_core`
+- `plansys2_domain_expert`
+- `plansys2_executor`
+- `plansys2_lifecycle_manager`
+- `plansys2_msgs`
+- `plansys2_pddl_parser`
+- `plansys2_planner`
+- `plansys2_popf_plan_solver`
+- `plansys2_problem_expert`
+- `plansys2_support_py`
+- `plansys2_terminal`
+- `plansys2_tests`
+- `plansys2_tools`
+
+Version of package(s) in repository `ros2_planning_system`:
+
+- upstream repository: https://github.com/PlanSys2/ros2_planning_system.git
+- release repository: unknown
+- rosdistro version: `null`
+- old version: `null`
+- new version: `3.0.0-1`
+
+Versions of tools used:
+
+- bloom version: `0.12.0`
+- catkin_pkg version: `1.0.0`
+- rosdep version: `0.25.1`
+- rosdistro version: `1.0.1`
+- vcstools version: `0.1.42`
+
+
 ## ros2_planning_system (jazzy) - 2.0.18-1
 
 The packages in the `ros2_planning_system` repository were released into the `jazzy` distro by running `/usr/bin/bloom-release ros2_planning_system --rosdistro jazzy` on `Mon, 30 Dec 2024 09:15:48 -0000`
