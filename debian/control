@@ -1,0 +1,12 @@
+Source: ros-kilted-plansys2-msgs
+Section: misc
+Priority: optional
+Maintainer: Francisco Martin Rico <fmrico@gmail.com>
+Build-Depends: debhelper (>= 9.0.0), ros-kilted-action-msgs, ros-kilted-ament-cmake, ros-kilted-builtin-interfaces, ros-kilted-rclcpp, ros-kilted-rosidl-default-generators, ros-kilted-std-msgs, ros-kilted-ros-workspace, ros-kilted-rosidl-typesupport-fastrtps-c, ros-kilted-rosidl-typesupport-fastrtps-cpp
+Homepage: 
+Standards-Version: 3.9.2
+
+Package: ros-kilted-plansys2-msgs
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, ros-kilted-action-msgs, ros-kilted-builtin-interfaces, ros-kilted-rclcpp, ros-kilted-rosidl-default-generators, ros-kilted-std-msgs, ros-kilted-ros-workspace
+Description: Messages and service files for the ROS2 Planning System
