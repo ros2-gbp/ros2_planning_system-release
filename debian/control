@@ -1,0 +1,12 @@
+Source: ros-kilted-plansys2-support-py
+Section: misc
+Priority: optional
+Maintainer: Francisco Martin Rico <fmrico@gmail.com>
+Build-Depends: debhelper (>= 9.0.0), python3-pytest <!nocheck>, ros-kilted-ament-cmake, ros-kilted-ament-copyright <!nocheck>, ros-kilted-ament-flake8 <!nocheck>, ros-kilted-ament-pep257 <!nocheck>, ros-kilted-lifecycle-msgs, ros-kilted-plansys2-msgs, ros-kilted-python-cmake-module, ros-kilted-rclpy, ros-kilted-ros-workspace
+Homepage: 
+Standards-Version: 3.9.2
+
+Package: ros-kilted-plansys2-support-py
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, ros-kilted-lifecycle-msgs, ros-kilted-plansys2-msgs, ros-kilted-rclpy, ros-kilted-ros-workspace
+Description: This package contains modules for developing PlanSys components in Python
