@@ -1,0 +1,12 @@
+Source: ros-kilted-plansys2-terminal
+Section: misc
+Priority: optional
+Maintainer: Francisco Martin Rico <fmrico@gmail.com>
+Build-Depends: debhelper (>= 9.0.0), libreadline-dev, ros-kilted-ament-cmake, ros-kilted-ament-cmake-gtest <!nocheck>, ros-kilted-ament-index-cpp <!nocheck>, ros-kilted-ament-lint-auto <!nocheck>, ros-kilted-ament-lint-common <!nocheck>, ros-kilted-plansys2-domain-expert, ros-kilted-plansys2-executor, ros-kilted-plansys2-msgs, ros-kilted-plansys2-pddl-parser, ros-kilted-plansys2-planner, ros-kilted-plansys2-problem-expert, ros-kilted-rclcpp, ros-kilted-ros-workspace
+Homepage: 
+Standards-Version: 3.9.2
+
+Package: ros-kilted-plansys2-terminal
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, libreadline-dev, ros-kilted-plansys2-domain-expert, ros-kilted-plansys2-executor, ros-kilted-plansys2-msgs, ros-kilted-plansys2-pddl-parser, ros-kilted-plansys2-planner, ros-kilted-plansys2-problem-expert, ros-kilted-rclcpp, ros-kilted-ros-workspace
+Description: A terminal tool for monitor and manage the ROS2 Planning System
