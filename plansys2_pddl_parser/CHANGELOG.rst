@@ -2,6 +2,9 @@
 Changelog for package plansys2_pddl_parser
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+3.0.1 (2025-06-22)
+------------------
+
 3.0.0 (2025-06-06)
 ------------------
 * Modify export target. Rename metapackage
