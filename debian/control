@@ -1,0 +1,12 @@
+Source: ros-kilted-plansys2
+Section: misc
+Priority: optional
+Maintainer: Francisco Martin Rico <fmrico@gmail.com>
+Build-Depends: debhelper (>= 9.0.0), ros-kilted-ament-cmake, ros-kilted-ros-workspace
+Homepage: 
+Standards-Version: 3.9.2
+
+Package: ros-kilted-plansys2
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, ros-kilted-plansys2-bringup, ros-kilted-plansys2-bt-actions, ros-kilted-plansys2-core, ros-kilted-plansys2-domain-expert, ros-kilted-plansys2-executor, ros-kilted-plansys2-lifecycle-manager, ros-kilted-plansys2-msgs, ros-kilted-plansys2-pddl-parser, ros-kilted-plansys2-planner, ros-kilted-plansys2-popf-plan-solver, ros-kilted-plansys2-problem-expert, ros-kilted-plansys2-support-py, ros-kilted-plansys2-terminal, ros-kilted-plansys2-tools, ros-kilted-ros-workspace
+Description: ROS2 Planning System

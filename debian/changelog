@@ -1,0 +1,17 @@
+ros-kilted-plansys2 (3.0.1-1noble) noble; urgency=high
+
+  * remove dependency with nav2
+  * Contributors: Francisco Martín Rico
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Sat, 21 Jun 2025 22:00:00 -0000
+
+ros-kilted-plansys2 (3.0.0-1noble) noble; urgency=high
+
+  * Merge pull request #366 <https://github.com/PlanSys2/ros2_planning_system/issues/366> from fmrico/add_exports
+    Modify export target. Rename metapackage
+  * Modify export target. Rename metapackage
+  * Contributors: Francisco Martín Rico
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Thu, 05 Jun 2025 22:00:00 -0000
+
+
