@@ -1,0 +1,12 @@
+Source: ros-kilted-plansys2-executor
+Section: misc
+Priority: optional
+Maintainer: Francisco Martin Rico <fmrico@gmail.com>
+Build-Depends: debhelper (>= 9.0.0), libeigen3-dev, ros-kilted-ament-cmake, ros-kilted-ament-cmake-gtest <!nocheck>, ros-kilted-ament-index-cpp, ros-kilted-ament-lint-auto <!nocheck>, ros-kilted-ament-lint-common <!nocheck>, ros-kilted-behaviortree-cpp, ros-kilted-eigen3-cmake-module, ros-kilted-lifecycle-msgs, ros-kilted-plansys2-core, ros-kilted-plansys2-domain-expert, ros-kilted-plansys2-msgs, ros-kilted-plansys2-pddl-parser, ros-kilted-plansys2-planner, ros-kilted-plansys2-problem-expert, ros-kilted-pluginlib, ros-kilted-rclcpp, ros-kilted-rclcpp-action, ros-kilted-rclcpp-cascade-lifecycle, ros-kilted-rclcpp-lifecycle, ros-kilted-std-msgs, ros-kilted-std-srvs, ros-kilted-ros-workspace
+Homepage: 
+Standards-Version: 3.9.2
+
+Package: ros-kilted-plansys2-executor
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, ros-kilted-ament-index-cpp, ros-kilted-behaviortree-cpp, ros-kilted-lifecycle-msgs, ros-kilted-plansys2-core, ros-kilted-plansys2-domain-expert, ros-kilted-plansys2-msgs, ros-kilted-plansys2-pddl-parser, ros-kilted-plansys2-planner, ros-kilted-plansys2-problem-expert, ros-kilted-pluginlib, ros-kilted-popf, ros-kilted-rclcpp, ros-kilted-rclcpp-action, ros-kilted-rclcpp-cascade-lifecycle, ros-kilted-rclcpp-lifecycle, ros-kilted-std-msgs, ros-kilted-std-srvs, ros-kilted-ros-workspace
+Description: This package contains the Executor module for the ROS2 Planning System
