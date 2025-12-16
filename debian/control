@@ -1,0 +1,12 @@
+Source: ros-kilted-plansys2-tools
+Section: misc
+Priority: optional
+Maintainer: Francisco Martin Rico <fmrico@gmail.com>
+Build-Depends: debhelper (>= 9.0.0), qtbase5-dev, ros-kilted-ament-cmake, ros-kilted-ament-cmake-gtest <!nocheck>, ros-kilted-ament-index-cpp <!nocheck>, ros-kilted-ament-lint-auto <!nocheck>, ros-kilted-ament-lint-common <!nocheck>, ros-kilted-plansys2-msgs, ros-kilted-plansys2-problem-expert, ros-kilted-qt-gui-cpp, ros-kilted-rclcpp, ros-kilted-rclcpp-lifecycle, ros-kilted-rqt-gui, ros-kilted-rqt-gui-cpp, ros-kilted-ros-workspace
+Homepage: 
+Standards-Version: 3.9.2
+
+Package: ros-kilted-plansys2-tools
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, libqt5widgets5, ros-kilted-plansys2-msgs, ros-kilted-plansys2-problem-expert, ros-kilted-qt-gui-cpp, ros-kilted-rclcpp, ros-kilted-rclcpp-lifecycle, ros-kilted-rqt-gui, ros-kilted-rqt-gui-cpp, ros-kilted-ros-workspace
+Description: A set of tools for monitoring ROS2 Planning System
