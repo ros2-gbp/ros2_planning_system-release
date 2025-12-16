@@ -1,0 +1,12 @@
+Source: ros-kilted-plansys2-tests
+Section: misc
+Priority: optional
+Maintainer: Francisco Martin Rico <fmrico@gmail.com>
+Build-Depends: debhelper (>= 9.0.0), ros-kilted-ament-cmake, ros-kilted-ament-cmake-gtest <!nocheck>, ros-kilted-ament-index-cpp <!nocheck>, ros-kilted-ament-lint-auto <!nocheck>, ros-kilted-ament-lint-common <!nocheck>, ros-kilted-plansys2-domain-expert <!nocheck>, ros-kilted-plansys2-executor, ros-kilted-plansys2-msgs, ros-kilted-plansys2-pddl-parser <!nocheck>, ros-kilted-plansys2-planner <!nocheck>, ros-kilted-plansys2-problem-expert <!nocheck>, ros-kilted-rclcpp, ros-kilted-ros-workspace
+Homepage: 
+Standards-Version: 3.9.2
+
+Package: ros-kilted-plansys2-tests
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, ros-kilted-plansys2-executor, ros-kilted-plansys2-msgs, ros-kilted-popf, ros-kilted-rclcpp, ros-kilted-ros-workspace
+Description: This package contains the tests package for the ROS2 Planning System
