@@ -1,0 +1,12 @@
+Source: ros-lyrical-plansys2-problem-expert
+Section: misc
+Priority: optional
+Maintainer: "Francisco Martin Rico" <fmrico@gmail.com>
+Build-Depends: debhelper (>= 9.0.0), ros-lyrical-ament-cmake, ros-lyrical-ament-cmake-gtest <!nocheck>, ros-lyrical-ament-index-cpp, ros-lyrical-ament-lint-auto <!nocheck>, ros-lyrical-ament-lint-common <!nocheck>, ros-lyrical-lifecycle-msgs, ros-lyrical-plansys2-domain-expert, ros-lyrical-plansys2-msgs, ros-lyrical-plansys2-pddl-parser, ros-lyrical-rclcpp, ros-lyrical-rclcpp-lifecycle, ros-lyrical-std-msgs, ros-lyrical-ros-workspace
+Homepage: https://index.ros.org/p/plansys2_problem_expert/#lyrical
+Standards-Version: 3.9.2
+
+Package: ros-lyrical-plansys2-problem-expert
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, ros-lyrical-ament-index-cpp, ros-lyrical-lifecycle-msgs, ros-lyrical-plansys2-domain-expert, ros-lyrical-plansys2-msgs, ros-lyrical-plansys2-pddl-parser, ros-lyrical-rclcpp, ros-lyrical-rclcpp-lifecycle, ros-lyrical-std-msgs, ros-lyrical-ros-workspace
+Description: This package contains the Problem Expert module for the ROS2 Planning System
