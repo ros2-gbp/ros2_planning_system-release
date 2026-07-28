@@ -2,16 +2,18 @@
 Changelog for package plansys2_terminal
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-3.0.2 (2025-12-16)
+3.1.0 (2026-07-28)
 ------------------
+* Deprecate BTAction with rate. Fix all warnings
+* Potential fix for pull request finding
+  Co-authored-by: Copilot Autofix powered by AI <175728472+Copilot@users.noreply.github.com>
+* Fix data races, optional access crash, and execvp UB in plansys2_core / plansys2_terminal
 * Fix orphan thread bug in ExecutorNode
+* Add default
 * Set C++23 as default
+* Fix context in plansys2_terminal tests
 * derived_name.name -> derived_name.predicate.name
-* Improvements on BTAction
 * Contributors: Alberto Tudela, Eshan Savla, Francisco Martín Rico, Gustavo, Gustavo Rezende
-
-3.0.1 (2025-06-22)
-------------------
 
 3.0.0 (2025-06-06)
 ------------------

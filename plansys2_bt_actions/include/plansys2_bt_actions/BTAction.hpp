@@ -50,15 +50,6 @@ public:
   explicit BTAction(const std::string & action);
 
   /**
-   * @brief Constructor for the BTAction.
-   *
-   * @param[in] action Name of the action this executor handles.
-   * @param[in] rate Execution rate for the action.
-   */
-  [[deprecated("Use BTAction(const std::string & action) instead")]]
-  BTAction(const std::string & action, const std::chrono::nanoseconds & rate);
-
-  /**
    * @brief Get the name of the action.
    *
    * @return std::string The action name.
@@ -150,6 +141,7 @@ private:
   std::string bt_xml_file_;
   std::vector<std::string> plugin_list_;
   bool finished_;
+  int total_action_nodes_;
   std::unique_ptr<BT::FileLogger2> bt_file_logger_;
   std::unique_ptr<BT::MinitraceLogger> bt_minitrace_logger_;
   // Groot2 monitor

@@ -23,7 +23,7 @@
 #include <list>
 #include <tuple>
 
-#include "ament_index_cpp/get_package_share_directory.hpp"
+#include "ament_index_cpp/get_package_share_path.hpp"
 
 #include "plansys2_domain_expert/DomainExpertNode.hpp"
 #include "plansys2_domain_expert/DomainExpertClient.hpp"
@@ -95,9 +95,9 @@ public:
     return SimpleBTBuilder::is_action_executable(action, predicates, functions);
   }
 
-  plansys2::ActionGraph::Ptr get_graph(const plansys2_msgs::msg::Plan & current_plan)
+  plansys2::ActionGraph::Ptr build_action_graph(const plansys2_msgs::msg::Plan & current_plan)
   {
-    return SimpleBTBuilder::get_graph(current_plan);
+    return SimpleBTBuilder::build_action_graph(current_plan);
   }
 
   std::list<plansys2::ActionNode::Ptr> get_roots(
@@ -164,7 +164,7 @@ TEST(simple_btbuilder_tests, test_plan_1)
 
   auto btbuilder = std::make_shared<SimpleBTBuilderTest>();
 
-  std::string pkgpath = ament_index_cpp::get_package_share_directory("plansys2_executor");
+  std::string pkgpath = ament_index_cpp::get_package_share_path("plansys2_executor").string();
 
   domain_node->set_parameter({"model_file", pkgpath + "/pddl/domain_simple_2.pddl"});
   problem_node->set_parameter({"model_file", pkgpath + "/pddl/domain_simple_2.pddl"});
@@ -408,7 +408,7 @@ TEST(simple_btbuilder_tests, test_plan_2)
 
   auto btbuilder = std::make_shared<SimpleBTBuilderTest>();
 
-  std::string pkgpath = ament_index_cpp::get_package_share_directory("plansys2_executor");
+  std::string pkgpath = ament_index_cpp::get_package_share_path("plansys2_executor").string();
 
   domain_node->set_parameter({"model_file", pkgpath + "/pddl/factory.pddl"});
   problem_node->set_parameter({"model_file", pkgpath + "/pddl/factory.pddl"});
@@ -596,7 +596,7 @@ TEST(simple_btbuilder_tests, test_plan_2)
   it++;
   EXPECT_TRUE(btbuilder->get_node_satisfy(tree, *it, nullptr) == nullptr);
 
-  auto graph = btbuilder->get_graph(plan.value());
+  auto graph = btbuilder->build_action_graph(plan.value());
   EXPECT_TRUE(graph != nullptr);
 
   btbuilder->print_graph(graph);
@@ -618,7 +618,7 @@ TEST(simple_btbuilder_tests, test_plan_3)
 
   auto btbuilder = std::make_shared<SimpleBTBuilderTest>();
 
-  std::string pkgpath = ament_index_cpp::get_package_share_directory("plansys2_executor");
+  std::string pkgpath = ament_index_cpp::get_package_share_path("plansys2_executor").string();
 
   domain_node->set_parameter({"model_file", pkgpath + "/pddl/domain_simple_2.pddl"});
   problem_node->set_parameter({"model_file", pkgpath + "/pddl/domain_simple_2.pddl"});
@@ -710,7 +710,7 @@ TEST(simple_btbuilder_tests, test_plan_4)
 
   auto btbuilder = std::make_shared<SimpleBTBuilderTest>();
 
-  std::string pkgpath = ament_index_cpp::get_package_share_directory("plansys2_executor");
+  std::string pkgpath = ament_index_cpp::get_package_share_path("plansys2_executor").string();
 
   domain_node->set_parameter({"model_file", pkgpath + "/pddl/cooking_domain.pddl"});
   problem_node->set_parameter({"model_file", pkgpath + "/pddl/cooking_domain.pddl"});
@@ -805,7 +805,7 @@ TEST(simple_btbuilder_tests, test_plan_4)
 
   ASSERT_TRUE(plan);
 
-  btbuilder->print_graph(btbuilder->get_graph(plan.value()));
+  btbuilder->print_graph(btbuilder->build_action_graph(plan.value()));
   auto bt = btbuilder->get_tree(plan.value());
 
   std::cerr << bt << std::endl;
@@ -829,7 +829,7 @@ TEST(simple_btbuilder_tests, test_plan_5)
 
   auto btbuilder = std::make_shared<SimpleBTBuilderTest>();
 
-  std::string pkgpath = ament_index_cpp::get_package_share_directory("plansys2_executor");
+  std::string pkgpath = ament_index_cpp::get_package_share_path("plansys2_executor").string();
 
   domain_node->set_parameter({"model_file", pkgpath + "/pddl/road_trip_domain.pddl"});
   problem_node->set_parameter({"model_file", pkgpath + "/pddl/road_trip_domain.pddl"});
@@ -881,7 +881,7 @@ TEST(simple_btbuilder_tests, test_plan_5)
 
   ASSERT_TRUE(plan);
 
-  auto action_graph = btbuilder->get_graph(plan.value());
+  auto action_graph = btbuilder->build_action_graph(plan.value());
   btbuilder->print_graph_csv(action_graph);
 
   auto tabulated_graph = btbuilder->get_graph_tabular(action_graph);
@@ -943,7 +943,7 @@ TEST(simple_btbuilder_tests, test_plan_6)
 
   auto btbuilder = std::make_shared<SimpleBTBuilderTest>();
 
-  std::string pkgpath = ament_index_cpp::get_package_share_directory("plansys2_executor");
+  std::string pkgpath = ament_index_cpp::get_package_share_path("plansys2_executor").string();
 
   domain_node->set_parameter({"model_file", pkgpath + "/pddl/elevator_domain.pddl"});
   problem_node->set_parameter({"model_file", pkgpath + "/pddl/elevator_domain.pddl"});
@@ -995,7 +995,7 @@ TEST(simple_btbuilder_tests, test_plan_6)
 
   ASSERT_TRUE(plan);
 
-  auto action_graph = btbuilder->get_graph(plan.value());
+  auto action_graph = btbuilder->build_action_graph(plan.value());
   btbuilder->print_graph_csv(action_graph);
 
   auto tabulated_graph = btbuilder->get_graph_tabular(action_graph);

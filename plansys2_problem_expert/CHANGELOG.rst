@@ -2,20 +2,19 @@
 Changelog for package plansys2_problem_expert
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-3.0.2 (2025-12-16)
+3.1.0 (2026-07-28)
 ------------------
+* Deprecate BTAction with rate. Fix all warnings
+* Merge pull request `#392 <https://github.com/PlanSys2/ros2_planning_system/issues/392>`_ from fmrico/fix_ci_2
+  Fix ci 2
 * Set C++23 as default
 * derived_name.name -> derived_name.predicate.name
-* Improvements to pddl parser utils
 * fix evaluate_not test
-* Improve doxygen documentation
 * Added optional dependency
 * Improve doc for domain and problem
 * Doc for problem expert
+* Merge branch 'rolling' into getExpr
 * Contributors: Alberto Tudela, Eshan Savla, Francisco Martín Rico, Gustavo, Gustavo Rezende
-
-3.0.1 (2025-06-22)
-------------------
 
 3.0.0 (2025-06-06)
 ------------------

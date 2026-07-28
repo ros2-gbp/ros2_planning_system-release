@@ -45,19 +45,6 @@ BTAction::BTAction(const std::string & action)
   declare_parameter<int>("wait_for_service_timeout", 1000);
 }
 
-BTAction::BTAction(const std::string & action, const std::chrono::nanoseconds & rate)
-: ActionExecutorClient(action, rate)
-{
-  declare_parameter<std::string>("bt_xml_file", "");
-  declare_parameter<std::vector<std::string>>("plugins", std::vector<std::string>({}));
-  declare_parameter<bool>("bt_file_logging", false);
-  declare_parameter<bool>("bt_minitrace_logging", false);
-  declare_parameter<bool>("enable_groot_monitoring", false);
-  declare_parameter<int>("server_port", -1);
-  declare_parameter<int>("server_timeout", 5000);
-  declare_parameter<int>("wait_for_service_timeout", 1000);
-}
-
 rclcpp_lifecycle::node_interfaces::LifecycleNodeInterface::CallbackReturn
 BTAction::on_configure(const rclcpp_lifecycle::State & previous_state)
 {
@@ -123,7 +110,7 @@ BTAction::on_activate(const rclcpp_lifecycle::State & previous_state)
     return rclcpp_lifecycle::node_interfaces::LifecycleNodeInterface::CallbackReturn::FAILURE;
   }
 
-  for (int i = 0; i < get_arguments().size(); i++) {
+  for (size_t i = 0; i < get_arguments().size(); i++) {
     auto arg = get_arguments()[i];
     RCLCPP_DEBUG_STREAM(
       get_logger(),
@@ -175,7 +162,20 @@ BTAction::on_activate(const rclcpp_lifecycle::State & previous_state)
     }
   }
 
+  // Count leaf action nodes so we can track tree-level completion
+  total_action_nodes_ = 0;
+  tree_.applyVisitor(
+    [this](BT::TreeNode * node) {
+      if (node->type() == BT::NodeType::ACTION) {
+        total_action_nodes_++;
+      }
+    });
+  if (total_action_nodes_ == 0) {
+    total_action_nodes_ = 1;  // avoid division by zero for trivial trees
+  }
+
   finished_ = false;
+  blackboard_->set<float>("completion", 0.0f);  // current node writes its local progress here
   return ActionExecutorClient::on_activate(previous_state);
 }
 
@@ -196,27 +196,58 @@ void BTAction::do_work()
     BT::NodeStatus result;
     try {
       result = tree_.rootNode()->executeTick();
-    } catch (BT::LogicError e) {
+    } catch (const BT::LogicError & e) {
       RCLCPP_ERROR_STREAM(get_logger(), e.what());
       finish(false, 0.0, "BTAction behavior tree threw a BT::LogicError");
-    } catch (BT::RuntimeError e) {
+    } catch (const BT::RuntimeError & e) {
       RCLCPP_ERROR_STREAM(get_logger(), e.what());
       finish(false, 0.0, "BTAction behavior tree threw a BT::RuntimeError");
-    } catch (std::exception e) {
+    } catch (const std::exception & e) {
       finish(false, 0.0, "BTAction behavior tree threw an unknown exception");
+    }
+
+    std::string out_msg;
+    if (!blackboard_->get("out_msg", out_msg)) {
+      out_msg = "";
     }
 
     switch (result) {
       case BT::NodeStatus::SUCCESS:
-        finish(true, 1.0, "BTAction behavior tree returned SUCCESS");
+        finish(true, 1.0,
+          out_msg.empty() ? "BTAction behavior tree returned SUCCESS" : out_msg);
         finished_ = true;
         break;
       case BT::NodeStatus::RUNNING:
-        send_feedback(0.0, "BTAction behavior tree returned RUNNING");
-        break;
+        {
+        // Count how many action nodes have already completed
+          int completed_nodes = 0;
+          tree_.applyVisitor(
+            [&completed_nodes](BT::TreeNode * node) {
+              if (node->type() == BT::NodeType::ACTION &&
+              node->status() == BT::NodeStatus::SUCCESS)
+              {
+                completed_nodes++;
+              }
+          });
+
+        // Read the currently-running node's local progress (0→1), written by each BT node
+          float node_completion = 0.0f;
+          (void)blackboard_->get<float>("completion", node_completion);
+
+        // Overall: (fully-done nodes + fraction of current node) / total nodes
+          float overall = (static_cast<float>(completed_nodes) + node_completion) /
+            static_cast<float>(total_action_nodes_);
+          send_feedback(overall,
+            out_msg.empty() ? "BTAction behavior tree returned RUNNING" : out_msg);
+          break;
+        }
       case BT::NodeStatus::FAILURE:
-        finish(false, 1.0, "BTAction behavior tree returned FAILURE");
+        finish(false, 1.0,
+          out_msg.empty() ? "BTAction behavior tree returned FAILURE" : out_msg);
         finished_ = true;
+        break;
+      case BT::NodeStatus::IDLE:
+      case BT::NodeStatus::SKIPPED:
         break;
     }
   }

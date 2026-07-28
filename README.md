@@ -9,19 +9,13 @@ Status](https://github.com/PlanSys2/ros2_planning_system/workflows/rolling/badge
 Status](https://github.com/PlanSys2/ros2_planning_system/workflows/kilted-devel/badge.svg)](https://github.com/PlanSys2/ros2_planning_system)
 
 [![GitHub Action
+Status](https://github.com/PlanSys2/ros2_planning_system/workflows/lyrical-devel/badge.svg)](https://github.com/PlanSys2/ros2_planning_system)
+
+[![GitHub Action
 Status](https://github.com/PlanSys2/ros2_planning_system/workflows/jazzy-devel/badge.svg)](https://github.com/PlanSys2/ros2_planning_system)
 
 [![GitHub Action
-Status](https://github.com/PlanSys2/ros2_planning_system/workflows/iron-devel/badge.svg)](https://github.com/PlanSys2/ros2_planning_system)
-
-[![GitHub Action
 Status](https://github.com/PlanSys2/ros2_planning_system/workflows/humble-devel/badge.svg)](https://github.com/PlanSys2/ros2_planning_system)
-
-[![GitHub Action
-Status](https://github.com/PlanSys2/ros2_planning_system/workflows/galactic-devel/badge.svg)](https://github.com/PlanSys2/ros2_planning_system)
-
-[![GitHub Action
-Status](https://github.com/PlanSys2/ros2_planning_system/actions/workflows/foxy-devel.yaml/badge.svg)](https://github.com/PlanSys2/ros2_planning_system/actions/workflows/foxy-devel.yaml)
 
 ROS2 Planning System (**plansys2** in short) is a project whose objective is to provide Robotics developers with a reliable, simple, and efficient PDDL-based planning system. It is implemented in ROS2, applying the latest concepts developed in this currently de-facto standard in Robotics.
 

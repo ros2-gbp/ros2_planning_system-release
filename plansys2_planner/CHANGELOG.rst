@@ -2,15 +2,15 @@
 Changelog for package plansys2_planner
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-3.0.2 (2025-12-16)
+3.1.0 (2026-07-28)
 ------------------
+* Fix deprecated get_share_directory
+* Deprecate BTAction with rate. Fix all warnings
+* Fix test
+* Add default
 * Set C++23 as default
-* Improve doxygen documentation
 * Doc for planner
 * Contributors: Alberto Tudela, Eshan Savla, Francisco Martín Rico, Gustavo, Gustavo Rezende
-
-3.0.1 (2025-06-22)
-------------------
 
 3.0.0 (2025-06-06)
 ------------------

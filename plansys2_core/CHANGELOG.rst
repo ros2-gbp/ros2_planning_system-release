@@ -2,11 +2,15 @@
 Changelog for package plansys2_core
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-3.0.2 (2025-12-16)
+3.1.0 (2026-07-28)
 ------------------
+* Fix deprecated get_share_directory
+* Potential fix for pull request finding
+  Co-authored-by: Copilot Autofix powered by AI <175728472+Copilot@users.noreply.github.com>
+* Fix data races, optional access crash, and execvp UB in plansys2_core / plansys2_terminal
 * Set C++23 as default
+* Temporal deactivation of problematic tests
 * Add function to print predicates for debugging
-* Allow `rolling` to build against ROS Jazzy
 * core: tests use std::fs, so include it
 * improve documentation State and DerivedResolutionGraph
 * rm old ActionVariant from ActionExecutor and adjust code
@@ -17,13 +21,9 @@ Changelog for package plansys2_core
 * add Action class
 * add Derived class and hashes
 * add == operator to Instance and Predicate
-* Improve doxygen documentation
 * Improve doc for core
 * Doc for core
 * Contributors: Alberto Tudela, Eshan Savla, Francisco Martín Rico, Gustavo, Gustavo Rezende, gavanderhoorn
-
-3.0.1 (2025-06-22)
-------------------
 
 3.0.0 (2025-06-06)
 ------------------

@@ -2,16 +2,15 @@
 Changelog for package plansys2_tools
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-3.0.2 (2025-12-16)
+3.1.0 (2026-07-28)
 ------------------
+* Adaptation to the new Qt version
+* Deprecate BTAction with rate. Fix all warnings
+* Fix RQT plugins
 * Set C++23 as default
-* Allow `rolling` to build against ROS Jazzy
 * tools: conditionally include .hpp (vs .h)
   Headers have been renamed in Rolling & Kilted.
 * Contributors: Eshan Savla, Francisco Martín Rico, Gustavo, Gustavo Rezende, gavanderhoorn
-
-3.0.1 (2025-06-22)
-------------------
 
 3.0.0 (2025-06-06)
 ------------------
