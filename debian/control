@@ -1,0 +1,12 @@
+Source: ros-lyrical-plansys2-bringup
+Section: misc
+Priority: optional
+Maintainer: "Francisco Martin Rico" <fmrico@gmail.com>
+Build-Depends: debhelper (>= 9.0.0), ros-lyrical-ament-cmake, ros-lyrical-ament-lint-auto <!nocheck>, ros-lyrical-ament-lint-common <!nocheck>, ros-lyrical-launch <!nocheck>, ros-lyrical-launch-testing <!nocheck>, ros-lyrical-plansys2-domain-expert, ros-lyrical-plansys2-executor, ros-lyrical-plansys2-lifecycle-manager, ros-lyrical-plansys2-planner, ros-lyrical-plansys2-problem-expert, ros-lyrical-rclcpp, ros-lyrical-ros-workspace
+Homepage: https://index.ros.org/p/plansys2_bringup/#lyrical
+Standards-Version: 3.9.2
+
+Package: ros-lyrical-plansys2-bringup
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, ros-lyrical-launch-ros, ros-lyrical-plansys2-domain-expert, ros-lyrical-plansys2-executor, ros-lyrical-plansys2-lifecycle-manager, ros-lyrical-plansys2-planner, ros-lyrical-plansys2-problem-expert, ros-lyrical-rclcpp, ros-lyrical-ros-workspace
+Description: Bringup scripts and configurations for the ROS2 Planning System
