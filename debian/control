@@ -1,0 +1,12 @@
+Source: ros-lyrical-plansys2-popf-plan-solver
+Section: misc
+Priority: optional
+Maintainer: "Francisco Martin Rico" <fmrico@gmail.com>
+Build-Depends: debhelper (>= 9.0.0), ros-lyrical-ament-cmake, ros-lyrical-ament-cmake-gtest <!nocheck>, ros-lyrical-ament-index-cpp <!nocheck>, ros-lyrical-ament-lint-auto <!nocheck>, ros-lyrical-ament-lint-common <!nocheck>, ros-lyrical-plansys2-core, ros-lyrical-pluginlib, ros-lyrical-rclcpp, ros-lyrical-ros2run <!nocheck>, ros-lyrical-ros-workspace
+Homepage: https://index.ros.org/p/plansys2_popf_plan_solver/#lyrical
+Standards-Version: 3.9.2
+
+Package: ros-lyrical-plansys2-popf-plan-solver
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, ros-lyrical-plansys2-core, ros-lyrical-pluginlib, ros-lyrical-popf, ros-lyrical-rclcpp, ros-lyrical-ros-workspace
+Description: This package contains the PDDL-based Planner module for the ROS2 Planning System
