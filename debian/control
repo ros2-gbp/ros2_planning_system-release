@@ -1,0 +1,12 @@
+Source: ros-lyrical-plansys2-tools
+Section: misc
+Priority: optional
+Maintainer: "Francisco Martin Rico" <fmrico@gmail.com>
+Build-Depends: debhelper (>= 9.0.0), qtbase5-dev, ros-lyrical-ament-cmake, ros-lyrical-ament-cmake-gtest <!nocheck>, ros-lyrical-ament-index-cpp <!nocheck>, ros-lyrical-ament-lint-auto <!nocheck>, ros-lyrical-ament-lint-common <!nocheck>, ros-lyrical-plansys2-msgs, ros-lyrical-plansys2-problem-expert, ros-lyrical-qt-gui-cpp, ros-lyrical-rclcpp, ros-lyrical-rclcpp-lifecycle, ros-lyrical-rqt-gui, ros-lyrical-rqt-gui-cpp, ros-lyrical-ros-workspace
+Homepage: https://index.ros.org/p/plansys2_tools/#lyrical
+Standards-Version: 3.9.2
+
+Package: ros-lyrical-plansys2-tools
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, libqt5widgets5t64, ros-lyrical-plansys2-msgs, ros-lyrical-plansys2-problem-expert, ros-lyrical-qt-gui-cpp, ros-lyrical-rclcpp, ros-lyrical-rclcpp-lifecycle, ros-lyrical-rqt-gui, ros-lyrical-rqt-gui-cpp, ros-lyrical-ros-workspace
+Description: A set of tools for monitoring ROS2 Planning System
