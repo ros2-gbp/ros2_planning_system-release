@@ -1,0 +1,12 @@
+Source: ros-lyrical-plansys2-tests
+Section: misc
+Priority: optional
+Maintainer: "Francisco Martin Rico" <fmrico@gmail.com>
+Build-Depends: debhelper (>= 9.0.0), ros-lyrical-ament-cmake, ros-lyrical-ament-cmake-gtest <!nocheck>, ros-lyrical-ament-index-cpp <!nocheck>, ros-lyrical-ament-lint-auto <!nocheck>, ros-lyrical-ament-lint-common <!nocheck>, ros-lyrical-plansys2-domain-expert <!nocheck>, ros-lyrical-plansys2-executor, ros-lyrical-plansys2-msgs, ros-lyrical-plansys2-pddl-parser <!nocheck>, ros-lyrical-plansys2-planner <!nocheck>, ros-lyrical-plansys2-problem-expert <!nocheck>, ros-lyrical-rclcpp, ros-lyrical-ros-workspace
+Homepage: https://index.ros.org/p/plansys2_tests/#lyrical
+Standards-Version: 3.9.2
+
+Package: ros-lyrical-plansys2-tests
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, ros-lyrical-plansys2-executor, ros-lyrical-plansys2-msgs, ros-lyrical-popf, ros-lyrical-rclcpp, ros-lyrical-ros-workspace
+Description: This package contains the tests package for the ROS2 Planning System
