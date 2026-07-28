@@ -1,0 +1,186 @@
+ros-lyrical-plansys2-tui-cli (3.1.0-1resolute) resolute; urgency=high
+
+  * Fix missing module in plansys2_tui dependencies
+  * Fix test import
+  * Fix publish execution Info. TUI and CLI
+  * Contributors: Francisco Martín Rico, SamueleSandrini
+  * Fix CI
+  * Fix CI
+  * Merge pull request #404 <https://github.com/PlanSys2/ros2_planning_system/issues/404> from JRL-CARI-CNR-UNIBS/rolling-pr-tui
+    Fix missing module in plansys2_tui dependencies
+  * Fix missing module in plansys2_tui dependencies
+  * Merge pull request #401 <https://github.com/PlanSys2/ros2_planning_system/issues/401> from PlanSys2/tui_and_cli
+    Fix publish execution Info. TUI and CLI
+  * Fix test import
+  * Potential fix for pull request finding
+    Co-authored-by: Copilot Autofix powered by AI <mailto:175728472+Copilot@users.noreply.github.com>
+  * Potential fix for pull request finding
+    Co-authored-by: Copilot Autofix powered by AI <mailto:175728472+Copilot@users.noreply.github.com>
+  * Fix publish execution Info. TUI and CLI
+  * Contributors: Francisco Martín Rico, SamueleSandrini
+
+ -- "Francisco Martín Rico" <fmrico@gmail.com>  Mon, 27 Jul 2026 22:00:00 -0000
+
+ros-lyrical-plansys2-tui-cli (3.0.0-1resolute) resolute; urgency=high
+
+
+
+ -- "Francisco Martín Rico" <fmrico@gmail.com>  Thu, 05 Jun 2025 22:00:00 -0000
+
+ros-lyrical-plansys2-tui-cli (2.0.9-1resolute) resolute; urgency=high
+
+
+
+ -- "Francisco Martín Rico" <fmrico@gmail.com>  Sat, 09 Jul 2022 22:00:00 -0000
+
+ros-lyrical-plansys2-tui-cli (2.0.8-1resolute) resolute; urgency=high
+
+
+
+ -- "Francisco Martín Rico" <fmrico@gmail.com>  Wed, 04 May 2022 15:56:00 -0000
+
+ros-lyrical-plansys2-tui-cli (2.0.7-1resolute) resolute; urgency=high
+
+
+
+ -- "Francisco Martín Rico" <fmrico@gmail.com>  Wed, 04 May 2022 09:14:00 -0000
+
+ros-lyrical-plansys2-tui-cli (2.0.6-1resolute) resolute; urgency=high
+
+
+
+ -- "Francisco Martín Rico" <fmrico@gmail.com>  Tue, 03 May 2022 19:09:00 -0000
+
+ros-lyrical-plansys2-tui-cli (2.0.5-1resolute) resolute; urgency=high
+
+
+
+ -- "Francisco Martín Rico" <fmrico@gmail.com>  Tue, 03 May 2022 17:45:00 -0000
+
+ros-lyrical-plansys2-tui-cli (2.0.4-1resolute) resolute; urgency=high
+
+
+
+ -- "Francisco Martín Rico" <fmrico@gmail.com>  Tue, 03 May 2022 17:32:00 -0000
+
+ros-lyrical-plansys2-tui-cli (2.0.3-1resolute) resolute; urgency=high
+
+
+
+ -- "Francisco Martín Rico" <fmrico@gmail.com>  Sun, 03 Apr 2022 09:16:00 -0000
+
+ros-lyrical-plansys2-tui-cli (2.0.2-1resolute) resolute; urgency=high
+
+
+
+ -- "Francisco Martín Rico" <fmrico@gmail.com>  Sun, 03 Apr 2022 07:37:00 -0000
+
+ros-lyrical-plansys2-tui-cli (2.0.1-1resolute) resolute; urgency=high
+
+
+
+ -- "Francisco Martín Rico" <fmrico@gmail.com>  Wed, 02 Feb 2022 23:00:00 -0000
+
+ros-lyrical-plansys2-tui-cli (2.0.0-1resolute) resolute; urgency=high
+
+
+
+ -- "Francisco Martín Rico" <fmrico@gmail.com>  Sat, 03 Jul 2021 22:00:00 -0000
+
+ros-lyrical-plansys2-tui-cli (1.0.10-1resolute) resolute; urgency=high
+
+
+
+ -- "Francisco Martín Rico" <fmrico@gmail.com>  Fri, 02 Jul 2021 22:00:00 -0000
+
+ros-lyrical-plansys2-tui-cli (1.0.9-1resolute) resolute; urgency=high
+
+
+
+ -- "Francisco Martín Rico" <fmrico@gmail.com>  Sun, 14 Mar 2021 23:00:00 -0000
+
+ros-lyrical-plansys2-tui-cli (1.0.8-1resolute) resolute; urgency=high
+
+
+
+ -- "Francisco Martín Rico" <fmrico@gmail.com>  Thu, 11 Mar 2021 23:00:00 -0000
+
+ros-lyrical-plansys2-tui-cli (1.0.7-1resolute) resolute; urgency=high
+
+
+
+ -- "Francisco Martín Rico" <fmrico@gmail.com>  Sun, 03 Jan 2021 23:00:00 -0000
+
+ros-lyrical-plansys2-tui-cli (1.0.6-1resolute) resolute; urgency=high
+
+
+
+ -- "Francisco Martín Rico" <fmrico@gmail.com>  Mon, 28 Dec 2020 23:00:00 -0000
+
+ros-lyrical-plansys2-tui-cli (1.0.5-1resolute) resolute; urgency=high
+
+
+
+ -- "Francisco Martín Rico" <fmrico@gmail.com>  Sun, 27 Dec 2020 23:00:00 -0000
+
+ros-lyrical-plansys2-tui-cli (1.0.4-1resolute) resolute; urgency=high
+
+
+
+ -- "Francisco Martín Rico" <fmrico@gmail.com>  Wed, 23 Dec 2020 23:00:00 -0000
+
+ros-lyrical-plansys2-tui-cli (1.0.3-1resolute) resolute; urgency=high
+
+
+
+ -- "Francisco Martín Rico" <fmrico@gmail.com>  Wed, 23 Dec 2020 18:46:00 -0000
+
+ros-lyrical-plansys2-tui-cli (1.0.2-1resolute) resolute; urgency=high
+
+
+
+ -- "Francisco Martín Rico" <fmrico@gmail.com>  Wed, 23 Dec 2020 10:12:00 -0000
+
+ros-lyrical-plansys2-tui-cli (1.0.1-1resolute) resolute; urgency=high
+
+
+
+ -- "Francisco Martín Rico" <fmrico@gmail.com>  Sat, 18 Jul 2020 22:00:00 -0000
+
+ros-lyrical-plansys2-tui-cli (0.0.7-1resolute) resolute; urgency=high
+
+
+
+ -- "Francisco Martín Rico" <fmrico@gmail.com>  Wed, 25 Mar 2020 23:00:00 -0000
+
+ros-lyrical-plansys2-tui-cli (0.0.6-1resolute) resolute; urgency=high
+
+
+
+ -- "Francisco Martín Rico" <fmrico@gmail.com>  Sun, 22 Mar 2020 23:00:00 -0000
+
+ros-lyrical-plansys2-tui-cli (0.0.5-1resolute) resolute; urgency=high
+
+
+
+ -- "Francisco Martín Rico" <fmrico@gmail.com>  Sat, 11 Jan 2020 23:00:00 -0000
+
+ros-lyrical-plansys2-tui-cli (0.0.4-1resolute) resolute; urgency=high
+
+
+
+ -- "Francisco Martín Rico" <fmrico@gmail.com>  Thu, 09 Jan 2020 06:55:00 -0000
+
+ros-lyrical-plansys2-tui-cli (0.0.3-1resolute) resolute; urgency=high
+
+
+
+ -- "Francisco Martín Rico" <fmrico@gmail.com>  Thu, 09 Jan 2020 06:11:00 -0000
+
+ros-lyrical-plansys2-tui-cli (0.0.2-1resolute) resolute; urgency=high
+
+
+
+ -- "Francisco Martín Rico" <fmrico@gmail.com>  Tue, 07 Jan 2020 23:00:00 -0000
+
+
