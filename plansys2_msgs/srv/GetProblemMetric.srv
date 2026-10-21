@@ -1,5 +1,0 @@
-std_msgs/Empty request
----
-bool success
-plansys2_msgs/Metric metric
-string error_info
