@@ -1,50 +1,47 @@
-# ROS2 Planning System
+# Kairos Plan solver
 
-<p align="center">
-  <img src="plansys2_docs/plansys2_logo.png" alt="PlanSys2 Logo">
-</p>
+Plan solver plugin that uses [Kairos](https://github.com/PlanSys2/kairos), a temporal and numeric
+PDDL planner, as a library: no files are written and no process is started, so PlanSys2 examples
+plan in a few milliseconds.
 
-<p align="center">
-  <a href="https://github.com/PlanSys2/ros2_planning_system/actions/workflows/rolling.yaml?query=branch%3Arolling"><img src="https://github.com/PlanSys2/ros2_planning_system/actions/workflows/rolling.yaml/badge.svg?branch=rolling" alt="rolling"></a>
-  <a href="https://github.com/PlanSys2/ros2_planning_system/actions/workflows/lyrical-devel.yaml?query=branch%3Alyrical-devel"><img src="https://github.com/PlanSys2/ros2_planning_system/actions/workflows/lyrical-devel.yaml/badge.svg?branch=lyrical-devel" alt="lyrical-devel"></a>
-  <a href="https://github.com/PlanSys2/ros2_planning_system/actions/workflows/kilted-devel.yaml?query=branch%3Akilted-devel"><img src="https://github.com/PlanSys2/ros2_planning_system/actions/workflows/kilted-devel.yaml/badge.svg?branch=kilted-devel" alt="kilted-devel"></a>
-  <a href="https://github.com/PlanSys2/ros2_planning_system/actions/workflows/jazzy-devel.yaml?query=branch%3Ajazzy-devel"><img src="https://github.com/PlanSys2/ros2_planning_system/actions/workflows/jazzy-devel.yaml/badge.svg?branch=jazzy-devel" alt="jazzy-devel"></a>
-  <a href="https://github.com/PlanSys2/ros2_planning_system/actions/workflows/humble-devel.yaml?query=branch%3Ahumble-devel"><img src="https://github.com/PlanSys2/ros2_planning_system/actions/workflows/humble-devel.yaml/badge.svg?branch=humble-devel" alt="humble-devel"></a>
-</p>
+- Temporal (durative actions, timed initial literals), numeric and classical domains, derived
+  predicates, conditional effects and quantifiers.
+- Anytime: the first plan comes fast, then Kairos improves it (shorter makespan) until no better
+  plan arrives for `no_improvement` seconds or the time runs out.
+- Every plan is validated before it is returned.
+- The parsed domains are cached (by hash and text), so replanning with the same domain does not
+  parse it again; a changed domain is parsed again.
+- `cancel()` stops the search at once and returns the best plan found so far, if any.
+- `isDomainValid` checks the domain without planning, and logs errors with line and column.
 
-<p align="center">
-  <a href="https://codecov.io/gh/PlanSys2/ros2_planning_system"><img src="https://codecov.io/gh/PlanSys2/ros2_planning_system/branch/rolling/graph/badge.svg" alt="codecov"></a>
-  <a href="https://docs.ros.org"><img src="https://img.shields.io/badge/ROS%202-Humble%20%7C%20Jazzy%20%7C%20Kilted%20%7C%20Lyrical%20%7C%20Rolling-22314E?logo=ros&logoColor=white" alt="ROS 2"></a>
-  <img src="https://img.shields.io/badge/C%2B%2B-20-00599C?logo=cplusplus&logoColor=white" alt="C++20">
-  <a href="LICENSE"><img src="https://img.shields.io/badge/license-Apache%202.0-blue" alt="License"></a>
-  <a href="https://plansys2.github.io"><img src="https://img.shields.io/badge/docs-plansys2.github.io-brightgreen" alt="Docs"></a>
-  <a href="https://doi.org/10.1109/IROS51168.2021.9636544"><img src="https://img.shields.io/badge/paper-IROS%202021-b31b1b" alt="Paper"></a>
-  <a href="https://github.com/PlanSys2/ros2_planning_system/stargazers"><img src="https://img.shields.io/github/stars/PlanSys2/ros2_planning_system?style=social" alt="Stars"></a>
-</p>
+## Usage
 
-ROS2 Planning System (**plansys2** in short) is a project whose objective is to provide Robotics developers with a reliable, simple, and efficient PDDL-based planning system. It is implemented in ROS2, applying the latest concepts developed in this currently de-facto standard in Robotics.
-
-This project is the result of several years of experience in the development of robotic behaviors using [ROSPlan](https://github.com/KCL-Planning/ROSPlan). ROSPlan has greatly inspired this project. In addition to the migration to ROS2, we contribute to key aspects: ease of use, efficiency, and new tools, such as our terminal.
-
-We hope that this software helps to include planning in more Robotics projects, offering simple and powerful software to generate intelligent behaviors for robots.
-
-Please, cite us if you use PlanSys2 in your reseach:
-
-``` 
-@INPROCEEDINGS
- {PlanSys2,
-    author    = "Francisco Mart{\'{\i}}n and Jonatan Gin{\'{e}}s and Francisco J. Rodr{\'{i}}guez and Vicente Matell{\'{a}}n",
-    title     = "PlanSys2: A Planning System Framework for ROS2",
-    booktitle = "{{IEEE/RSJ} International Conference on Intelligent Robots and Systems,  {IROS} 2021, Prague, Czech Republic, September 27 - October 1, 2021}",
-    year      = "2021",
-    publisher = "{IEEE}"
-}
+```yaml
+planner:
+  ros__parameters:
+    plan_solver_plugins: ["KAIROS"]
+    KAIROS:
+      plugin: "plansys2/KairosPlanSolver"
 ```
 
-We want to invite you to contribute to this Open Source project !!
+It can run together with other solvers (e.g. `["KAIROS", "POPF"]`): the planner node returns the
+plans of all of them.
 
+## Parameters
 
-**Visit the [Web Page](https://plansys2.github.io) for tutorials, videos and more!!**
+All of them under the plugin name (e.g. `KAIROS.anytime`), read at each call:
 
+| Parameter | Default | Meaning |
+|---|---|---|
+| `timeout` | `0.0` | Seconds per plan; `0` uses the planner node `plan_solver_timeout`. It never goes beyond that one: Kairos returns a little before the node deadline. |
+| `anytime` | `true` | Keep improving the first plan. |
+| `no_improvement` | `0.1` | With `anytime`, seconds without a better plan before returning the best one (`0`: until the timeout). Longer waits rarely give better plans in PlanSys2's problems and make every plan take at least that long. |
+| `search` | `auto` | Search preset: `auto`, `ff`, `lama`, `eager-lama`, `novelty`, `lama-novelty`, `ehc`. |
+| `engine` | `auto` | `auto`, `m1` (no durative actions), `m2` (compressed temporal), `m3` (snap actions, concurrency). |
+| `memory_limit_mb` | `0` | Memory for the search; `0` is half of the available memory. |
+| `threads` | `1` | Phases of the search at once. More threads find first plans sooner and better plans on temporal problems (180 instead of 172 of the 225 IPC temporal problems with 3), but use more cores; on a robot the computer is shared, so it stays at 1 unless set. |
+| `log_level` | `warn` | Kairos messages forwarded to the ROS logger (`<node>.kairos`): `debug`, `info`, `warn`, `error`. |
+| `dump_dir` | `""` | When set, Kairos writes its intermediate structures there (for debugging). |
 
-<img src="plansys2_docs/plansys2_logo.png" alt="drawing" width="200"/>
+Sequential plans (no durative actions) are returned with `time` = position (0, 1, 2...) and
+`duration` = 0.
