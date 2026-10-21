@@ -1,3 +1,44 @@
+## ros2_planning_system (jazzy) - 4.0.0-1
+
+The packages in the `ros2_planning_system` repository were released into the `jazzy` distro by running `/usr/bin/bloom-release --rosdistro jazzy --track jazzy ros2_planning_system --no-pull-request --override-release-repository-url https://github.com/ros2-gbp/ros2_planning_system-release.git` on `Wed, 21 Oct 2026 16:53:25 -0000`
+
+These packages were released:
+- `plansys2`
+- `plansys2_bringup`
+- `plansys2_bt_actions`
+- `plansys2_core`
+- `plansys2_domain_expert`
+- `plansys2_executor`
+- `plansys2_kairos_plan_solver`
+- `plansys2_lifecycle_manager`
+- `plansys2_msgs`
+- `plansys2_pddl_parser`
+- `plansys2_planner`
+- `plansys2_popf_plan_solver`
+- `plansys2_problem_expert`
+- `plansys2_support_py`
+- `plansys2_terminal`
+- `plansys2_tests`
+- `plansys2_tools`
+- `plansys2_tui_cli`
+
+Version of package(s) in repository `ros2_planning_system`:
+
+- upstream repository: https://github.com/PlanSys2/ros2_planning_system.git
+- release repository: https://github.com/ros2-gbp/ros2_planning_system-release.git
+- rosdistro version: `2.0.18-1`
+- old version: `2.0.18-1`
+- new version: `4.0.0-1`
+
+Versions of tools used:
+
+- bloom version: `0.14.4`
+- catkin_pkg version: `1.1.1`
+- rosdep version: `0.27.0`
+- rosdistro version: `1.1.0`
+- vcstools version: `0.1.42`
+
+
 ## ros2_planning_system (lyrical) - 3.1.0-1
 
 The packages in the `ros2_planning_system` repository were released into the `lyrical` distro by running `/usr/bin/bloom-release ros2_planning_system --rosdistro lyrical` on `Tue, 28 Jul 2026 10:48:02 -0000`
