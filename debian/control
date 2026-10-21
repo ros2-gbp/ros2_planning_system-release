@@ -1,0 +1,12 @@
+Source: ros-kilted-plansys2-popf-plan-solver
+Section: misc
+Priority: optional
+Maintainer: "Francisco Martin Rico" <fmrico@gmail.com>
+Build-Depends: debhelper (>= 9.0.0), ros-kilted-ament-cmake, ros-kilted-ament-cmake-gtest <!nocheck>, ros-kilted-ament-cmake-ros <!nocheck>, ros-kilted-ament-index-cpp, ros-kilted-ament-lint-auto <!nocheck>, ros-kilted-ament-lint-common <!nocheck>, ros-kilted-kairos <!nocheck>, ros-kilted-plansys2-core, ros-kilted-pluginlib, ros-kilted-rclcpp, ros-kilted-ros-workspace
+Homepage: https://index.ros.org/p/plansys2_popf_plan_solver/#kilted
+Standards-Version: 3.9.2
+
+Package: ros-kilted-plansys2-popf-plan-solver
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, ros-kilted-ament-index-cpp, ros-kilted-plansys2-core, ros-kilted-pluginlib, ros-kilted-popf, ros-kilted-rclcpp, ros-kilted-ros-workspace
+Description: PlanSys2 plan solver plugin that runs the POPF temporal planner
