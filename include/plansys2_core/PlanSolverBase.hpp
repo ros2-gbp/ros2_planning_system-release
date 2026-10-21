@@ -18,6 +18,7 @@
 #include <atomic>
 #include <memory>
 #include <optional>
+#include <set>
 #include <string>
 
 #include "plansys2_msgs/msg/plan.hpp"
@@ -45,6 +46,11 @@ public:
    * @brief Default constructor.
    */
   PlanSolverBase() {}
+
+  /**
+   * @brief Virtual destructor, plugins are destroyed through this base class.
+   */
+  virtual ~PlanSolverBase() = default;
 
   /**
    * @brief Configure the plan solver with a lifecycle node and plugin name.
@@ -76,16 +82,32 @@ public:
     const std::string & domain, const std::string & node_namespace = "") = 0;
 
   /**
+   * @brief The PDDL requirements this solver plans with, as known_pddl_requirements names them.
+   *
+   * The planner gives a task only to the solvers that support what it needs (pddl_requirements).
+   * Empty, the default: the solver does not say, and gets every task.
+   *
+   * @return The requirements.
+   */
+  virtual std::set<std::string> supported_requirements() const {return {};}
+
+  /**
    * @brief Request cancellation of the current planning process.
    */
   virtual void cancel() {cancel_requested_ = true;}
 
   /**
    * @brief Execute the planner with a command.
+   *
+   * The command runs in its own process group with its standard output written to
+   * plan_path. On timeout or cancel() the whole group is killed, so processes it
+   * started (e.g. a planner under `ros2 run`) do not outlive the call.
+   *
    * @param[in] command The command to execute the planner.
    * @param[in] solver_timeout Timeout for the solver.
    * @param[in] plan_path Path to store the resulting plan.
-   * @return true if the planner executed successfully, false otherwise.
+   * @return true if the planner exited with status 0 and its output was fully
+   *         written, false on timeout, cancellation, signal, non-zero exit or error.
    */
   virtual bool execute_planner(
     const std::string & command, const rclcpp::Duration & solver_timeout,
