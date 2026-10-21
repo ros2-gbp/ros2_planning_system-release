@@ -1,0 +1,12 @@
+Source: ros-jazzy-plansys2-kairos-plan-solver
+Section: misc
+Priority: optional
+Maintainer: "Francisco Martin Rico" <fmrico@gmail.com>
+Build-Depends: debhelper (>= 9.0.0), ros-jazzy-ament-cmake, ros-jazzy-ament-cmake-gtest <!nocheck>, ros-jazzy-ament-cmake-ros <!nocheck>, ros-jazzy-ament-index-cpp <!nocheck>, ros-jazzy-ament-lint-auto <!nocheck>, ros-jazzy-ament-lint-common <!nocheck>, ros-jazzy-kairos, ros-jazzy-plansys2-core, ros-jazzy-plansys2-msgs, ros-jazzy-pluginlib, ros-jazzy-rclcpp, ros-jazzy-rclcpp-lifecycle, ros-jazzy-ros-workspace
+Homepage: https://index.ros.org/p/plansys2_kairos_plan_solver/#jazzy
+Standards-Version: 3.9.2
+
+Package: ros-jazzy-plansys2-kairos-plan-solver
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, ros-jazzy-kairos, ros-jazzy-plansys2-core, ros-jazzy-plansys2-msgs, ros-jazzy-pluginlib, ros-jazzy-rclcpp, ros-jazzy-rclcpp-lifecycle, ros-jazzy-ros-workspace
+Description: PlanSys2 plan solver plugin that runs the Kairos PDDL planner in-process
