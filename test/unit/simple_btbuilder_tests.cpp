@@ -22,16 +22,19 @@
 #include <set>
 #include <list>
 #include <tuple>
+#include <type_traits>
 
-#include "ament_index_cpp/get_package_share_directory.hpp"
+#include "plansys2_core/PackagePaths.hpp"
 
 #include "plansys2_domain_expert/DomainExpertNode.hpp"
 #include "plansys2_domain_expert/DomainExpertClient.hpp"
+#include "plansys2_executor/bt_builder_plugins/simple_bt_builder.hpp"
 #include "plansys2_problem_expert/ProblemExpertNode.hpp"
 #include "plansys2_problem_expert/ProblemExpertClient.hpp"
 #include "plansys2_planner/PlannerNode.hpp"
 #include "plansys2_planner/PlannerClient.hpp"
-#include "plansys2_executor/BTBuilder.hpp"
+#include "plansys2_core/TestUtils.hpp"
+#include "plansys2_core/Utils.hpp"
 #include "plansys2_problem_expert/Utils.hpp"
 
 #include "plansys2_executor/ActionExecutor.hpp"
@@ -39,10 +42,10 @@
 #include "plansys2_executor/ExecutorNode.hpp"
 #include "plansys2_executor/ExecutorClient.hpp"
 
-#include "behaviortree_cpp_v3/behavior_tree.h"
-#include "behaviortree_cpp_v3/bt_factory.h"
-#include "behaviortree_cpp_v3/utils/shared_library.h"
-#include "behaviortree_cpp_v3/blackboard.h"
+#include "behaviortree_cpp/behavior_tree.h"
+#include "behaviortree_cpp/bt_factory.h"
+#include "behaviortree_cpp/utils/shared_library.h"
+#include "behaviortree_cpp/blackboard.h"
 
 #include "plansys2_executor/behavior_tree/execute_action_node.hpp"
 #include "plansys2_executor/behavior_tree/wait_action_node.hpp"
@@ -55,20 +58,36 @@
 
 #include "gtest/gtest.h"
 
-class BTBuilderTest : public plansys2::BTBuilder
+
+class ROS2Environment : public ::testing::Environment
 {
 public:
-  explicit BTBuilderTest(rclcpp::Node::SharedPtr node)
-  : BTBuilder(node) {}
+  void SetUp() override
+  {
+    rclcpp::init(0, nullptr);
+  }
+
+  void TearDown() override
+  {
+    rclcpp::shutdown();
+  }
+};
+
+
+class SimpleBTBuilderTest : public plansys2::SimpleBTBuilder
+{
+public:
+  SimpleBTBuilderTest()
+  : SimpleBTBuilder() {}
 
   std::string get_tree(const plansys2_msgs::msg::Plan & current_plan)
   {
-    return BTBuilder::get_tree(current_plan);
+    return SimpleBTBuilder::get_tree(current_plan);
   }
 
   std::vector<plansys2::ActionStamped> get_plan_actions(const plansys2_msgs::msg::Plan & plan)
   {
-    return BTBuilder::get_plan_actions(plan);
+    return SimpleBTBuilder::get_plan_actions(plan);
   }
 
   bool is_action_executable(
@@ -76,54 +95,54 @@ public:
     std::vector<plansys2::Predicate> & predicates,
     std::vector<plansys2::Function> & functions) const
   {
-    return BTBuilder::is_action_executable(action, predicates, functions);
+    return SimpleBTBuilder::is_action_executable(action, predicates, functions);
   }
 
-  plansys2::Graph::Ptr get_graph(const plansys2_msgs::msg::Plan & current_plan)
+  plansys2::ActionGraph::Ptr build_action_graph(const plansys2_msgs::msg::Plan & current_plan)
   {
-    return BTBuilder::get_graph(current_plan);
+    return SimpleBTBuilder::build_action_graph(current_plan);
   }
 
-  std::list<plansys2::GraphNode::Ptr> get_roots(
+  std::list<plansys2::ActionNode::Ptr> get_roots(
     std::vector<plansys2::ActionStamped> & action_sequence,
     std::vector<plansys2::Predicate> & predicates,
     std::vector<plansys2::Function> & functions,
     int & node_counter)
   {
-    return BTBuilder::get_roots(action_sequence, predicates, functions, node_counter);
+    return SimpleBTBuilder::get_roots(action_sequence, predicates, functions, node_counter);
   }
 
-  plansys2::GraphNode::Ptr get_node_satisfy(
+  plansys2::ActionNode::Ptr get_node_satisfy(
     const plansys2_msgs::msg::Tree & requirement,
-    const plansys2::Graph::Ptr & graph,
-    const plansys2::GraphNode::Ptr & current)
+    const plansys2::ActionGraph::Ptr & graph,
+    const plansys2::ActionNode::Ptr & current)
   {
-    return BTBuilder::get_node_satisfy(requirement, graph, current);
+    return SimpleBTBuilder::get_node_satisfy(requirement, graph, current);
   }
 
-  plansys2::GraphNode::Ptr get_node_satisfy(
+  plansys2::ActionNode::Ptr get_node_satisfy(
     const plansys2_msgs::msg::Tree & requirement,
-    const plansys2::GraphNode::Ptr & node,
-    const plansys2::GraphNode::Ptr & current)
+    const plansys2::ActionNode::Ptr & node,
+    const plansys2::ActionNode::Ptr & current)
   {
-    return BTBuilder::get_node_satisfy(requirement, node, current);
+    return SimpleBTBuilder::get_node_satisfy(requirement, node, current);
   }
 
 
-  void print_graph(const plansys2::Graph::Ptr & graph) const
+  void print_graph(const plansys2::ActionGraph::Ptr & graph) const
   {
-    BTBuilder::print_graph(graph);
+    SimpleBTBuilder::print_graph(graph);
   }
 
-  void print_graph_csv(const plansys2::Graph::Ptr & graph) const
+  void print_graph_csv(const plansys2::ActionGraph::Ptr & graph) const
   {
-    BTBuilder::print_graph_csv(graph);
+    SimpleBTBuilder::print_graph_csv(graph);
   }
 
   std::vector<std::tuple<uint32_t, uint32_t, uint32_t, std::string>> get_graph_tabular(
-    const plansys2::Graph::Ptr & graph) const
+    const plansys2::ActionGraph::Ptr & graph) const
   {
-    return BTBuilder::get_graph_tabular(graph);
+    return SimpleBTBuilder::get_graph_tabular(graph);
   }
 
   void remove_existing_requirements(
@@ -131,64 +150,56 @@ public:
     std::vector<plansys2::Predicate> & predicates,
     std::vector<plansys2::Function> & functions) const
   {
-    BTBuilder::remove_existing_requirements(requirements, predicates, functions);
+    SimpleBTBuilder::remove_existing_requirements(requirements, predicates, functions);
   }
 };
 
-TEST(btbuilder_tests, test_plan_1)
+// These tests check the BT built from a known plan, the one POPF finds: they use POPF, not
+// the default solver, so the plan does not change with it
+void use_popf(std::shared_ptr<plansys2::PlannerNode> planner_node)
+{
+  planner_node->set_parameter({"plan_solver_plugins", std::vector<std::string>{"POPF"}});
+  plansys2::declare_parameter_if_not_declared(
+    planner_node, "POPF.plugin", rclcpp::ParameterValue(std::string("plansys2/POPFPlanSolver")));
+}
+
+TEST(simple_btbuilder_tests, test_plan_1)
 {
   auto test_node = rclcpp::Node::make_shared("test_plan_1");
+  plansys2::testing::NodeSpinner test_node_spinner(test_node);
   auto domain_node = std::make_shared<plansys2::DomainExpertNode>();
   auto problem_node = std::make_shared<plansys2::ProblemExpertNode>();
   auto planner_node = std::make_shared<plansys2::PlannerNode>();
+  use_popf(planner_node);
 
-  auto problem_client = std::make_shared<plansys2::ProblemExpertClient>();
-  auto planner_client = std::make_shared<plansys2::PlannerClient>();
-  auto domain_client = std::make_shared<plansys2::DomainExpertClient>();
+  auto problem_client = std::make_shared<plansys2::ProblemExpertClient>(test_node);
+  auto planner_client = std::make_shared<plansys2::PlannerClient>(test_node);
+  auto domain_client = std::make_shared<plansys2::DomainExpertClient>(test_node);
 
-  auto btbuilder = std::make_shared<BTBuilderTest>(test_node);
+  auto btbuilder = std::make_shared<SimpleBTBuilderTest>();
+  btbuilder->set_clients(domain_client, problem_client);
 
-  std::string pkgpath = ament_index_cpp::get_package_share_directory("plansys2_executor");
+  std::string pkgpath = plansys2::share_path("plansys2_executor").string();
 
   domain_node->set_parameter({"model_file", pkgpath + "/pddl/domain_simple_2.pddl"});
   problem_node->set_parameter({"model_file", pkgpath + "/pddl/domain_simple_2.pddl"});
 
-  rclcpp::executors::MultiThreadedExecutor exe(rclcpp::ExecutorOptions(), 8);
+  rclcpp::executors::MultiThreadedExecutor exe;
 
   exe.add_node(domain_node->get_node_base_interface());
   exe.add_node(problem_node->get_node_base_interface());
   exe.add_node(planner_node->get_node_base_interface());
 
-  bool finish = false;
-  std::thread t([&]() {
-      while (!finish) {exe.spin_some();}
-    });
-
+  plansys2::testing::ExecutorThread spinner(exe);
 
   domain_node->trigger_transition(lifecycle_msgs::msg::Transition::TRANSITION_CONFIGURE);
   problem_node->trigger_transition(lifecycle_msgs::msg::Transition::TRANSITION_CONFIGURE);
 
   planner_node->trigger_transition(lifecycle_msgs::msg::Transition::TRANSITION_CONFIGURE);
 
-  {
-    rclcpp::Rate rate(10);
-    auto start = test_node->now();
-    while ((test_node->now() - start).seconds() < 0.5) {
-      rate.sleep();
-    }
-  }
-
   domain_node->trigger_transition(lifecycle_msgs::msg::Transition::TRANSITION_ACTIVATE);
   problem_node->trigger_transition(lifecycle_msgs::msg::Transition::TRANSITION_ACTIVATE);
   planner_node->trigger_transition(lifecycle_msgs::msg::Transition::TRANSITION_ACTIVATE);
-
-  {
-    rclcpp::Rate rate(10);
-    auto start = test_node->now();
-    while ((test_node->now() - start).seconds() < 0.5) {
-      rate.sleep();
-    }
-  }
 
   ASSERT_TRUE(problem_client->addInstance(plansys2::Instance("leia", "robot")));
   ASSERT_TRUE(problem_client->addInstance(plansys2::Instance("entrance", "room")));
@@ -219,7 +230,8 @@ TEST(btbuilder_tests, test_plan_1)
 
   ASSERT_TRUE(problem_client->setGoal(plansys2::Goal("(and(robot_at leia bathroom))")));
 
-  auto plan = planner_client->getPlan(domain_client->getDomain(), problem_client->getProblem());
+  auto plan = planner_client->getPlan(
+    domain_client->getDomain(true), problem_client->getProblem(true));
   ASSERT_TRUE(plan);
 
 
@@ -231,15 +243,16 @@ TEST(btbuilder_tests, test_plan_1)
   ASSERT_EQ(action_sequence.size(), 6u);
 
   ASSERT_NEAR(action_sequence[0].time, 0.000, 0.0001);
-  ASSERT_EQ(action_sequence[0].action->name, "askcharge");
-  ASSERT_EQ(action_sequence[0].action->parameters[0].name, "leia");
-  ASSERT_EQ(action_sequence[0].action->parameters[1].name, "entrance");
-  ASSERT_EQ(action_sequence[0].action->parameters[2].name, "chargingroom");
+  ASSERT_EQ(action_sequence[0].action.get_action_name(), "askcharge");
+  ASSERT_EQ(action_sequence[0].action.get_action_params()[0].name, "leia");
+  ASSERT_EQ(action_sequence[0].action.get_action_params()[1].name, "entrance");
+  ASSERT_EQ(action_sequence[0].action.get_action_params()[2].name, "chargingroom");
   ASSERT_EQ(
-    parser::pddl::toString(action_sequence[0].action->at_start_effects),
+    parser::pddl::toString(action_sequence[0].action.get_at_start_effects()),
     "(and (not (robot_at leia entrance))(robot_at leia chargingroom))");
   std::vector<plansys2_msgs::msg::Node> action_0_predicates;
-  parser::pddl::getPredicates(action_0_predicates, action_sequence[0].action->at_start_effects);
+  parser::pddl::getPredicates(
+    action_0_predicates, action_sequence[0].action.get_at_start_effects());
   ASSERT_EQ(action_0_predicates.size(), 2u);
   ASSERT_EQ(action_0_predicates[0].name, "robot_at");
   ASSERT_EQ(action_0_predicates[0].parameters[0].name, "leia");
@@ -248,28 +261,28 @@ TEST(btbuilder_tests, test_plan_1)
 
   ASSERT_TRUE(
     plansys2::check(
-      action_sequence[0].action->at_start_requirements,
+      action_sequence[0].action.get_at_start_requirements(),
       problem_client));
 
   ASSERT_FALSE(
     plansys2::check(
-      action_sequence[1].action->at_start_requirements,
+      action_sequence[1].action.get_at_start_requirements(),
       problem_client));
   ASSERT_FALSE(
     plansys2::check(
-      action_sequence[2].action->at_start_requirements,
+      action_sequence[2].action.get_at_start_requirements(),
       problem_client));
   ASSERT_FALSE(
     plansys2::check(
-      action_sequence[3].action->at_start_requirements,
+      action_sequence[3].action.get_at_start_requirements(),
       problem_client));
   ASSERT_FALSE(
     plansys2::check(
-      action_sequence[4].action->at_start_requirements,
+      action_sequence[4].action.get_at_start_requirements(),
       problem_client));
   ASSERT_FALSE(
     plansys2::check(
-      action_sequence[5].action->at_start_requirements,
+      action_sequence[5].action.get_at_start_requirements(),
       problem_client));
 
   ASSERT_TRUE(btbuilder->is_action_executable(action_sequence[0], predicates, functions));
@@ -279,38 +292,41 @@ TEST(btbuilder_tests, test_plan_1)
   ASSERT_FALSE(btbuilder->is_action_executable(action_sequence[4], predicates, functions));
   ASSERT_FALSE(btbuilder->is_action_executable(action_sequence[5], predicates, functions));
 
-  ASSERT_NE(
+  EXPECT_TRUE(
     std::find_if(
       predicates.begin(), predicates.end(),
       std::bind(
         &parser::pddl::checkNodeEquality, std::placeholders::_1,
-        parser::pddl::fromStringPredicate("(robot_at leia entrance)"))), predicates.end());
-  ASSERT_EQ(
+        parser::pddl::fromStringPredicate("(robot_at leia entrance)"), true)) != predicates.end());
+  EXPECT_TRUE(
     std::find_if(
       predicates.begin(), predicates.end(),
       std::bind(
         &parser::pddl::checkNodeEquality, std::placeholders::_1,
-        parser::pddl::fromStringPredicate("(robot_at leia chargingroom)"))), predicates.end());
+        parser::pddl::fromStringPredicate("(robot_at leia chargingroom)"), true)) ==
+        predicates.end());
 
   plansys2::apply(
-    action_sequence[0].action->at_start_effects,
+    action_sequence[0].action.get_at_start_effects(),
     predicates, functions);
   plansys2::apply(
-    action_sequence[0].action->at_end_effects,
+    action_sequence[0].action.get_at_end_effects(),
     predicates, functions);
 
-  ASSERT_EQ(
+  EXPECT_TRUE(
     std::find_if(
       predicates.begin(), predicates.end(),
       std::bind(
         &parser::pddl::checkNodeEquality, std::placeholders::_1,
-        parser::pddl::fromStringPredicate("(robot_at leia entrance)"))), predicates.end());
-  ASSERT_NE(
+        parser::pddl::fromStringPredicate("(robot_at leia entrance)"), true)) ==
+        predicates.end());
+  EXPECT_TRUE(
     std::find_if(
       predicates.begin(), predicates.end(),
       std::bind(
         &parser::pddl::checkNodeEquality, std::placeholders::_1,
-        parser::pddl::fromStringPredicate("(robot_at leia chargingroom)"))), predicates.end());
+        parser::pddl::fromStringPredicate("(robot_at leia chargingroom)"), true)) !=
+        predicates.end());
 
   ASSERT_TRUE(btbuilder->is_action_executable(action_sequence[1], predicates, functions));
   ASSERT_FALSE(btbuilder->is_action_executable(action_sequence[2], predicates, functions));
@@ -318,10 +334,10 @@ TEST(btbuilder_tests, test_plan_1)
   ASSERT_FALSE(btbuilder->is_action_executable(action_sequence[4], predicates, functions));
   ASSERT_FALSE(btbuilder->is_action_executable(action_sequence[5], predicates, functions));
   plansys2::apply(
-    action_sequence[1].action->at_start_effects,
+    action_sequence[1].action.get_at_start_effects(),
     predicates, functions);
   plansys2::apply(
-    action_sequence[1].action->at_end_effects,
+    action_sequence[1].action.get_at_end_effects(),
     predicates, functions);
 
   ASSERT_TRUE(btbuilder->is_action_executable(action_sequence[2], predicates, functions));
@@ -329,105 +345,85 @@ TEST(btbuilder_tests, test_plan_1)
   ASSERT_FALSE(btbuilder->is_action_executable(action_sequence[4], predicates, functions));
   ASSERT_FALSE(btbuilder->is_action_executable(action_sequence[5], predicates, functions));
   plansys2::apply(
-    action_sequence[2].action->at_start_effects,
+    action_sequence[2].action.get_at_start_effects(),
     predicates, functions);
   plansys2::apply(
-    action_sequence[2].action->at_end_effects,
+    action_sequence[2].action.get_at_end_effects(),
     predicates, functions);
 
   ASSERT_TRUE(btbuilder->is_action_executable(action_sequence[3], predicates, functions));
   ASSERT_FALSE(btbuilder->is_action_executable(action_sequence[4], predicates, functions));
   ASSERT_FALSE(btbuilder->is_action_executable(action_sequence[5], predicates, functions));
   plansys2::apply(
-    action_sequence[3].action->at_start_effects,
+    action_sequence[3].action.get_at_start_effects(),
     predicates, functions);
   plansys2::apply(
-    action_sequence[3].action->at_end_effects,
+    action_sequence[3].action.get_at_end_effects(),
     predicates, functions);
 
   ASSERT_TRUE(btbuilder->is_action_executable(action_sequence[4], predicates, functions));
   ASSERT_FALSE(btbuilder->is_action_executable(action_sequence[5], predicates, functions));
   plansys2::apply(
-    action_sequence[4].action->at_start_effects,
+    action_sequence[4].action.get_at_start_effects(),
     predicates, functions);
   plansys2::apply(
-    action_sequence[4].action->at_end_effects,
+    action_sequence[4].action.get_at_end_effects(),
     predicates, functions);
 
   ASSERT_TRUE(btbuilder->is_action_executable(action_sequence[5], predicates, functions));
   plansys2::apply(
-    action_sequence[5].action->at_start_effects,
+    action_sequence[5].action.get_at_start_effects(),
     predicates, functions);
   plansys2::apply(
-    action_sequence[5].action->at_end_effects,
+    action_sequence[5].action.get_at_end_effects(),
     predicates, functions);
 
-  ASSERT_NE(
+  EXPECT_TRUE(
     std::find_if(
       predicates.begin(), predicates.end(),
       std::bind(
         &parser::pddl::checkNodeEquality, std::placeholders::_1,
-        parser::pddl::fromStringPredicate("(robot_at leia bathroom)"))), predicates.end());
-
-  finish = true;
-  t.join();
+        parser::pddl::fromStringPredicate("(robot_at leia bathroom)"), true)) != predicates.end());
 }
 
 
-TEST(btbuilder_tests, test_plan_2)
+TEST(simple_btbuilder_tests, test_plan_2)
 {
   auto test_node = rclcpp::Node::make_shared("test_plan_2");
+  plansys2::testing::NodeSpinner test_node_spinner(test_node);
   auto domain_node = std::make_shared<plansys2::DomainExpertNode>();
   auto problem_node = std::make_shared<plansys2::ProblemExpertNode>();
   auto planner_node = std::make_shared<plansys2::PlannerNode>();
+  use_popf(planner_node);
 
-  auto problem_client = std::make_shared<plansys2::ProblemExpertClient>();
-  auto planner_client = std::make_shared<plansys2::PlannerClient>();
-  auto domain_client = std::make_shared<plansys2::DomainExpertClient>();
+  auto problem_client = std::make_shared<plansys2::ProblemExpertClient>(test_node);
+  auto planner_client = std::make_shared<plansys2::PlannerClient>(test_node);
+  auto domain_client = std::make_shared<plansys2::DomainExpertClient>(test_node);
 
-  auto btbuilder = std::make_shared<BTBuilderTest>(test_node);
+  auto btbuilder = std::make_shared<SimpleBTBuilderTest>();
+  btbuilder->set_clients(domain_client, problem_client);
 
-  std::string pkgpath = ament_index_cpp::get_package_share_directory("plansys2_executor");
+  std::string pkgpath = plansys2::share_path("plansys2_executor").string();
 
   domain_node->set_parameter({"model_file", pkgpath + "/pddl/factory.pddl"});
   problem_node->set_parameter({"model_file", pkgpath + "/pddl/factory.pddl"});
 
-  rclcpp::executors::MultiThreadedExecutor exe(rclcpp::ExecutorOptions(), 8);
+  rclcpp::executors::MultiThreadedExecutor exe;
 
   exe.add_node(domain_node->get_node_base_interface());
   exe.add_node(problem_node->get_node_base_interface());
   exe.add_node(planner_node->get_node_base_interface());
 
-  bool finish = false;
-  std::thread t([&]() {
-      while (!finish) {exe.spin_some();}
-    });
-
+  plansys2::testing::ExecutorThread spinner(exe);
 
   domain_node->trigger_transition(lifecycle_msgs::msg::Transition::TRANSITION_CONFIGURE);
   problem_node->trigger_transition(lifecycle_msgs::msg::Transition::TRANSITION_CONFIGURE);
 
   planner_node->trigger_transition(lifecycle_msgs::msg::Transition::TRANSITION_CONFIGURE);
 
-  {
-    rclcpp::Rate rate(10);
-    auto start = test_node->now();
-    while ((test_node->now() - start).seconds() < 0.5) {
-      rate.sleep();
-    }
-  }
-
   domain_node->trigger_transition(lifecycle_msgs::msg::Transition::TRANSITION_ACTIVATE);
   problem_node->trigger_transition(lifecycle_msgs::msg::Transition::TRANSITION_ACTIVATE);
   planner_node->trigger_transition(lifecycle_msgs::msg::Transition::TRANSITION_ACTIVATE);
-
-  {
-    rclcpp::Rate rate(10);
-    auto start = test_node->now();
-    while ((test_node->now() - start).seconds() < 0.5) {
-      rate.sleep();
-    }
-  }
 
   ASSERT_TRUE(problem_client->addInstance(plansys2::Instance("robot1", "robot")));
   ASSERT_TRUE(problem_client->addInstance(plansys2::Instance("robot2", "robot")));
@@ -495,7 +491,9 @@ TEST(btbuilder_tests, test_plan_2)
       plansys2::Goal(
         "(and(car_assembled car_1)(car_assembled car_2)(car_assembled car_3))")));
 
-  auto plan = planner_client->getPlan(domain_client->getDomain(), problem_client->getProblem());
+  auto plan = planner_client->getPlan(
+    domain_client->getDomain(true), problem_client->getProblem(true));
+
   ASSERT_TRUE(plan);
 
   auto predicates = problem_client->getPredicates();
@@ -526,114 +524,96 @@ TEST(btbuilder_tests, test_plan_2)
   // Apply roots actions
   for (auto & action_node : roots) {
     plansys2::apply(
-      action_node->action.action->at_start_effects,
+      action_node->action.action.get_at_start_effects(),
       predicates, functions);
     plansys2::apply(
-      action_node->action.action->at_end_effects,
+      action_node->action.action.get_at_end_effects(),
       predicates, functions);
   }
 
-  ASSERT_NE(
+  EXPECT_TRUE(
     std::find_if(
       predicates.begin(), predicates.end(),
       std::bind(
         &parser::pddl::checkNodeEquality, std::placeholders::_1,
-        parser::pddl::fromStringPredicate("(robot_at robot1 body_car_zone)"))), predicates.end());
-  ASSERT_NE(
+        parser::pddl::fromStringPredicate("(robot_at robot1 body_car_zone)"), true)) !=
+        predicates.end());
+  EXPECT_TRUE(
     std::find_if(
       predicates.begin(), predicates.end(),
       std::bind(
         &parser::pddl::checkNodeEquality, std::placeholders::_1,
-        parser::pddl::fromStringPredicate("(robot_at robot2 steering_wheels_zone)"))),
-    predicates.end());
-  ASSERT_NE(
+        parser::pddl::fromStringPredicate("(robot_at robot2 steering_wheels_zone)"), true)) !=
+        predicates.end());
+  EXPECT_TRUE(
     std::find_if(
       predicates.begin(), predicates.end(),
       std::bind(
         &parser::pddl::checkNodeEquality, std::placeholders::_1,
-        parser::pddl::fromStringPredicate("(robot_at robot3 wheels_zone)"))), predicates.end());
+        parser::pddl::fromStringPredicate("(robot_at robot3 wheels_zone)"), true)) !=
+        predicates.end());
 
   tree.nodes.clear();
   parser::pddl::fromString(
     tree, "(robot_at robot1 body_car_zone)", false,
     plansys2_msgs::msg::Node::AND);
   auto node_satisfy_1 = btbuilder->get_node_satisfy(tree, *roots.begin(), nullptr);
-  ASSERT_NE(node_satisfy_1, nullptr);
-  ASSERT_EQ(node_satisfy_1->action.action->name, "move");
-  ASSERT_EQ(node_satisfy_1->action.action->parameters.size(), 3u);
-  ASSERT_EQ(node_satisfy_1->action.action->parameters[0].name, "robot1");
-  ASSERT_EQ(node_satisfy_1->action.action->parameters[1].name, "assembly_zone");
-  ASSERT_EQ(node_satisfy_1->action.action->parameters[2].name, "body_car_zone");
+  EXPECT_TRUE(node_satisfy_1 != nullptr);
+  ASSERT_EQ(node_satisfy_1->action.action.get_action_name(), "move");
+  ASSERT_EQ(node_satisfy_1->action.action.get_action_params().size(), 3u);
+  ASSERT_EQ(node_satisfy_1->action.action.get_action_params()[0].name, "robot1");
+  ASSERT_EQ(node_satisfy_1->action.action.get_action_params()[1].name, "assembly_zone");
+  ASSERT_EQ(node_satisfy_1->action.action.get_action_params()[2].name, "body_car_zone");
 
   auto it = roots.begin();
   it++;
-  ASSERT_EQ(btbuilder->get_node_satisfy(tree, *it, nullptr), nullptr);
+  EXPECT_TRUE(btbuilder->get_node_satisfy(tree, *it, nullptr) == nullptr);
   it++;
-  ASSERT_EQ(btbuilder->get_node_satisfy(tree, *it, nullptr), nullptr);
+  EXPECT_TRUE(btbuilder->get_node_satisfy(tree, *it, nullptr) == nullptr);
 
-  auto graph = btbuilder->get_graph(plan.value());
-  ASSERT_NE(graph, nullptr);
+  auto graph = btbuilder->build_action_graph(plan.value());
+  EXPECT_TRUE(graph != nullptr);
 
   btbuilder->print_graph(graph);
-
-  finish = true;
-  t.join();
 }
 
-TEST(btbuilder_tests, test_plan_3)
+TEST(simple_btbuilder_tests, test_plan_3)
 {
   auto test_node = rclcpp::Node::make_shared("test_plan_3");
+  plansys2::testing::NodeSpinner test_node_spinner(test_node);
   auto domain_node = std::make_shared<plansys2::DomainExpertNode>();
   auto problem_node = std::make_shared<plansys2::ProblemExpertNode>();
   auto planner_node = std::make_shared<plansys2::PlannerNode>();
+  use_popf(planner_node);
 
-  auto problem_client = std::make_shared<plansys2::ProblemExpertClient>();
-  auto planner_client = std::make_shared<plansys2::PlannerClient>();
-  auto domain_client = std::make_shared<plansys2::DomainExpertClient>();
+  auto problem_client = std::make_shared<plansys2::ProblemExpertClient>(test_node);
+  auto planner_client = std::make_shared<plansys2::PlannerClient>(test_node);
+  auto domain_client = std::make_shared<plansys2::DomainExpertClient>(test_node);
 
-  auto btbuilder = std::make_shared<BTBuilderTest>(test_node);
+  auto btbuilder = std::make_shared<SimpleBTBuilderTest>();
+  btbuilder->set_clients(domain_client, problem_client);
 
-  std::string pkgpath = ament_index_cpp::get_package_share_directory("plansys2_executor");
+  std::string pkgpath = plansys2::share_path("plansys2_executor").string();
 
   domain_node->set_parameter({"model_file", pkgpath + "/pddl/domain_simple_2.pddl"});
   problem_node->set_parameter({"model_file", pkgpath + "/pddl/domain_simple_2.pddl"});
 
-  rclcpp::executors::MultiThreadedExecutor exe(rclcpp::ExecutorOptions(), 8);
+  rclcpp::executors::MultiThreadedExecutor exe;
 
   exe.add_node(domain_node->get_node_base_interface());
   exe.add_node(problem_node->get_node_base_interface());
   exe.add_node(planner_node->get_node_base_interface());
 
-  bool finish = false;
-  std::thread t([&]() {
-      while (!finish) {exe.spin_some();}
-    });
-
+  plansys2::testing::ExecutorThread spinner(exe);
 
   domain_node->trigger_transition(lifecycle_msgs::msg::Transition::TRANSITION_CONFIGURE);
   problem_node->trigger_transition(lifecycle_msgs::msg::Transition::TRANSITION_CONFIGURE);
 
   planner_node->trigger_transition(lifecycle_msgs::msg::Transition::TRANSITION_CONFIGURE);
 
-  {
-    rclcpp::Rate rate(10);
-    auto start = test_node->now();
-    while ((test_node->now() - start).seconds() < 0.5) {
-      rate.sleep();
-    }
-  }
-
   domain_node->trigger_transition(lifecycle_msgs::msg::Transition::TRANSITION_ACTIVATE);
   problem_node->trigger_transition(lifecycle_msgs::msg::Transition::TRANSITION_ACTIVATE);
   planner_node->trigger_transition(lifecycle_msgs::msg::Transition::TRANSITION_ACTIVATE);
-
-  {
-    rclcpp::Rate rate(10);
-    auto start = test_node->now();
-    while ((test_node->now() - start).seconds() < 0.5) {
-      rate.sleep();
-    }
-  }
 
   ASSERT_TRUE(problem_client->addInstance(plansys2::Instance("leia", "robot")));
   ASSERT_TRUE(problem_client->addInstance(plansys2::Instance("ro1", "room")));
@@ -659,72 +639,53 @@ TEST(btbuilder_tests, test_plan_3)
       plansys2::Goal(
         "(and (patrolled ro1) (patrolled ro2) (patrolled ro3))")));
 
-  auto plan = planner_client->getPlan(domain_client->getDomain(), problem_client->getProblem());
+  auto plan = planner_client->getPlan(
+    domain_client->getDomain(true), problem_client->getProblem(true));
+
   ASSERT_TRUE(plan);
 
   auto bt = btbuilder->get_tree(plan.value());
 
   std::cerr << bt << std::endl;
-
-
-  finish = true;
-  t.join();
 }
 
-TEST(btbuilder_tests, test_plan_4)
+TEST(simple_btbuilder_tests, test_plan_4)
 {
   auto test_node = rclcpp::Node::make_shared("test_plan_4");
+  plansys2::testing::NodeSpinner test_node_spinner(test_node);
   auto domain_node = std::make_shared<plansys2::DomainExpertNode>();
   auto problem_node = std::make_shared<plansys2::ProblemExpertNode>();
   auto planner_node = std::make_shared<plansys2::PlannerNode>();
+  use_popf(planner_node);
 
-  auto problem_client = std::make_shared<plansys2::ProblemExpertClient>();
-  auto planner_client = std::make_shared<plansys2::PlannerClient>();
-  auto domain_client = std::make_shared<plansys2::DomainExpertClient>();
+  auto problem_client = std::make_shared<plansys2::ProblemExpertClient>(test_node);
+  auto planner_client = std::make_shared<plansys2::PlannerClient>(test_node);
+  auto domain_client = std::make_shared<plansys2::DomainExpertClient>(test_node);
 
-  auto btbuilder = std::make_shared<BTBuilderTest>(test_node);
+  auto btbuilder = std::make_shared<SimpleBTBuilderTest>();
+  btbuilder->set_clients(domain_client, problem_client);
 
-  std::string pkgpath = ament_index_cpp::get_package_share_directory("plansys2_executor");
+  std::string pkgpath = plansys2::share_path("plansys2_executor").string();
 
   domain_node->set_parameter({"model_file", pkgpath + "/pddl/cooking_domain.pddl"});
   problem_node->set_parameter({"model_file", pkgpath + "/pddl/cooking_domain.pddl"});
 
-  rclcpp::executors::MultiThreadedExecutor exe(rclcpp::ExecutorOptions(), 8);
+  rclcpp::executors::MultiThreadedExecutor exe;
 
   exe.add_node(domain_node->get_node_base_interface());
   exe.add_node(problem_node->get_node_base_interface());
   exe.add_node(planner_node->get_node_base_interface());
 
-  bool finish = false;
-  std::thread t([&]() {
-      while (!finish) {exe.spin_some();}
-    });
-
+  plansys2::testing::ExecutorThread spinner(exe);
 
   domain_node->trigger_transition(lifecycle_msgs::msg::Transition::TRANSITION_CONFIGURE);
   problem_node->trigger_transition(lifecycle_msgs::msg::Transition::TRANSITION_CONFIGURE);
 
   planner_node->trigger_transition(lifecycle_msgs::msg::Transition::TRANSITION_CONFIGURE);
 
-  {
-    rclcpp::Rate rate(10);
-    auto start = test_node->now();
-    while ((test_node->now() - start).seconds() < 0.5) {
-      rate.sleep();
-    }
-  }
-
   domain_node->trigger_transition(lifecycle_msgs::msg::Transition::TRANSITION_ACTIVATE);
   problem_node->trigger_transition(lifecycle_msgs::msg::Transition::TRANSITION_ACTIVATE);
   planner_node->trigger_transition(lifecycle_msgs::msg::Transition::TRANSITION_ACTIVATE);
-
-  {
-    rclcpp::Rate rate(10);
-    auto start = test_node->now();
-    while ((test_node->now() - start).seconds() < 0.5) {
-      rate.sleep();
-    }
-  }
 
   ASSERT_TRUE(problem_client->addInstance(plansys2::Instance("r2d2", "robot")));
   ASSERT_TRUE(problem_client->addInstance(plansys2::Instance("c3po", "robot")));
@@ -774,73 +735,56 @@ TEST(btbuilder_tests, test_plan_4)
       plansys2::Goal(
         "(and (dish_prepared cake)(dish_prepared omelette))")));
 
-  auto plan = planner_client->getPlan(domain_client->getDomain(), problem_client->getProblem());
+  auto plan = planner_client->getPlan(
+    domain_client->getDomain(true), problem_client->getProblem(true));
+
   ASSERT_TRUE(plan);
 
-  btbuilder->print_graph(btbuilder->get_graph(plan.value()));
+  btbuilder->print_graph(btbuilder->build_action_graph(plan.value()));
   auto bt = btbuilder->get_tree(plan.value());
 
   std::cerr << bt << std::endl;
 
   // Todo: Test that the BT is correct
-
-  finish = true;
-  t.join();
 }
 
-TEST(btbuilder_tests, test_plan_5)
+TEST(simple_btbuilder_tests, test_plan_5)
 {
   auto test_node = rclcpp::Node::make_shared("test_plan_5");
+  plansys2::testing::NodeSpinner test_node_spinner(test_node);
   auto domain_node = std::make_shared<plansys2::DomainExpertNode>();
   auto problem_node = std::make_shared<plansys2::ProblemExpertNode>();
   auto planner_node = std::make_shared<plansys2::PlannerNode>();
+  use_popf(planner_node);
 
-  auto problem_client = std::make_shared<plansys2::ProblemExpertClient>();
-  auto planner_client = std::make_shared<plansys2::PlannerClient>();
-  auto domain_client = std::make_shared<plansys2::DomainExpertClient>();
+  auto problem_client = std::make_shared<plansys2::ProblemExpertClient>(test_node);
+  auto planner_client = std::make_shared<plansys2::PlannerClient>(test_node);
+  auto domain_client = std::make_shared<plansys2::DomainExpertClient>(test_node);
 
-  auto btbuilder = std::make_shared<BTBuilderTest>(test_node);
+  auto btbuilder = std::make_shared<SimpleBTBuilderTest>();
+  btbuilder->set_clients(domain_client, problem_client);
 
-  std::string pkgpath = ament_index_cpp::get_package_share_directory("plansys2_executor");
+  std::string pkgpath = plansys2::share_path("plansys2_executor").string();
 
   domain_node->set_parameter({"model_file", pkgpath + "/pddl/road_trip_domain.pddl"});
   problem_node->set_parameter({"model_file", pkgpath + "/pddl/road_trip_domain.pddl"});
 
-  rclcpp::executors::MultiThreadedExecutor exe(rclcpp::ExecutorOptions(), 8);
+  rclcpp::executors::MultiThreadedExecutor exe;
 
   exe.add_node(domain_node->get_node_base_interface());
   exe.add_node(problem_node->get_node_base_interface());
   exe.add_node(planner_node->get_node_base_interface());
 
-  bool finish = false;
-  std::thread t([&]() {
-      while (!finish) {exe.spin_some();}
-    });
+  plansys2::testing::ExecutorThread spinner(exe);
 
   domain_node->trigger_transition(lifecycle_msgs::msg::Transition::TRANSITION_CONFIGURE);
   problem_node->trigger_transition(lifecycle_msgs::msg::Transition::TRANSITION_CONFIGURE);
 
   planner_node->trigger_transition(lifecycle_msgs::msg::Transition::TRANSITION_CONFIGURE);
 
-  {
-    rclcpp::Rate rate(10);
-    auto start = test_node->now();
-    while ((test_node->now() - start).seconds() < 0.5) {
-      rate.sleep();
-    }
-  }
-
   domain_node->trigger_transition(lifecycle_msgs::msg::Transition::TRANSITION_ACTIVATE);
   problem_node->trigger_transition(lifecycle_msgs::msg::Transition::TRANSITION_ACTIVATE);
   planner_node->trigger_transition(lifecycle_msgs::msg::Transition::TRANSITION_ACTIVATE);
-
-  {
-    rclcpp::Rate rate(10);
-    auto start = test_node->now();
-    while ((test_node->now() - start).seconds() < 0.5) {
-      rate.sleep();
-    }
-  }
 
   std::ifstream problem_ifs(pkgpath + "/pddl/road_trip_problem.pddl");
   std::string problem_str((
@@ -848,10 +792,12 @@ TEST(btbuilder_tests, test_plan_5)
     std::istreambuf_iterator<char>());
   ASSERT_TRUE(problem_client->addProblem(problem_str));
 
-  auto plan = planner_client->getPlan(domain_client->getDomain(), problem_client->getProblem());
+  auto plan = planner_client->getPlan(
+    domain_client->getDomain(true), problem_client->getProblem(true));
+
   ASSERT_TRUE(plan);
 
-  auto action_graph = btbuilder->get_graph(plan.value());
+  auto action_graph = btbuilder->build_action_graph(plan.value());
   btbuilder->print_graph_csv(action_graph);
 
   auto tabulated_graph = btbuilder->get_graph_tabular(action_graph);
@@ -860,7 +806,7 @@ TEST(btbuilder_tests, test_plan_5)
 
   std::string line, word, action;
   std::string whitespace = " \n\r\t\f\v";
-  uint32_t root_num, node_num, level_num;
+  uint32_t root_num = 0, node_num = 0, level_num = 0;
   std::vector<std::tuple<uint32_t, uint32_t, uint32_t, std::string>> expected_graph;
 
   while (std::getline(expected_graph_ifs, line)) {
@@ -895,64 +841,45 @@ TEST(btbuilder_tests, test_plan_5)
     ASSERT_EQ(std::get<2>(tabulated_graph[i]), std::get<2>(expected_graph[i]));
     ASSERT_EQ(std::get<3>(tabulated_graph[i]), std::get<3>(expected_graph[i]));
   }
-
-  finish = true;
-  t.join();
 }
 
-TEST(btbuilder_tests, test_plan_6)
+TEST(simple_btbuilder_tests, test_plan_6)
 {
   auto test_node = rclcpp::Node::make_shared("test_plan_6");
+  plansys2::testing::NodeSpinner test_node_spinner(test_node);
   auto domain_node = std::make_shared<plansys2::DomainExpertNode>();
   auto problem_node = std::make_shared<plansys2::ProblemExpertNode>();
   auto planner_node = std::make_shared<plansys2::PlannerNode>();
+  use_popf(planner_node);
 
-  auto problem_client = std::make_shared<plansys2::ProblemExpertClient>();
-  auto planner_client = std::make_shared<plansys2::PlannerClient>();
-  auto domain_client = std::make_shared<plansys2::DomainExpertClient>();
+  auto problem_client = std::make_shared<plansys2::ProblemExpertClient>(test_node);
+  auto planner_client = std::make_shared<plansys2::PlannerClient>(test_node);
+  auto domain_client = std::make_shared<plansys2::DomainExpertClient>(test_node);
 
-  auto btbuilder = std::make_shared<BTBuilderTest>(test_node);
+  auto btbuilder = std::make_shared<SimpleBTBuilderTest>();
+  btbuilder->set_clients(domain_client, problem_client);
 
-  std::string pkgpath = ament_index_cpp::get_package_share_directory("plansys2_executor");
+  std::string pkgpath = plansys2::share_path("plansys2_executor").string();
 
   domain_node->set_parameter({"model_file", pkgpath + "/pddl/elevator_domain.pddl"});
   problem_node->set_parameter({"model_file", pkgpath + "/pddl/elevator_domain.pddl"});
 
-  rclcpp::executors::MultiThreadedExecutor exe(rclcpp::ExecutorOptions(), 8);
+  rclcpp::executors::MultiThreadedExecutor exe;
 
   exe.add_node(domain_node->get_node_base_interface());
   exe.add_node(problem_node->get_node_base_interface());
   exe.add_node(planner_node->get_node_base_interface());
 
-  bool finish = false;
-  std::thread t([&]() {
-      while (!finish) {exe.spin_some();}
-    });
+  plansys2::testing::ExecutorThread spinner(exe);
 
   domain_node->trigger_transition(lifecycle_msgs::msg::Transition::TRANSITION_CONFIGURE);
   problem_node->trigger_transition(lifecycle_msgs::msg::Transition::TRANSITION_CONFIGURE);
 
   planner_node->trigger_transition(lifecycle_msgs::msg::Transition::TRANSITION_CONFIGURE);
 
-  {
-    rclcpp::Rate rate(10);
-    auto start = test_node->now();
-    while ((test_node->now() - start).seconds() < 0.5) {
-      rate.sleep();
-    }
-  }
-
   domain_node->trigger_transition(lifecycle_msgs::msg::Transition::TRANSITION_ACTIVATE);
   problem_node->trigger_transition(lifecycle_msgs::msg::Transition::TRANSITION_ACTIVATE);
   planner_node->trigger_transition(lifecycle_msgs::msg::Transition::TRANSITION_ACTIVATE);
-
-  {
-    rclcpp::Rate rate(10);
-    auto start = test_node->now();
-    while ((test_node->now() - start).seconds() < 0.5) {
-      rate.sleep();
-    }
-  }
 
   std::ifstream problem_ifs(pkgpath + "/pddl/elevator_problem.pddl");
   std::string problem_str((
@@ -960,10 +887,12 @@ TEST(btbuilder_tests, test_plan_6)
     std::istreambuf_iterator<char>());
   ASSERT_TRUE(problem_client->addProblem(problem_str));
 
-  auto plan = planner_client->getPlan(domain_client->getDomain(), problem_client->getProblem());
+  auto plan = planner_client->getPlan(
+    domain_client->getDomain(true), problem_client->getProblem(true));
+
   ASSERT_TRUE(plan);
 
-  auto action_graph = btbuilder->get_graph(plan.value());
+  auto action_graph = btbuilder->build_action_graph(plan.value());
   btbuilder->print_graph_csv(action_graph);
 
   auto tabulated_graph = btbuilder->get_graph_tabular(action_graph);
@@ -972,7 +901,7 @@ TEST(btbuilder_tests, test_plan_6)
 
   std::string line, word, action;
   std::string whitespace = " \n\r\t\f\v";
-  uint32_t root_num, node_num, level_num;
+  uint32_t root_num = 0, node_num = 0, level_num = 0;
   std::vector<std::tuple<uint32_t, uint32_t, uint32_t, std::string>> expected_graph;
 
   while (std::getline(expected_graph_ifs, line)) {
@@ -1008,15 +937,188 @@ TEST(btbuilder_tests, test_plan_6)
     ASSERT_EQ(std::get<3>(tabulated_graph[i]), std::get<3>(expected_graph[i]));
   }
 
-  finish = true;
-  t.join();
+  // The whole graph is freed once released (#430)
+  std::vector<std::weak_ptr<plansys2::ActionNode>> nodes;
+  size_t arcs = 0;
+  auto collect = [&](const std::list<plansys2::ActionNode::Ptr> & level) {
+      for (const auto & node : level) {
+        nodes.push_back(node);
+        arcs += node->in_arcs.size() + node->out_arcs.size();
+      }
+    };
+  collect(action_graph->roots);
+  for (const auto & level : action_graph->levels) {
+    collect(level.second);
+  }
+  ASSERT_FALSE(nodes.empty());
+  ASSERT_GT(arcs, 0u);
+  action_graph.reset();
+  for (const auto & node : nodes) {
+    EXPECT_TRUE(node.expired());
+  }
+}
+
+namespace
+{
+
+plansys2::ActionNode::Ptr new_action_node(int num)
+{
+  auto node = plansys2::ActionNode::make_shared();
+  node->node_num = num;
+  return node;
+}
+
+void link(const plansys2::ActionNode::Ptr & from, const plansys2::ActionNode::Ptr & to)
+{
+  from->out_arcs.push_back(to);
+  to->in_arcs.push_back(from);
+}
+
+void link(const plansys2::Node::Ptr & from, const plansys2::Node::Ptr & to)
+{
+  from->output_arcs.insert({to, 0.0, 1.0});
+  to->input_arcs.insert({from, 0.0, 1.0});
+}
+}  // namespace
+
+TEST(simple_btbuilder_tests, action_graph_diamond_is_freed)
+{
+  auto graph = plansys2::ActionGraph::make_shared();
+  auto root = new_action_node(0);
+  auto a = new_action_node(1);
+  auto b = new_action_node(2);
+  auto c = new_action_node(3);
+  link(root, a);
+  link(root, b);
+  link(a, c);
+  link(b, c);
+  graph->roots = {root};
+  graph->levels[1.0] = {a, b};
+  graph->levels[2.0] = {c};
+
+  std::vector<std::weak_ptr<plansys2::ActionNode>> nodes = {root, a, b, c};
+  root.reset();
+  a.reset();
+  b.reset();
+  c.reset();
+  for (const auto & node : nodes) {
+    ASSERT_FALSE(node.expired());
+  }
+
+  graph.reset();
+  for (const auto & node : nodes) {
+    EXPECT_TRUE(node.expired());
+  }
+}
+
+TEST(simple_btbuilder_tests, action_graph_edge_shapes_are_freed)
+{
+  // Empty graph
+  plansys2::ActionGraph::make_shared().reset();
+
+  // Only roots, linked to each other
+  std::vector<std::weak_ptr<plansys2::ActionNode>> nodes;
+  {
+    auto graph = plansys2::ActionGraph::make_shared();
+    auto r1 = new_action_node(0);
+    auto r2 = new_action_node(1);
+    link(r1, r2);
+    link(r2, r1);
+    graph->roots = {r1, r2};
+    nodes = {r1, r2};
+  }
+  for (const auto & node : nodes) {
+    EXPECT_TRUE(node.expired());
+  }
+
+  // A chain across many levels, with the last node arcing back to the root
+  nodes.clear();
+  {
+    auto graph = plansys2::ActionGraph::make_shared();
+    auto prev = new_action_node(0);
+    graph->roots = {prev};
+    nodes.push_back(prev);
+    for (int i = 1; i < 20; i++) {
+      auto node = new_action_node(i);
+      link(prev, node);
+      graph->levels[static_cast<float>(i)].push_back(node);
+      nodes.push_back(node);
+      prev = node;
+    }
+    link(prev, graph->roots.front());
+  }
+  for (const auto & node : nodes) {
+    EXPECT_TRUE(node.expired());
+  }
+}
+
+TEST(simple_btbuilder_tests, action_graph_node_held_outside_survives)
+{
+  plansys2::ActionNode::Ptr kept;
+  std::weak_ptr<plansys2::ActionNode> other;
+  {
+    auto graph = plansys2::ActionGraph::make_shared();
+    auto root = new_action_node(0);
+    auto child = new_action_node(1);
+    link(root, child);
+    graph->roots = {root};
+    graph->levels[1.0] = {child};
+    kept = child;
+    other = root;
+  }
+  // The outside owner keeps its node, but not the rest of the graph through its arcs
+  ASSERT_TRUE(kept != nullptr);
+  EXPECT_EQ(kept->node_num, 1);
+  EXPECT_TRUE(kept->in_arcs.empty());
+  EXPECT_TRUE(other.expired());
+}
+
+TEST(simple_btbuilder_tests, graph_with_two_way_arcs_is_freed)
+{
+  std::vector<std::weak_ptr<plansys2::Node>> nodes;
+  {
+    auto graph = plansys2::Graph::make_shared();
+    auto init = plansys2::Node::make_shared(0);
+    auto start = plansys2::Node::make_shared(1);
+    auto end = plansys2::Node::make_shared(2);
+    link(init, start);
+    link(start, end);
+    link(end, start);
+    graph->nodes = {init, start, end};
+    nodes = {init, start, end};
+  }
+  for (const auto & node : nodes) {
+    EXPECT_TRUE(node.expired());
+  }
+}
+
+class DestructionProbeBTBuilder : public plansys2::SimpleBTBuilder
+{
+public:
+  explicit DestructionProbeBTBuilder(bool & destroyed)
+  : destroyed_(destroyed) {}
+  ~DestructionProbeBTBuilder() override {destroyed_ = true;}
+
+private:
+  bool & destroyed_;
+};
+
+TEST(simple_btbuilder_tests, builder_deleted_through_base_runs_its_destructor)
+{
+  static_assert(std::has_virtual_destructor_v<plansys2::BTBuilder>);
+
+  // class_loader deletes plugins through a raw base pointer (#430)
+  bool destroyed = false;
+  plansys2::BTBuilder * builder = new DestructionProbeBTBuilder(destroyed);
+  delete builder;
+  EXPECT_TRUE(destroyed);
 }
 
 
 int main(int argc, char ** argv)
 {
   testing::InitGoogleTest(&argc, argv);
-  rclcpp::init(argc, argv);
+  ::testing::AddGlobalTestEnvironment(new ROS2Environment);
 
   return RUN_ALL_TESTS();
 }
