@@ -1,0 +1,13 @@
+Source: ros-lyrical-plansys2-pddl-parser
+Section: misc
+Priority: optional
+Maintainer: "Francisco Martin Rico" <fmrico@gmail.com>
+Build-Depends: debhelper (>= 9.0.0), ros-lyrical-ament-cmake, ros-lyrical-ament-cmake-gtest <!nocheck>, ros-lyrical-ament-index-cpp <!nocheck>, ros-lyrical-ament-lint-auto <!nocheck>, ros-lyrical-ament-lint-common <!nocheck>, ros-lyrical-plansys2-msgs, ros-lyrical-rclcpp <!nocheck>, ros-lyrical-ros-workspace
+Homepage: https://index.ros.org/p/plansys2_pddl_parser/#lyrical
+Standards-Version: 3.9.2
+
+Package: ros-lyrical-plansys2-pddl-parser
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, ros-lyrical-plansys2-msgs, ros-lyrical-ros-workspace
+Description: This package contains a library for parsing PDDL domains and problems.
+ This package derives from the work of Anders Jonsson, contained in https://github.com/wisdompoet/universal-pddl-parser.git with many modifications by Francisco Martin: * ROS2 packaging * Source code structure refactor * CMakeLists.txt for cmake compilation * Reading from String instead of files * Licensing
