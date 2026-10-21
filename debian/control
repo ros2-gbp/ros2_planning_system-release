@@ -1,0 +1,12 @@
+Source: ros-humble-plansys2-support-py
+Section: misc
+Priority: optional
+Maintainer: "Francisco Martin Rico" <fmrico@gmail.com>
+Build-Depends: debhelper (>= 9.0.0), python3-pytest <!nocheck>, ros-humble-ament-copyright <!nocheck>, ros-humble-ament-flake8 <!nocheck>, ros-humble-ament-index-python <!nocheck>, ros-humble-ament-pep257 <!nocheck>, ros-humble-lifecycle-msgs, ros-humble-plansys2-bringup <!nocheck>, ros-humble-plansys2-msgs, ros-humble-plansys2-pddl-parser <!nocheck>, ros-humble-rclpy, ros-humble-ros2launch <!nocheck>, ros-humble-std-msgs <!nocheck>, ros-humble-ros-workspace, python3-all, python3-setuptools, dh-python
+Homepage: https://index.ros.org/p/plansys2_support_py/#humble
+Standards-Version: 3.9.2
+
+Package: ros-humble-plansys2-support-py
+Architecture: any
+Depends: ${python3:Depends}, ${misc:Depends}, ros-humble-lifecycle-msgs, ros-humble-plansys2-msgs, ros-humble-rclpy, ros-humble-ros-workspace
+Description: This package contains modules for developing PlanSys components in Python
