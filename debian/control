@@ -1,0 +1,12 @@
+Source: ros-jazzy-plansys2-support-py
+Section: misc
+Priority: optional
+Maintainer: "Francisco Martin Rico" <fmrico@gmail.com>
+Build-Depends: debhelper (>= 9.0.0), python3-pytest <!nocheck>, ros-jazzy-ament-copyright <!nocheck>, ros-jazzy-ament-flake8 <!nocheck>, ros-jazzy-ament-index-python <!nocheck>, ros-jazzy-ament-pep257 <!nocheck>, ros-jazzy-lifecycle-msgs, ros-jazzy-plansys2-bringup <!nocheck>, ros-jazzy-plansys2-msgs, ros-jazzy-plansys2-pddl-parser <!nocheck>, ros-jazzy-rclpy, ros-jazzy-ros2launch <!nocheck>, ros-jazzy-std-msgs <!nocheck>, ros-jazzy-ros-workspace, python3-all, python3-setuptools, dh-python
+Homepage: https://index.ros.org/p/plansys2_support_py/#jazzy
+Standards-Version: 3.9.2
+
+Package: ros-jazzy-plansys2-support-py
+Architecture: any
+Depends: ${python3:Depends}, ${misc:Depends}, ros-jazzy-lifecycle-msgs, ros-jazzy-plansys2-msgs, ros-jazzy-rclpy, ros-jazzy-ros-workspace
+Description: This package contains modules for developing PlanSys components in Python
