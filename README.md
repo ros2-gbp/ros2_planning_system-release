@@ -1,50 +1,41 @@
-# ROS2 Planning System
+# Problem Expert
 
-<p align="center">
-  <img src="plansys2_docs/plansys2_logo.png" alt="PlanSys2 Logo">
-</p>
+The Problem Expert module is responsible for maintaining the instances, predicates and goals of the PDDL problem.
 
-<p align="center">
-  <a href="https://github.com/PlanSys2/ros2_planning_system/actions/workflows/rolling.yaml?query=branch%3Arolling"><img src="https://github.com/PlanSys2/ros2_planning_system/actions/workflows/rolling.yaml/badge.svg?branch=rolling" alt="rolling"></a>
-  <a href="https://github.com/PlanSys2/ros2_planning_system/actions/workflows/lyrical-devel.yaml?query=branch%3Alyrical-devel"><img src="https://github.com/PlanSys2/ros2_planning_system/actions/workflows/lyrical-devel.yaml/badge.svg?branch=lyrical-devel" alt="lyrical-devel"></a>
-  <a href="https://github.com/PlanSys2/ros2_planning_system/actions/workflows/kilted-devel.yaml?query=branch%3Akilted-devel"><img src="https://github.com/PlanSys2/ros2_planning_system/actions/workflows/kilted-devel.yaml/badge.svg?branch=kilted-devel" alt="kilted-devel"></a>
-  <a href="https://github.com/PlanSys2/ros2_planning_system/actions/workflows/jazzy-devel.yaml?query=branch%3Ajazzy-devel"><img src="https://github.com/PlanSys2/ros2_planning_system/actions/workflows/jazzy-devel.yaml/badge.svg?branch=jazzy-devel" alt="jazzy-devel"></a>
-  <a href="https://github.com/PlanSys2/ros2_planning_system/actions/workflows/humble-devel.yaml?query=branch%3Ahumble-devel"><img src="https://github.com/PlanSys2/ros2_planning_system/actions/workflows/humble-devel.yaml/badge.svg?branch=humble-devel" alt="humble-devel"></a>
-</p>
+The main class is [`plansys2::ProblemExpertNode`](include/plansys2_problem_expert/ProblemExpertNode.hpp), which is instantiated from [`ProblemExpertNode.cpp`](src/ProblemExpertNode.cpp). `plansys2::ProblemExpertNode` is a `rclcpp_lifecycle::LifecycleNode`, but currently the functionality is in the active phase.
 
-<p align="center">
-  <a href="https://codecov.io/gh/PlanSys2/ros2_planning_system"><img src="https://codecov.io/gh/PlanSys2/ros2_planning_system/branch/rolling/graph/badge.svg" alt="codecov"></a>
-  <a href="https://docs.ros.org"><img src="https://img.shields.io/badge/ROS%202-Humble%20%7C%20Jazzy%20%7C%20Kilted%20%7C%20Lyrical%20%7C%20Rolling-22314E?logo=ros&logoColor=white" alt="ROS 2"></a>
-  <img src="https://img.shields.io/badge/C%2B%2B-20-00599C?logo=cplusplus&logoColor=white" alt="C++20">
-  <a href="LICENSE"><img src="https://img.shields.io/badge/license-Apache%202.0-blue" alt="License"></a>
-  <a href="https://plansys2.github.io"><img src="https://img.shields.io/badge/docs-plansys2.github.io-brightgreen" alt="Docs"></a>
-  <a href="https://doi.org/10.1109/IROS51168.2021.9636544"><img src="https://img.shields.io/badge/paper-IROS%202021-b31b1b" alt="Paper"></a>
-  <a href="https://github.com/PlanSys2/ros2_planning_system/stargazers"><img src="https://img.shields.io/github/stars/PlanSys2/ros2_planning_system?style=social" alt="Stars"></a>
-</p>
+The class responsible for maintaining this problem instance is [`plansys2::ProblemExpert`](include/plansys2_problem_expert/ProblemExpert.hpp), which is independent of ROS2.
 
-ROS2 Planning System (**plansys2** in short) is a project whose objective is to provide Robotics developers with a reliable, simple, and efficient PDDL-based planning system. It is implemented in ROS2, applying the latest concepts developed in this currently de-facto standard in Robotics.
+The Problem Expert is dynamic and volatile, accessing its functionality through ROS2 services. To facilitate the task of the application developer, an [`plansys2::ProblemExpertClient`](include/plansys2_problem_expert/ProblemExpertClient.hpp) class has been implemented that hides the complexity of handling ROS2 messages and services. Its API is similar to that of [`plansys2::ProblemExpert`](include/plansys2_problem_expert/ProblemExpert.hpp), since both have to implement the [`plansys2::ProblemExpertInterface`](include/include/plansys2_problem_expert/ProblemExpertInterface.hpp) interface.
 
-This project is the result of several years of experience in the development of robotic behaviors using [ROSPlan](https://github.com/KCL-Planning/ROSPlan). ROSPlan has greatly inspired this project. In addition to the migration to ROS2, we contribute to key aspects: ease of use, efficiency, and new tools, such as our terminal.
+The Problem Expert instantiates a [`plansys2::DomainExpertClient`](include/include/plansys2_domain_expert/DomainExpertClient.hpp), and every update query is verified against domain to check if it is valid.
 
-We hope that this software helps to include planning in more Robotics projects, offering simple and powerful software to generate intelligent behaviors for robots.
+Every update in the Problem, is notified publishing a `std_msgs::msg::Empty` in `/problem_expert/update_notify`. It helps other modules and applications to be aware of updates, being not necessary to do polling to check it.
 
-Please, cite us if you use PlanSys2 in your reseach:
+## Services
 
-``` 
-@INPROCEEDINGS
- {PlanSys2,
-    author    = "Francisco Mart{\'{\i}}n and Jonatan Gin{\'{e}}s and Francisco J. Rodr{\'{i}}guez and Vicente Matell{\'{a}}n",
-    title     = "PlanSys2: A Planning System Framework for ROS2",
-    booktitle = "{{IEEE/RSJ} International Conference on Intelligent Robots and Systems,  {IROS} 2021, Prague, Czech Republic, September 27 - October 1, 2021}",
-    year      = "2021",
-    publisher = "{IEEE}"
-}
-```
+- `/problem_expert/add_problem_function` [[`plansys2_msgs::srv::AffectNode`](../plansys2_msgs/srv/AffectNode.srv)]
+- `/problem_expert/add_problem_goal` [[`plansys2_msgs::srv::AddProblemGoal`](../plansys2_msgs/srv/AddProblemGoal.srv)]
+- `/problem_expert/add_problem_instance` [[`plansys2_msgs::srv::AffectParam`](../plansys2_msgs/srv/AffectParam.srv)]
+- `/problem_expert/add_problem_predicate` [[`plansys2_msgs::srv::AffectNode`](../plansys2_msgs/srv/AffectNode.srv)]
+- `/problem_expert/clear_problem_knowledge` [[`plansys2_msgs::srv::ClearProblemKnowledge`](../plansys2_msgs/srv/ClearProblemKnowledge.srv)]
+- `/problem_expert/exist_problem_function` [[`plansys2_msgs::srv::ExistNode`](../plansys2_msgs/srv/ExistNode.srv)]
+- `/problem_expert/exist_problem_predicate` [[`plansys2_msgs::srv::ExistNode`](../plansys2_msgs/srv/ExistNode.srv)]
+- `/problem_expert/get_problem` [[`plansys2_msgs::srv::GetProblem`](../plansys2_msgs/srv/GetProblem.srv)]
+- `/problem_expert/get_problem_function` [[`plansys2_msgs::srv::GetNodeDetails`](../plansys2_msgs/srv/GetNodeDetails.srv)]
+- `/problem_expert/get_problem_functions` [[`plansys2_msgs::srv::GetStates`](../plansys2_msgs/srv/GetStates.srv)]
+- `/problem_expert/get_problem_goal` [[`plansys2_msgs::srv::GetProblemGoal`](../plansys2_msgs/srv/GetProblemGoal.srv)]
+- `/problem_expert/get_problem_instance` [[`plansys2_msgs::srv::GetProblemInstanceDetails`](../plansys2_msgs/srv/GetProblemInstanceDetails.srv)]
+- `/problem_expert/get_problem_instances` [[`plansys2_msgs::srv::GetProblemInstances`](../plansys2_msgs/srv/GetProblemInstances.srv)]
+- `/problem_expert/get_problem_predicate` [[`plansys2_msgs::srv::GetNodeDetails`](../plansys2_msgs/srv/GetNodeDetails.srv)]
+- `/problem_expert/get_problem_predicates` [[`plansys2_msgs::srv::GetStates`](../plansys2_msgs/srv/GetStates.srv)]
+- `/problem_expert/is_problem_goal_satisfied` [[`plansys2_msgs::srv::IsProblemGoalSatisfied`](../plansys2_msgs/srv/IsProblemGoalSatisfied.srv)]
+- `/problem_expert/remove_problem_function` [[`plansys2_msgs::srv::AffectNode`](../plansys2_msgs/srv/AffectNode.srv)]
+- `/problem_expert/remove_problem_goal` [[`plansys2_msgs::srv::RemoveProblemGoal`](../plansys2_msgs/srv/RemoveProblemGoal.srv)]
+- `/problem_expert/remove_problem_instance` [[`plansys2_msgs::srv::AffectParam`](../plansys2_msgs/srv/AffectParam.srv)]
+- `/problem_expert/remove_problem_predicate` [[`plansys2_msgs::srv::AffectNode`](../plansys2_msgs/srv/AffectNode.srv)]
+- `/problem_expert/update_problem_function` [[`plansys2_msgs::srv::AffectNode`](../plansys2_msgs/srv/AffectNode.srv)]
 
-We want to invite you to contribute to this Open Source project !!
+## Published topics
 
-
-**Visit the [Web Page](https://plansys2.github.io) for tutorials, videos and more!!**
-
-
-<img src="plansys2_docs/plansys2_logo.png" alt="drawing" width="200"/>
+- `/problem_expert/update_notify` [`std_msgs::msg::Empty`]
